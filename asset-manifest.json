@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/battle-forge/static/css/main.d4e90b6c.chunk.css",
-    "main.js": "/battle-forge/static/js/main.32c12b2c.chunk.js",
-    "main.js.map": "/battle-forge/static/js/main.32c12b2c.chunk.js.map",
-    "runtime-main.js": "/battle-forge/static/js/runtime-main.4ae175eb.js",
-    "runtime-main.js.map": "/battle-forge/static/js/runtime-main.4ae175eb.js.map",
-    "static/js/2.678893ad.chunk.js": "/battle-forge/static/js/2.678893ad.chunk.js",
-    "static/js/2.678893ad.chunk.js.map": "/battle-forge/static/js/2.678893ad.chunk.js.map",
-    "index.html": "/battle-forge/index.html",
-    "static/css/main.d4e90b6c.chunk.css.map": "/battle-forge/static/css/main.d4e90b6c.chunk.css.map",
-    "static/js/2.678893ad.chunk.js.LICENSE.txt": "/battle-forge/static/js/2.678893ad.chunk.js.LICENSE.txt",
-    "static/media/battle_forged_wide.b1be5222.png": "/battle-forge/static/media/battle_forged_wide.b1be5222.png",
-    "static/media/battleforged_anvil.60c74805.png": "/battle-forge/static/media/battleforged_anvil.60c74805.png",
-    "static/media/error.c16de614.svg": "/battle-forge/static/media/error.c16de614.svg"
+    "main.css": "/static/css/main.d4e90b6c.chunk.css",
+    "main.js": "/static/js/main.caf284d1.chunk.js",
+    "main.js.map": "/static/js/main.caf284d1.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.a6e95679.js",
+    "runtime-main.js.map": "/static/js/runtime-main.a6e95679.js.map",
+    "static/js/2.48de7e85.chunk.js": "/static/js/2.48de7e85.chunk.js",
+    "static/js/2.48de7e85.chunk.js.map": "/static/js/2.48de7e85.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/main.d4e90b6c.chunk.css.map": "/static/css/main.d4e90b6c.chunk.css.map",
+    "static/js/2.48de7e85.chunk.js.LICENSE.txt": "/static/js/2.48de7e85.chunk.js.LICENSE.txt",
+    "static/media/battle_forged_wide.b1be5222.png": "/static/media/battle_forged_wide.b1be5222.png",
+    "static/media/battleforged_anvil.60c74805.png": "/static/media/battleforged_anvil.60c74805.png",
+    "static/media/error.c16de614.svg": "/static/media/error.c16de614.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.4ae175eb.js",
-    "static/js/2.678893ad.chunk.js",
+    "static/js/runtime-main.a6e95679.js",
+    "static/js/2.48de7e85.chunk.js",
     "static/css/main.d4e90b6c.chunk.css",
-    "static/js/main.32c12b2c.chunk.js"
+    "static/js/main.caf284d1.chunk.js"
   ]
 }
