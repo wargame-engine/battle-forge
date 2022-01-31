@@ -1,15 +1,13 @@
-import { createAvatar } from "@dicebear/avatars";
-import * as style from "@dicebear/personas";
 import { Home } from '@mui/icons-material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import FeaturedPlayListIcon from '@mui/icons-material/FeaturedPlayList';
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SearchIcon from '@mui/icons-material/Search';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { ListItemButton, Menu, MenuItem } from '@mui/material';
+import { Menu, MenuItem } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
@@ -21,11 +19,12 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { alpha, styled, useTheme } from '@mui/material/styles';
-import useMediaQuery from "@mui/material/useMediaQuery";
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import useMediaQuery from "@mui/material/useMediaQuery";
 import IGR from "assets/battleforged_anvil.png";
+import { Dropdown } from "components/dropdown";
 import { DataContext, useModal } from "hooks";
 import Dice6 from 'mdi-material-ui/Dice6';
 import Discord from 'mdi-material-ui/Discord';
@@ -34,28 +33,8 @@ import Newspaper from 'mdi-material-ui/Newspaper';
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { UserPreferences } from "routes/modals";
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { Dropdown } from "components/dropdown";
 
 const drawerWidth = 250;
-
-const DrawerHeader = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-  justifyContent: 'flex-end',
-}));
-
-// const Avatar = styled.div`
-//   background-color: var(--colors-hr);
-//   padding: 5px;
-//   display: inline-block;
-//   &:hover {
-//     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-//   }
-// `;
 
 const navItems = [
   {
@@ -196,31 +175,17 @@ export const MainNav = (props) => {
     setOpen(false);
   };
 
-  // const handleOpenSettings = () => {
-  //   showUserPreferences();
-  //   handleClose();
-  // };
-  const handleSignIn = () => {
-    // showSignUpDialog()
-  }
-  // const { profile } = useAuth();
-  // const userName = get(profile, "username", "Anonymous");
-  const avatar = React.useMemo(() => {
-    return createAvatar(style, {
-      seed: Math.random().toString()
-    });
-  }, []);
   const fullScreen = useMediaQuery(theme.breakpoints.up("sm"));
   const numActionsToShow = fullScreen ? contextActions?.length : (2 - (appState.enableSearch ? 1 : 0));
   return (
     <>
-      <AppBar position="sticky">
+      <AppBar position="sticky" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
         <Container maxWidth="lg">
           {!searchMode && <Toolbar style={{ padding: 0 }}>
             <IconButton
               color="inherit"
               aria-label="open drawer"
-              onClick={handleDrawerOpen}
+              onClick={() => open ? handleDrawerClose() : handleDrawerOpen()}
               edge="start"
               sx={{ mr: 1 }}
             >
@@ -342,18 +307,8 @@ export const MainNav = (props) => {
         anchor="left"
         open={open}
       >
-        <DrawerHeader sx={{ justifyContent: 'start' }}>
-          <ListItemButton onClick={handleSignIn}>
-            <ListItemIcon>
-              <Avatar sx={{ backgroundColor: 'background.paper' }} src={`data:image/svg+xml;utf8,${encodeURIComponent(
-                avatar
-              )}`} />
-            </ListItemIcon>
-            <ListItemText primary={"Sign In"} />
-          </ListItemButton>
-        </DrawerHeader>
         <Box>
-          <Divider />
+          <Toolbar />
           <List>
             {navItems.map((item, index) => {
             if (item.id === 'divider') {

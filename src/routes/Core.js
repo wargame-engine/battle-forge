@@ -32,7 +32,7 @@ export default function Core(props) {
       <div className="main">
         {path !== "/" && (
           <Container>
-            <Box sx={{ pt: 2, pb: 2 }}>
+            <Box sx={{ pt: 1, pb: 1 }}>
               {/* <Breadcrumbs /> */}
             </Box>
           </Container>
