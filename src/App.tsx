@@ -15,12 +15,11 @@ import Core from 'routes/Core';
 import { createClient, Provider as URQLProvider } from 'urql';
 import { getColor } from 'utils/colors';
 import { BASE_THEME } from 'utils/constants';
-import { DataContext, ModalProvider, PointsCacheContext, usePageTracking, usePointsCache } from './hooks';
+import { DataContext, ModalProvider, PointsCacheContext, usePointsCache } from './hooks';
 
 export default React.memo(() => {
   const cache = usePointsCache();
   const dataFetcher = useDataFetcher();
-  usePageTracking();
   const [{ userPrefs }] = dataFetcher;
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const browserTheme = prefersDarkMode ? 'dark' : 'light';
