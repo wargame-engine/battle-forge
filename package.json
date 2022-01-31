@@ -1,7 +1,6 @@
 {
   "name": "battle-forged-web",
   "version": "0.1.0",
-  "homepage": "https://wargame-engine.github.io/battle-forge/",
   "private": true,
   "dependencies": {
     "@dicebear/avatars": "^4.9.1",
@@ -51,7 +50,9 @@
     "build": "react-scripts build",
     "build-pages": "react-scripts build && mkdir docs && mv build docs",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
