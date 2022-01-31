@@ -1,0 +1,28 @@
+.unit-table-name {
+    text-align: center;
+    font-size: 1.1em;
+    border-bottom: none;
+}
+.unit-table-stats {
+    background-color: grey;
+    font-size: 0.8em;
+}
+.unit-table-body {
+    font-size: 0.8em;
+}
+.stat-unit-name {
+    border-bottom: 0;
+}
+.stat-unit-name {
+    border-bottom: 0;
+}
+.stat-secondary {
+    background-color: lightslategrey;
+    font-size: 0.85rem;
+}
+.stats {
+    font-size: 0.85rem;
+}
+.unit-stats-table {
+    font-size: 0.8em;
+}

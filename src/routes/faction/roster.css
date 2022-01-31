@@ -1,0 +1,30 @@
+.unit-card {
+    -webkit-print-color-adjust: exact;
+    border-radius: 5px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
+    break-inside: avoid;
+    page-break-inside: avoid;
+}
+
+.unit-card-title {
+    background-clip: padding-box !important;
+    padding: 10px;
+}
+
+.unit-card-title h1, .unit-card-title h2, .unit-card-title h3, .unit-card-title h4, .unit-card-title h5, .unit-card-title h6, .unit-card-title h7 {
+    margin: 0 !important;
+}
+
+.unit-card-body {
+    padding: 10px;
+}
+
+.unit-card-body p:last-child {
+    margin-bottom: 0;
+}
+
+.unit-points {
+    font-size: 80%;
+    font-weight: 400;
+}

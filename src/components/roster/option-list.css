@@ -1,0 +1,34 @@
+.optionUl {
+    padding-inline-start: 20px;
+    margin-left: 0px;
+    margin: 0;
+}
+.optionSubUl {
+    padding-inline-start: 20px;
+}
+.optionSub {
+    display: inline-block;
+    padding-right: 1em;
+}
+.ul-indent {
+    padding-inline-start: 20px;
+    margin-left: 0px;
+}
+.ul-indent:last-child {
+}
+.optionSub:before {
+    content:'\ffed'; margin-right:0.3em;
+} 
+
+.rule-text {
+    display: inline;
+}
+
+.rule-text p {
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+.rule-text ul {
+    padding-inline-start: 30px;
+}

@@ -1,0 +1,42 @@
+.close-button {
+    line-height: 12px;
+    position:absolute;
+    top: 5px;
+    right: 20px;
+}
+
+.faction-card {
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); */
+    transition: 0.3s;
+  }
+
+  .faction-card:hover {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  }
+
+  .faction-card-body {
+      padding: 1em;
+  }
+
+  .faction-image {
+    background-position: center;
+    background-size: cover;
+     height: 150px;
+     border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .rules-image {
+    border-radius: 5px;
+  }
+
+  .dropdown-menu {
+    border-radius: 0 !important;
+  }
+
+  .dropdown-item {
+    padding: 0.5rem 1.5rem !important;
+  }
+  

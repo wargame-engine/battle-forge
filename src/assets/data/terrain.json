@@ -1,0 +1,86 @@
+{
+    "terrain": [
+        {
+            "name": "Light Woodland",
+            "type": "Area Terrain",
+            "los": "Light",
+            "cover": "Soft"
+        },
+        {
+            "name": "Dense Woodland",
+            "type": "Area Terrain",
+            "movement": "Difficult",
+            "los": "Dense",
+            "cover": "Hard"
+        },
+        {
+            "name": "Rubble",
+            "type": "Area Terrain",
+            "movement": "Difficult",
+            "los": "Light",
+            "cover": "Soft"
+        },
+        {
+            "name": "Ruins",
+            "type": "Area Terrain",
+            "movement": "Difficult",
+            "los": "Dense",
+            "cover": "Hard"
+        },
+        {
+            "name": "Industrial Area",
+            "type": "Area Terrain",
+            "los": "Dense",
+            "cover": "Hard"
+        },
+        {
+            "name": "Cratered Ground",
+            "type": "Area Terrain",
+            "movement": "Difficult",
+            "los": "Open",
+            "cover": "Soft"
+        },
+        {
+            "name": "Hasty Barricade/Improvised Barrier",
+            "type": "Obstacle",
+            "los": "Light",
+            "cover": "Soft"
+        },
+        {
+            "name": "Hedge/Vegetation",
+            "type": "Obstacle",
+            "los": "Light",
+            "cover": "Soft"
+        },
+        {
+            "name": "Rocks, Wall or Rampart",
+            "type": "Obstacle",
+            "los": "Light",
+            "cover": "Hard"
+        },
+        {
+            "name": "Fortification",
+            "type": "Obstacle",
+            "los": "Light",
+            "cover": "Hard"
+        },
+        {
+            "name": "Crater",
+            "type": "Obstacle",
+            "los": "Light",
+            "cover": "Hard"
+        },
+        {
+            "name": "Pipeline",
+            "type": "Obstacle",
+            "los": "Light",
+            "cover": "Soft"
+        },
+        {
+            "name": "Hedgerow",
+            "type": "Obstacle",
+            "los": "Light",
+            "cover": "Soft"
+        }
+    ]
+}

@@ -1,0 +1,16 @@
+body[data-theme='light'] {
+  --colors-text: black;
+  --colors-text-alt: white;
+  --colors-background: white;
+  --colors-hr: rgba(0, 0, 0, 0.1);
+  --colors-link: #007bff;
+  --colors-stripe: rgba(0, 0, 0, 0.1);
+}
+body[data-theme='dark'] {
+  --colors-text: white;
+  --colors-text-alt: white;
+  --colors-link: #00bc8c;
+  --colors-background: #222;
+  --colors-hr: #444;
+  --colors-stripe: #444;
+}
