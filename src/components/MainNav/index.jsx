@@ -29,9 +29,11 @@ import Dice6 from 'mdi-material-ui/Dice6';
 import Discord from 'mdi-material-ui/Discord';
 import Github from 'mdi-material-ui/Github';
 import Newspaper from 'mdi-material-ui/Newspaper';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
 import React from "react";
 import { useNavigate } from 'react-router-dom';
 import { UserPreferences } from "routes/modals";
+import { get } from 'lodash';
 
 const drawerWidth = 250;
 
@@ -78,9 +80,22 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export const MainNav = (props) => {
   const [searchMode, setSearchMode] = React.useState(false);
-  const [{ userPrefs, setUserPrefs, appState, setAppState }] = React.useContext(DataContext);
+  const [{ data: nope, userPrefs, setUserPrefs, appState, setAppState }] = React.useContext(DataContext);
+  const showBeta = userPrefs.showBeta;
   const { contextActions } = appState;
   const navigate = useNavigate();
+  const gameTypesRaw = {
+    ...get(nope, "gameData.gameTypes", {}),
+  };
+  const gamesUnsorted = Object.values(get(nope, `gameData.games`, {})).filter(
+    (game) => (showBeta ? true : game.version && Number(game.version) >= 1)
+  );
+  const gameTypes = [
+    ...Object.keys(gameTypesRaw).filter(
+      (gameType) =>
+        gamesUnsorted.filter((game) => game.gameType === gameType).length
+    ),
+  ];
   const navItems = [
     {
       id: 'home',
@@ -92,7 +107,13 @@ export const MainNav = (props) => {
       id: 'games',
       name: 'Games',
       icon: <Dice6 />,
-      to: '/games'
+      to: '/games',
+      children: gameTypes.map((gameTypeKey, index) => (        {
+        id: gameTypeKey,
+        name: `${gameTypesRaw[gameTypeKey].name}`,
+        icon: <BookmarkIcon />,
+        to: `/games?tab=${index}`
+      }))
     },
     {
       id: 'lists',
@@ -104,7 +125,13 @@ export const MainNav = (props) => {
       id: 'rules',
       name: 'Rules',
       icon: <MenuBookIcon />,
-      to: '/rules'
+      to: '/rules',
+      children: gameTypes.map((gameTypeKey, index) => (        {
+        id: gameTypeKey,
+        name: `${gameTypesRaw[gameTypeKey].name}`,
+        icon: <BookmarkIcon />,
+        to: `/rules?tab=${index}`
+      }))
     },
     {
       id: 'news',

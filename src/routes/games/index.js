@@ -21,7 +21,7 @@ import Tabs from "@mui/material/Tabs";
 import Typography from "@mui/material/Typography";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { Dropdown } from "components/dropdown";
-import { DataContext, PointsCacheContext } from "hooks";
+import { DataContext } from "hooks";
 import { get, groupBy, omit, sortBy } from "lodash";
 import { useSnackbar } from "notistack";
 import React, { useState } from "react";
@@ -29,6 +29,7 @@ import { useNavigate } from 'react-router-dom';
 import Tour from "reactour";
 import { readFileContent } from "utils/files";
 import "./games.css";
+import useQueryParams from 'hooks/use-query-params';
 
 const steps = [
   {
@@ -63,8 +64,7 @@ const Games = (props) => {
       userPrefs
     },
   ] = React.useContext(DataContext);
-  const cache = React.useContext(PointsCacheContext);
-  const [activeTab, setActiveTab] = useState(get(appState, "gamesTab", 0));
+  let [ activeTab, setActiveTab ] = useQueryParams("tab", 0);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const { enqueueSnackbar } = useSnackbar();
@@ -72,59 +72,6 @@ const Games = (props) => {
   const nameFilter = appState?.searchText;
   const [isTourOpen, setIsTourOpen] = useState(false);
   const showBeta = userPrefs.showBeta;
-  // <SpeedDialAction
-  //   FabProps={{
-  //     sx: { backgroundColor: 'primary.main', color: theme.palette.getContrastText(theme.palette.primary.main) }
-  //   }}
-  //   tooltipOpen
-  //   id="refreshGame"
-  //   tooltipTitle="Refresh"
-  //   onClick={refreshFactions}
-  //   icon={}
-  // />
-  // {!!userPrefs.developerMode && (
-  //   <SpeedDialAction
-  //     FabProps={{
-  //       sx: {
-  //         backgroundColor: 'primary.main',
-  //         color: theme.palette.getContrastText(theme.palette.primary.main)
-  //       }
-  //     }}
-  //     tooltipOpen
-  //     id="importGameData"
-  //     tooltipTitle="Import"
-  //     onClick={handleClick}
-  //     icon={<UploadIcon />}
-  //   />
-  // )}
-  // {!!reportUrl && (
-  //   <SpeedDialAction
-  //     FabProps={{
-  //       sx: {
-  //         backgroundColor: 'primary.main',
-  //         color: theme.palette.getContrastText(theme.palette.primary.main)
-  //       }
-  //     }}
-  //     tooltipOpen
-  //     id="reportGameIssue"
-  //     tooltipTitle="Issue"
-  //     onClick={}
-  //     icon={<BugReportIcon />}
-  //   />
-  // )}
-  // <SpeedDialAction
-  //   tooltipOpen
-  //   FabProps={{
-  //     sx: {
-  //       backgroundColor: theme.palette.primary.main,
-  //       color: theme.palette.getContrastText(theme.palette.primary.main)
-  //     }
-  //   }}
-  //   tooltipTitle="Top"
-  //   color="primary"
-  //   onClick={scrollToTop}
-  //   icon={<KeyboardArrowUpIcon />}
-  // />
   const gameTypesRaw = {
     all: { name: "All" },
     ...get(nope, "gameData.gameTypes", {}),
@@ -164,7 +111,6 @@ const Games = (props) => {
 
   const toggle = (tab) => {
     if (activeTab !== tab) setActiveTab(tab);
-    setAppState({ ...appState, gamesTab: tab });
   };
   const setCustomData = (passedData) => {
     const newGameData = {
@@ -205,7 +151,6 @@ const Games = (props) => {
               },
             };
             setCustomData(newArmyData);
-            cache.resetCache();
             enqueueSnackbar(`${armyObject.name} successfully imported.`, {
               appearance: "success",
             });
@@ -335,7 +280,7 @@ const Games = (props) => {
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <Tabs
                 variant="scrollable"
-                value={activeTab}
+                value={parseInt(activeTab) || 0}
                 onChange={handleChange}
                 aria-label="basic tabs example"
               >

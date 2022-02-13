@@ -24,6 +24,7 @@
     "bootstrap": "^5.1.1",
     "firebase": "^8.10.0",
     "graphql": "^15.5.3",
+    "jsurl": "^0.1.5",
     "mdi-material-ui": "^7.0.0",
     "moment": "^2.29.1",
     "notistack": "^1.0.10",
@@ -75,6 +76,7 @@
     ]
   },
   "devDependencies": {
+    "@types/jsurl": "^1.2.30",
     "cross-env": "^7.0.3",
     "gh-pages": "^3.2.3"
   }

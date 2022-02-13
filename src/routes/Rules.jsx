@@ -5,8 +5,9 @@ import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import Typography from "@mui/material/Typography";
 import { DataContext } from 'hooks';
+import useQueryParams from 'hooks/use-query-params';
 import { get } from 'lodash';
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import ReactMarkdown from "react-markdown";
 import styled from 'styled-components';
 import { MarkdownRenderer } from 'utils/markdown';
@@ -43,15 +44,16 @@ p {
 `;
 
 export default function QuickRules(props) {
-  const [{ data: nope, appState, setAppState, userPrefs }] = useContext(DataContext);
+  const [{ data: nope, userPrefs }] = useContext(DataContext);
   const { gameRules, skirmishRules } = nope;
-  const [activeTab, setActiveTab] = useState(get(appState, 'rulesTab', 0));
-  const mdRenderer = React.useMemo(() => MarkdownRenderer(), []);
   const showBeta = userPrefs.showBeta;
-  // const theme = useTheme();
+  const gameTypesRaw = { all: {name: "All"}, ...get(nope, 'gameData.gameTypes', {}) };
+  const gamesUnsorted = Object.values(get(nope, `gameData.games`, {})).filter((game) => game.version && Number(game.version)).filter((game) => showBeta ? true : game.version && Number(game.version) >= 1);
+  const gameTypes = [...Object.keys(gameTypesRaw).filter((gameType) => gamesUnsorted.filter((game) => game.gameType === gameType).length)];
+  let [ activeTab, setActiveTab ] = useQueryParams("tab", 0);
+  const mdRenderer = React.useMemo(() => MarkdownRenderer(), []);
   const toggle = tab => {
     if (activeTab !== tab) setActiveTab(tab);
-    setAppState({ ...appState, rulesTab: tab });
   }
   const handleChange = (event, newValue) => {
     toggle(newValue);
@@ -62,10 +64,8 @@ export default function QuickRules(props) {
       "aria-controls": `simple-tabpanel-${index}`,
     };
   }
-  const gameTypesRaw = { all: {name: "All"}, ...get(nope, 'gameData.gameTypes', {}) };
-  const gamesUnsorted = Object.values(get(nope, `gameData.games`, {})).filter((game) => game.version && Number(game.version)).filter((game) => showBeta ? true : game.version && Number(game.version) >= 1);
-  const gameTypes = [...Object.keys(gameTypesRaw).filter((gameType) => gamesUnsorted.filter((game) => game.gameType === gameType).length)];
-  const activeGameTypeData = gameTypesRaw[gameTypes[activeTab]];
+  const activeTabNumber = parseInt(activeTab) || 0;
+  const activeGameTypeData = gameTypesRaw[gameTypes[activeTabNumber]];
   const activeGameName = get(activeGameTypeData, 'name', 'Battle');
   const activeRules = activeGameName === 'Battle' ? gameRules : skirmishRules;
   return (
@@ -102,7 +102,7 @@ export default function QuickRules(props) {
               <Box sx={{ width: "100%", bgcolor: "background.paper", pb: 1 }}>
                 <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                   <Tabs
-                    value={activeTab}
+                    value={activeTabNumber}
                     onChange={handleChange}
                     aria-label="basic tabs example"
                   >
@@ -112,7 +112,7 @@ export default function QuickRules(props) {
                         <Tab
                           key={index}
                           sx={{ textTransform: "none" }}
-                          label={gameTypeData.name}
+                          label={gameTypeData?.name}
                           {...a11yProps(0)}
                         />
                       );
@@ -123,7 +123,7 @@ export default function QuickRules(props) {
             </>
           )}
         </Box>
-        <Typography variant="h4" align="center" sx={{ mb: 2 }}>{`${activeGameTypeData.name}`}</Typography>
+        <Typography variant="h4" align="center" sx={{ mb: 2 }}>{`${activeGameTypeData?.name}`}</Typography>
         <div
           className="unit-card"
           style={{ marginBottom: "15px", borderColor: "rgb(57, 110, 158)" }}
