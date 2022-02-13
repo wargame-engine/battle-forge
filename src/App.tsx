@@ -1,6 +1,5 @@
 // @ts-nocheck
 
-import React from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import { Box, Container, IconButton } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,6 +11,7 @@ import { MainNav } from 'components/MainNav';
 import { useDataFetcher, usePageTitle } from 'hooks';
 import { get } from "lodash";
 import { SnackbarProvider } from 'notistack';
+import React from 'react';
 import { useLocation } from 'react-router';
 import { Route, Routes } from 'react-router-dom';
 import Faction from "routes/faction";
@@ -24,12 +24,11 @@ import Rosters from "routes/rosters";
 import Rules from "routes/Rules";
 import Splash from "routes/Splash";
 import Updates from "routes/Updates";
-import { createClient } from 'urql';
 import { getColor } from 'utils/colors';
 import { BASE_THEME } from 'utils/constants';
-import { DataContext, ModalProvider, PointsCacheContext } from './hooks';
+import { DataContext, ModalProvider } from './hooks';
 
-export default () => {
+const App = () => {
   const dataFetcher = useDataFetcher();
   const [{ userPrefs, data }] = dataFetcher;
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
@@ -55,11 +54,6 @@ export default () => {
   const onClickDismiss = key => () => {
     notistackRef.current.closeSnackbar(key);
   }
-
-  const serverUrl = process.env.REACT_APP_API || `${window.location.origin}/api`;
-  const client = createClient({
-    url: `${serverUrl}/graphql`,
-  });
 
   return (
     <ThemeProvider theme={theme}>
@@ -114,3 +108,5 @@ export default () => {
     </ThemeProvider>
   );
 };
+
+export default App;

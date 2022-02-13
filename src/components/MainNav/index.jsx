@@ -5,12 +5,10 @@ import MenuIcon from '@mui/icons-material/Menu';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SearchIcon from '@mui/icons-material/Search';
-import SettingsIcon from '@mui/icons-material/Settings';
 import { Collapse, Drawer, ListItemButton, Menu, MenuItem } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import InputBase from '@mui/material/InputBase';
@@ -26,6 +24,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import IGR from "assets/battleforged_anvil.png";
 import { Dropdown } from "components/dropdown";
 import { DataContext, useModal } from "hooks";
+import SettingsIcon from '@mui/icons-material/Settings';
 import Dice6 from 'mdi-material-ui/Dice6';
 import Discord from 'mdi-material-ui/Discord';
 import Github from 'mdi-material-ui/Github';
@@ -78,7 +77,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export const MainNav = (props) => {
-  // const locationTitle = usePageTitle();
   const [searchMode, setSearchMode] = React.useState(false);
   const [{ userPrefs, setUserPrefs, appState, setAppState }] = React.useContext(DataContext);
   const { contextActions } = appState;
@@ -128,7 +126,18 @@ export const MainNav = (props) => {
       name: 'Discord',
       icon: <Discord />,
       toAbs: 'https://discord.com/invite/M9sets4'
-    }
+    },
+    {
+      id: 'divider'
+    },
+    {
+      id: 'settings',
+      name: 'Settings',
+      icon: <SettingsIcon />,
+      onClick: () => {
+        showUserPreferences();
+      }
+    },
   ];
   const [showUserPreferences, hideUserPreferences] = useModal(
     ({ extraProps }) => (

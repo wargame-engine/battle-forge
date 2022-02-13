@@ -131,7 +131,7 @@ const steps = [
   ],
 ];
 
-export default (props) => {
+const FactionsMain = () => {
   const { gameName } = useParams();
   const [
     {
@@ -347,128 +347,6 @@ export default (props) => {
     };
     setData(newGameData);
   };
-  // const [showAddList, hideAddList] = useModal(
-  //   ({ extraProps }) => (
-  //     <AddList
-  //       {...props}
-  //       hideModal={hideAddList}
-  //       lists={lists}
-  //       data={data}
-  //       addList={addList}
-  //       {...extraProps}
-  //     />
-  //   ),
-  //   [lists]
-  // );
-//   <SpeedDial
-//   ariaLabel="SpeedDial tooltip example"
-//   sx={{ position: "fixed", bottom: 16, right: 16 }}
-//   icon={<SpeedDialIcon />}
-//   onClose={(event) => {
-//     if (event.type === 'click' || event.type === 'blur') {
-//       setDialOpen(false);
-//     }
-//   }}
-//   onOpen={(event) => {
-//     if (event.type === 'click') {
-//       setDialOpen(true);
-//     }
-//   }}
-//   open={dialOpen && show}
-//   hidden={!show}
-// >
-//   {/* {activeTab === 4 && <> <Button id="addFaction" title="Add new faction." style={{ marginRight: '5px', width: '42px' }} color="primary" onClick={() => { showAddList() }}><FontAwesomeIcon icon={faPlus} /></Button></>} */}
-//   {activeTab === 4 && (
-//     <SpeedDialAction
-//       tooltipOpen
-//       FabProps={{
-//         sx: {
-//           backgroundColor: theme.palette.primary.main,
-//           color: theme.palette.getContrastText(theme.palette.primary.main)
-//         }
-//       }}
-//       id="createList"
-//       tooltipTitle="Create"
-//       onClick={() => {
-//         showAddList();
-//       }}
-//       icon={<AddIcon />}
-//     />
-//   )}
-//   {activeTab === 4 && (
-//     <SpeedDialAction
-//       tooltipOpen
-//       FabProps={{
-//         sx: {
-//           backgroundColor: theme.palette.primary.main,
-//           color: theme.palette.getContrastText(theme.palette.primary.main)
-//         }
-//       }}
-//       tooltipTitle="Import"
-//       id="importList"
-//       onClick={handleClick}
-//       icon={<UploadIcon />}
-//     />
-//   )}
-//   {activeTab !== 4 && (
-//     <SpeedDialAction
-//       tooltipOpen
-//       FabProps={{
-//         sx: {
-//           backgroundColor: theme.palette.primary.main,
-//           color: theme.palette.getContrastText(theme.palette.primary.main)
-//         }
-//       }}
-//       id="refreshFactions"
-//       tooltipTitle="Refresh"
-//       onClick={refreshFactions}
-//       icon={<RefreshIcon />}
-//     />
-//   )}
-//   {userPrefs.developerMode && activeTab !== 4 && (
-//     <SpeedDialAction
-//       tooltipOpen
-//       FabProps={{
-//         sx: {
-//           backgroundColor: theme.palette.primary.main,
-//           color: theme.palette.getContrastText(theme.palette.primary.main)
-//         }
-//       }}
-//       id="importFaction"
-//       tooltipTitle="Import"
-//       onClick={handleClick}
-//       icon={<UploadIcon />}
-//     />
-//   )}
-//   {!!game.reportUrl && (
-//     <SpeedDialAction
-//       tooltipOpen
-//       FabProps={{
-//         sx: {
-//           backgroundColor: theme.palette.primary.main,
-//           color: theme.palette.getContrastText(theme.palette.primary.main)
-//         }
-//       }}
-//       id="reportModuleIssue"
-//       tooltipTitle="Issue"
-//       onClick={() => window.open(game.reportUrl, "_blank")}
-//       icon={<BugReportIcon />}
-//     />
-//   )}
-//   <SpeedDialAction
-//     tooltipOpen
-//     FabProps={{
-//       sx: {
-//         backgroundColor: theme.palette.primary.main,
-//         color: theme.palette.getContrastText(theme.palette.primary.main)
-//       }
-//     }}
-//     tooltipTitle="Top"
-//     color="primary"
-//     onClick={scrollToTop}
-//     icon={<KeyboardArrowUpIcon />}
-//   />
-// </SpeedDial>
   React.useEffect(() => {
     setAppState({
       enableSearch: true,
@@ -705,3 +583,5 @@ export default (props) => {
     </Container>
   );
 };
+
+export default FactionsMain;
