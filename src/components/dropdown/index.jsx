@@ -10,7 +10,9 @@ export const Dropdown = (props) => {
   }
   const handleOpen = (event) => {
     setIsOpen(true);
-    setAnchorElement(event.currentTarget);
+    if (event) {
+      setAnchorElement(event.currentTarget);
+    }
   }
   if (!children || !(typeof children === 'function')) {
     return <></>;

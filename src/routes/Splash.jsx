@@ -16,13 +16,13 @@ import Github from 'mdi-material-ui/Github';
 import Newspaper from 'mdi-material-ui/Newspaper';
 import React from "react";
 import ReactMarkdown from "react-markdown";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import { colors } from 'utils/colors';
 import { getHeaders, getRandomHeader } from "utils/images";
 import { MaterialRenderer } from "utils/markdown";
 
 export default function Home() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const images = React.useMemo(() => shuffle(getHeaders()), []);
   const iconSize = '70px';
   const mrender = MaterialRenderer();
@@ -45,7 +45,7 @@ export default function Home() {
     {
       name: "Rosters",
       icon: <FeaturedPlayListIcon style={{ fontSize: iconSize }} />,
-      text: "Create and browse game rosters here to use during your games.",
+      text: "Create and browse rosters to use during your games.",
       to: "/lists",
       color: colors.brown.import[500],
     },
@@ -87,7 +87,7 @@ export default function Home() {
             // className={"d-block text-center logo clickable"}
             className={"d-block text-center logo"}
             src={logo}
-            // onClick={() => history.push(`/games`)}
+            // onClick={() => navigate(`/games`)}
             alt="logo"
           />
           <Box style={{ color: "white", textAlign: 'right' }}>
@@ -122,7 +122,7 @@ export default function Home() {
                   onClick={() =>
                     card.toAbs
                       ? window.open(card.toAbs, "_blank")
-                      : history.push(card.to)
+                      : navigate(card.to)
                   }
                 >
                   <CardContent>

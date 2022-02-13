@@ -22,12 +22,13 @@ import { DataContext, PointsCacheContext, useModal } from "hooks";
 import { get, groupBy, omit, sortBy } from "lodash";
 import { useSnackbar } from "notistack";
 import React from 'react';
-import { useHistory, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Tour from "reactour";
 import { AddList, ShareList, UpdateList } from 'routes/rosters/modals';
 import { DataAPI, mergeGlobalData } from "utils/data";
 import { downloadFile, readFileContent } from "utils/files";
 import { v4 as uuidv4 } from "uuid";
+import { useNavigate, useParams } from 'react-router';
 
 const allSteps = [];
 const steps = [
@@ -128,7 +129,7 @@ const steps = [
 ];
 
 export default React.memo((props) => {
-  const { gameName } = props.match.params;
+  const { gameName } = useParams();
   const [
     {
       data: nope,
@@ -145,7 +146,7 @@ export default React.memo((props) => {
   const nameFilter = appState?.searchText;
   const [isTourOpen, setIsTourOpen] = React.useState(false);
   const fileDialog = React.useRef();
-  const history = useHistory();
+  const navigate = useNavigate();
   // const theme = useTheme();
   const location = useLocation();
   const queryParams = React.useMemo(() => new URLSearchParams(location.search), [location.search]);
@@ -215,10 +216,10 @@ export default React.memo((props) => {
     }
     importList(listObject);
     queryParams.set('share', '');
-    history.replace({
+    navigate({
       search: queryParams?.toString(),
-    });
-  }, [history, importList, queryParams, shareData]);
+    }, { replace: true });
+  }, [navigate, importList, queryParams, shareData]);
   const addList = (listName, data) => {
     const listId = uuidv4();
     setLists({
@@ -240,7 +241,7 @@ export default React.memo((props) => {
     });
   };
   const goToList = (listId) =>
-    history.push(`/lists/${listId}`);
+    navigate(`/lists/${listId}`);
   const handleClick = () => {
     fileDialog.current.click();
   };

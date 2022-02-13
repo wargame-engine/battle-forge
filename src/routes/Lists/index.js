@@ -50,7 +50,7 @@ import {
   ChooseSubFaction,
   EditUnit, EditUnitCampaign, ViewActionReference, ViewLegend, ViewPowers, ViewStrategies, ViewUnit
 } from "./modals";
-
+import { useParams } from 'react-router';
 
 const PrintStyles = styled.div`
 
@@ -60,7 +60,7 @@ const pageStyle = `
 `;
 
 export default React.memo((props) => {
-  const { listId } = props.match.params;
+  const { listId } = useParams();
   const [
     {
       data: someData,
@@ -848,153 +848,6 @@ export default React.memo((props) => {
     ),
     [forces, lists]
   );
-  // {!editMode && (
-  //   <SpeedDialAction
-  //     tooltipOpen
-  // FabProps={{
-  //   sx: {
-  //     backgroundColor: theme.palette.primary.main,
-  //     color: theme.palette.getContrastText(theme.palette.primary.main)
-  //   }
-  // }}
-  //     tooltipTitle="Edit"
-  //     color="primary"
-  //     onClick={() => setEditMode(true)}
-  //     icon={<EditIcon />}
-  //   />
-  // )}
-  // {!!editMode && (
-  //   <SpeedDialAction
-  //     tooltipOpen
-  // FabProps={{
-  //   sx: {
-  //     backgroundColor: theme.palette.primary.main,
-  //     color: theme.palette.getContrastText(theme.palette.primary.main)
-  //   }
-  // }}
-  //     tooltipTitle="View"
-  //     color="primary"
-  //     onClick={() => setEditMode(false)}
-  //     icon={<VisibilityIcon />}
-  //   />
-  // )}
-  // {!!editMode && (
-  //   <SpeedDialAction
-  //     tooltipOpen
-  // FabProps={{
-  //   sx: {
-  //     backgroundColor: theme.palette.primary.main,
-  //     color: theme.palette.getContrastText(theme.palette.primary.main)
-  //   }
-  // }}
-  //     tooltipTitle="Add"
-  //     color="primary"
-  //     onClick={showAddForce}
-  //     icon={<AddIcon />}
-  //   />
-  // )}
-  // {!editMode && (
-  //   <SpeedDialAction
-  //     tooltipOpen
-  // FabProps={{
-  //   sx: {
-  //     backgroundColor: theme.palette.primary.main,
-  //     color: theme.palette.getContrastText(theme.palette.primary.main)
-  //   }
-  // }}
-  //     tooltipTitle="Reference"
-  //     color="primary"
-  //     onClick={showViewActionReference}
-  //     icon={<MenuBookIcon />}
-  //   />
-  // )}
-  // {!!editMode && (
-  //   <SpeedDialAction
-  //     tooltipOpen
-  // FabProps={{
-  //   sx: {
-  //     backgroundColor: theme.palette.primary.main,
-  //     color: theme.palette.getContrastText(theme.palette.primary.main)
-  //   }
-  // }}
-  //     tooltipTitle="Update"
-  //     style={{ marginRight: "5px" }}
-  //     color="primary"
-  //     onClick={handleClick}
-  //     icon={<FontAwesomeIcon icon={faFileUpload} />}
-  //   />
-  // )}
-  // <SpeedDialAction
-  //   tooltipOpen
-  // FabProps={{
-  //   sx: {
-  //     backgroundColor: theme.palette.primary.main,
-  //     color: theme.palette.getContrastText(theme.palette.primary.main)
-  //   }
-  // }}
-  //   tooltipTitle="Download"
-  //   color="primary"
-  //   onClick={downloadList}
-  //   icon={<DownloadIcon />}
-  // />
-  // <SpeedDialAction
-  //   tooltipOpen
-  // FabProps={{
-  //   sx: {
-  //     backgroundColor: theme.palette.primary.main,
-  //     color: theme.palette.getContrastText(theme.palette.primary.main)
-  //   }
-  // }}
-  //   tooltipTitle="Print"
-  //   color="primary"
-  //   onClick={() => handlePrint()}
-  //   icon={<PrintIcon />}
-  // />
-  // {!!editMode && (
-  //   <SpeedDialAction
-  //     tooltipOpen
-  // FabProps={{
-  //   sx: {
-  //     backgroundColor: theme.palette.primary.main,
-  //     color: theme.palette.getContrastText(theme.palette.primary.main)
-  //   }
-  // }}
-  //     tooltipTitle="Settings"
-  //     color="primary"
-  //     onClick={() => showUpdateList()}
-  //     icon={<SettingsIcon />}
-  //   />
-  // )}
-  // {!editMode && (
-  //   <Dropdown drop={"bottom"} style={{ display: "inline-block" }}>
-  //     <span style={{}}>
-  //       <Dropdown.Toggle as={CustomToggle}>
-  //         <SpeedDialAction
-  //           tooltipOpen
-  // FabProps={{
-  //   sx: {
-  //     backgroundColor: theme.palette.primary.main,
-  //     color: theme.palette.getContrastText(theme.palette.primary.main)
-  //   }
-  // }}
-  //           title="Rules"
-  //           style={{ width: "40px" }}
-  //           icon={<FontAwesomeIcon icon={faBook} />}
-  //         />
-  //       </Dropdown.Toggle>
-  //     </span>
-  //     <Dropdown.Menu>
-  //       <Dropdown.Item onClick={() => showViewActionReference()}>
-  //         Actions and Reactions
-  //       </Dropdown.Item>
-  //       {gameType === "skirmish" && (
-  //         <Dropdown.Item onClick={() => showViewInjuryTable()}>
-  //           Model Injury Chart
-  //         </Dropdown.Item>
-  //       )}
-  //     </Dropdown.Menu>
-  //   </Dropdown>
-  // )}
   React.useEffect(() => {
     setAppState({
       contextActions: [

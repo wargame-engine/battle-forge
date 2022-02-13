@@ -22,6 +22,7 @@ import { get, omitBy } from "lodash";
 import { set } from "lodash/fp";
 import { useSnackbar } from "notistack";
 import React, { useContext, useState } from "react";
+import { useParams } from "react-router";
 import Tour from "reactour";
 import { DataAPI, mergeGlobalData } from "utils/data";
 import { readFileContent } from "utils/files";
@@ -130,8 +131,8 @@ const steps = [
   ],
 ];
 
-export default React.memo((props) => {
-  const { gameName } = props.match.params;
+export default (props) => {
+  const { gameName } = useParams();
   const [
     {
       data: nope,
@@ -148,7 +149,7 @@ export default React.memo((props) => {
   const nameFilter = appState?.searchText;
   const [isTourOpen, setIsTourOpen] = useState(false);
   const fileDialog = React.useRef();
-  // const history = useHistory();
+  // const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   // const addList = (listName, data) => {
@@ -163,7 +164,7 @@ export default React.memo((props) => {
   //   goToList(listId);
   // };
   // const goToList = (listId) =>
-  //   history.push(`/games/${gameName}/lists/${listId}`);
+  //   navigate(`/games/${gameName}/lists/${listId}`);
   const handleClick = () => {
     fileDialog.current.click();
   };
@@ -549,19 +550,7 @@ export default React.memo((props) => {
         rawData={nope}
         nameFilter={nameFilter}
       />
-    ),
-    // Rosters: (
-    //   <ForceBuilder
-    //     data={data}
-    //     game={game}
-    //     gameName={gameName}
-    //     lists={lists}
-    //     setLists={setLists}
-    //     goToList={goToList}
-    //     showModal={showEditList}
-    //     nameFilter={nameFilter}
-    //   />
-    // ),
+    )
   };
   function a11yProps(index) {
     return {
@@ -688,129 +677,7 @@ export default React.memo((props) => {
           </Box>
         </Box>
       </Box>
-      {/* <HideOnScroll>
-        {({ show }) => (
-          <SpeedDial
-            ariaLabel="SpeedDial tooltip example"
-            sx={{ position: "fixed", bottom: 16, right: 16 }}
-            icon={<SpeedDialIcon />}
-            onClose={(event) => {
-              if (event.type === 'click' || event.type === 'blur') {
-                setDialOpen(false);
-              }
-            }}
-            onOpen={(event) => {
-              if (event.type === 'click') {
-                setDialOpen(true);
-              }
-            }}
-            open={dialOpen && show}
-            hidden={!show}
-          >
-            {activeTab === 4 && <> <Button id="addFaction" title="Add new faction." style={{ marginRight: '5px', width: '42px' }} color="primary" onClick={() => { showAddList() }}><FontAwesomeIcon icon={faPlus} /></Button></>}
-            {activeTab === 4 && (
-              <SpeedDialAction
-                tooltipOpen
-                FabProps={{
-                  sx: {
-                    backgroundColor: theme.palette.primary.main,
-                    color: theme.palette.getContrastText(theme.palette.primary.main)
-                  }
-                }}
-                id="createList"
-                tooltipTitle="Create"
-                onClick={() => {
-                  showAddList();
-                }}
-                icon={<AddIcon />}
-              />
-            )}
-            {activeTab === 4 && (
-              <SpeedDialAction
-                tooltipOpen
-                FabProps={{
-                  sx: {
-                    backgroundColor: theme.palette.primary.main,
-                    color: theme.palette.getContrastText(theme.palette.primary.main)
-                  }
-                }}
-                tooltipTitle="Import"
-                id="importList"
-                onClick={handleClick}
-                icon={<UploadIcon />}
-              />
-            )}
-            {activeTab !== 4 && (
-              <SpeedDialAction
-                tooltipOpen
-                FabProps={{
-                  sx: {
-                    backgroundColor: theme.palette.primary.main,
-                    color: theme.palette.getContrastText(theme.palette.primary.main)
-                  }
-                }}
-                id="refreshFactions"
-                tooltipTitle="Refresh"
-                onClick={refreshFactions}
-                icon={<RefreshIcon />}
-              />
-            )}
-            {userPrefs.developerMode && activeTab !== 4 && (
-              <SpeedDialAction
-                tooltipOpen
-                FabProps={{
-                  sx: {
-                    backgroundColor: theme.palette.primary.main,
-                    color: theme.palette.getContrastText(theme.palette.primary.main)
-                  }
-                }}
-                id="importFaction"
-                tooltipTitle="Import"
-                onClick={handleClick}
-                icon={<UploadIcon />}
-              />
-            )}
-            {!!game.reportUrl && (
-              <SpeedDialAction
-                tooltipOpen
-                FabProps={{
-                  sx: {
-                    backgroundColor: theme.palette.primary.main,
-                    color: theme.palette.getContrastText(theme.palette.primary.main)
-                  }
-                }}
-                id="reportModuleIssue"
-                tooltipTitle="Issue"
-                onClick={() => window.open(game.reportUrl, "_blank")}
-                icon={<BugReportIcon />}
-              />
-            )}
-            <SpeedDialAction
-              tooltipOpen
-              FabProps={{
-                sx: {
-                  backgroundColor: theme.palette.primary.main,
-                  color: theme.palette.getContrastText(theme.palette.primary.main)
-                }
-              }}
-              tooltipTitle="Top"
-              color="primary"
-              onClick={scrollToTop}
-              icon={<KeyboardArrowUpIcon />}
-            />
-          </SpeedDial>
-        )}
-      </HideOnScroll> */}
       <div>
-        {/* {Object.values(TABS).map((pane, index) => (
-          <div
-            id={`tab-${index}`}
-            tabId={index}
-            style={{ display: activeTab === index ? "" : "none" }}
-          >
-            {pane}
-          </div>
-        ))} */}
         {Object.values(TABS)[activeTab]}
       </div>
       <Tour
@@ -837,4 +704,4 @@ export default React.memo((props) => {
       />
     </Container>
   );
-});
+};

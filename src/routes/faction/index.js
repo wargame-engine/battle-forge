@@ -22,6 +22,7 @@ import { useSnackbar } from "notistack";
 import React, {
   useContext, useEffect, useState
 } from "react";
+import { useParams } from "react-router";
 import Tour from "reactour";
 import { DataAPI, mergeGlobalData } from "utils/data";
 import { readFileContent } from "utils/files";
@@ -274,7 +275,7 @@ const steps = [
 ];
 
 export default React.memo((props) => {
-  const { factionName, gameName } = props.match.params;
+  const { factionName, gameName } = useParams();
   const [
     {
       data: someData,

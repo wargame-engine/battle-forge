@@ -376,34 +376,6 @@ export const useDataFetcher = (myUrl) => {
   ];
 };
 
-export const usePointsCache = () => {
-  // const localData = JSON.parse(localStorage.getItem("pointsCache") || "{}");
-  //let data = { ...localData };
-  let data = {};
-
-  const updateCache = (myData) => {
-    //localStorage.setItem('pointsCache', JSON.stringify(myData));
-    data = myData;
-  };
-
-  const setCache = (key, value) => {
-    updateCache({
-      ...data,
-      [key]: value,
-    });
-  };
-
-  const getCache = (key) => {
-    return data[key];
-  };
-
-  const resetCache = () => {
-    updateCache({});
-  };
-
-  return { getCache, setCache, resetCache };
-};
-
 export const usePageTracking = () => {
   const location = window.location;
   const [initialized, setInitialized] = useState(false);
@@ -676,91 +648,6 @@ export const useModal = (component, inputs = []) => {
   return [showModal, hideModal];
 };
 
-const initialState = { session: null, user: null };
-export const AuthContext = React.createContext(initialState);
-
-export function AuthProvider({ children }) {
-  // const client = useClient();
-  // const [state, setState] = useState(initialState);
-  // const userId = get(state, 'user.id');
-
-  // useEffect(() => {
-  //   const session = client.auth.session();
-  //   setState({ session, user: session?.user ?? null });
-  // }, []);
-  
-  // async function getProfile() {
-  //   try {
-  //     const user = client.auth.user();
-
-  //     let { data, error, status } = await client
-  //       .from("profiles")
-  //       .select(`username, website, avatar_url`)
-  //       .eq("id", userId)
-  //       .single();
-
-  //     // if (error && status !== 406) {
-  //     //   setError(error);
-  //     // }
-
-  //     if (data) {
-  //       setState({ ...state, profile: data });
-  //     }
-  //   } catch (error) {
-  //     // alert(error.message);
-  //   }
-  // }
-
-  // async function updateProfile({ username, website, avatar_url }) {
-  //   try {
-  //     const user = client.auth.user();
-
-  //     const updates = {
-  //       id: user.id,
-  //       username,
-  //       website,
-  //       avatar_url,
-  //       updated_at: new Date(),
-  //     };
-
-  //     const result = await client.from("profiles").upsert(updates, {
-  //       returning: "minimal", // Don't return the value after inserting
-  //     });
-
-  //     setState({ ...state, profile: { ...state?.profile, username, website, avatar_url }});
-  //     return result;
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   if (!userId) {
-  //     setState({ ...state, profile: null });
-  //   } else {
-  //     getProfile();
-  //   }
-  // }, [ userId ]);
-
-  // useAuthStateChange((event, session) => {
-  //   setState({ session, user: session?.user ?? null });
-  // });
-
-  // const data = {
-  //   ...state,
-  //   updateProfile
-  // };
-
-  //return <AuthContext.Provider value={data}>{children}</AuthContext.Provider>;
-}
-
-export function useAuth() {
-  const context = useContext(AuthContext);
-  if (context === undefined)
-    throw Error("useAuth must be used within AuthProvider");
-  return context;
-}
-
 const breadCrumbDefaults = {
   '': 'Home',
   factions: 'Factions',
@@ -775,7 +662,8 @@ const breadCrumbDefaults = {
 
 export function usePageTitle(opts = {}) {
   const { path: optPath, optData } = opts;
-  const [{ data: contextData }] = React.useContext(DataContext);
+  // const [{ data: contextData }] = React.useContext(DataContext);
+  const contextData = {};
   const data = optData ?? contextData;
   const loc = useLocation();
   const path = optPath ?? loc.pathname;

@@ -25,7 +25,7 @@ import { DataContext, PointsCacheContext } from "hooks";
 import { get, groupBy, omit, sortBy } from "lodash";
 import { useSnackbar } from "notistack";
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import Tour from "reactour";
 import { readFileContent } from "utils/files";
 import "./games.css";
@@ -68,7 +68,7 @@ const Games = (props) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const { enqueueSnackbar } = useSnackbar();
-  const history = useHistory();
+  const navigate = useNavigate();
   const nameFilter = appState?.searchText;
   const [isTourOpen, setIsTourOpen] = useState(false);
   const showBeta = userPrefs.showBeta;
@@ -240,7 +240,7 @@ const Games = (props) => {
     );
     setCustomData(newArmyData);
   };
-  const goToFaction = (faction) => history.push(`/games/${faction.id}`);
+  const goToFaction = (faction) => navigate(`/games/${faction.id}`);
   const refreshFactions = React.useCallback(() => {
     refreshAllData(true)
       .then(() => {

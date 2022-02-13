@@ -11,22 +11,21 @@ import Popover from '@mui/material/Popover';
 import { Dropdown } from 'components/dropdown';
 import { get, groupBy, sortBy } from 'lodash';
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { getTextColor, hexToRgb } from 'utils/colors';
 import { DataAPI } from 'utils/data';
 import './factions.css';
 
 export const Factions = (props) => {
   const { game, gameName, nameFilter, deleteFaction, rawData, userPrefs } = props;
-
-  const history = useHistory();
+  const navigate = useNavigate();
   const data = DataAPI(game);
   const alliances = data.getRawAlliances();
   const showBeta = userPrefs.showBeta;
   const factions = sortBy(data.getFactions(gameName).filter(unit => nameFilter ? unit.name.toLowerCase().includes(nameFilter.toLowerCase()) : true), 'name').filter((game) => showBeta ? true : game.version && Number(game.version) >= 1);
   const unitCategories = groupBy(factions, "alliance");
   const categoryOrder = [...Object.keys(alliances), undefined].filter((cat) => unitCategories[cat] && unitCategories[cat].length);
-  const goToFaction = (faction) => history.push(`/games/${gameName}/${faction.id}`);
+  const goToFaction = (faction) => navigate(`/games/${gameName}/${faction.id}`);
   if (!data) {
     return <p>{"Ohai"}</p>
   }
