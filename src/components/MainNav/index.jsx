@@ -142,13 +142,13 @@ export const MainNav = (props) => {
       ]
     },
     {
+      id: 'divider'
+    },
+    {
       id: 'news',
       name: 'Updates',
       icon: <Newspaper />,
       to: '/updates'
-    },
-    {
-      id: 'divider'
     },
     {
       id: 'github',
