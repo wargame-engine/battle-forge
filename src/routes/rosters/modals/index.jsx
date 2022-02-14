@@ -1,6 +1,5 @@
-import AddIcon from '@mui/icons-material/Add';
 import {
-  Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormControlLabel, FormLabel, IconButton, List, ListItem, ListItemButton, ListItemText, ListSubheader, Radio, RadioGroup, Stack, TextField, Typography
+  Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormControlLabel, FormLabel, ListItem, ListItemButton, ListItemText, ListSubheader, Paper, Radio, RadioGroup, Stack, TextField, Typography
 } from "@mui/material";
 import useTheme from "@mui/material/styles/useTheme";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -94,6 +93,7 @@ export const UpdateList = (props) => {
           <Stack spacing={2} sx={{ mt: 1 }}>
             <FormControl>
               <TextField
+                size="small"
                 id="standard-basic"
                 label="Force Name"
                 variant="outlined"
@@ -236,7 +236,7 @@ export const AddList = (props) => {
           <>
             <DialogTitle closeButton>Choose Game</DialogTitle>
             <DialogContent style={{ padding: 0 }} sx={{ backgroundColor: 'background.paper' }}>
-              <List style={{ height: '100%' }}>
+              <Paper style={{  height: '100%', borderRadius: 0, overflowY: 'auto' }}>
                 {categoryOrder.map((allianceKey) => {
                   const theFactions = sortBy(
                     get(unitCategories, `[${allianceKey}]`, []),
@@ -247,7 +247,7 @@ export const AddList = (props) => {
                     <>
                       <ListSubheader sx={{ flex: 1, color: 'inherit' }}>
                         <Typography
-                          sx={{ py: 0.5 }}
+                          sx={{ py: 1 }}
                           fontWeight="bold"
                           variant="h5"
                         >
@@ -259,16 +259,16 @@ export const AddList = (props) => {
                         return (
                           <ListItem
                             disablePadding
-                            secondaryAction={
-                              <IconButton
-                                sx={{ color: "primary.main" }}
-                                onClick={() => {
-                                  setGameId(org.id);
-                                }}
-                              >
-                                <AddIcon />
-                              </IconButton>
-                            }
+                            // secondaryAction={
+                            //   <IconButton
+                            //     sx={{ color: "primary.main" }}
+                            //     onClick={() => {
+                            //       setGameId(org.id);
+                            //     }}
+                            //   >
+                            //     <AddIcon />
+                            //   </IconButton>
+                            // }
                           >
                             <ListItemButton
                               onClick={() => {
@@ -277,14 +277,14 @@ export const AddList = (props) => {
                             >
                               <ListItemText
                                 primary={
-                                  <>
+                                  <Typography fontWeight="bold" fontSize="1.25em">
                                     {`${org.name}`}
                                     <small>
                                       {org.version ? ` (${org.version})` : ""}
                                     </small>
-                                  </>
+                                  </Typography>
                                 }
-                                secondary={<>{`${org.description || ""}`}</>}
+                                secondary={<Typography variant="body2">{`${org.description || ""}`}</Typography>}
                               />
                             </ListItemButton>
                           </ListItem>
@@ -293,7 +293,7 @@ export const AddList = (props) => {
                     </>
                   );
                 })}
-              </List>
+              </Paper>
             </DialogContent>
             <DialogActions>
               <Button color="primary" onClick={hideModal}>

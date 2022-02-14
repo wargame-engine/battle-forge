@@ -183,17 +183,17 @@ export const AddLegend = (props) => {
                         <div key={relic.id}>
                           <ListItem
                             disablePadding
-                            secondaryAction={
-                              <IconButton
-                                sx={{}}
-                                onClick={() => {
-                                  addLegend(forceId, { id: relic.id });
-                                  hideModal();
-                                }}
-                              >
-                                <AddIcon />
-                              </IconButton>
-                            }
+                            // secondaryAction={
+                            //   <IconButton
+                            //     sx={{}}
+                            //     onClick={() => {
+                            //       addLegend(forceId, { id: relic.id });
+                            //       hideModal();
+                            //     }}
+                            //   >
+                            //     <AddIcon />
+                            //   </IconButton>
+                            // }
                           >
                             <ListItemButton
                               onClick={() => {
@@ -317,16 +317,16 @@ export const AddForce = (props) => {
                           return (
                             <ListItem
                               disablePadding
-                              secondaryAction={
-                                <IconButton
-                                  sx={{}}
-                                  onClick={() => {
-                                    setFaction(org.id);
-                                  }}
-                                >
-                                  <AddIcon />
-                                </IconButton>
-                              }
+                              // secondaryAction={
+                              //   <IconButton
+                              //     sx={{}}
+                              //     onClick={() => {
+                              //       setFaction(org.id);
+                              //     }}
+                              //   >
+                              //     <AddIcon />
+                              //   </IconButton>
+                              // }
                             >
                               <ListItemButton
                                 onClick={() => {
@@ -371,21 +371,21 @@ export const AddForce = (props) => {
                   return (
                     <ListItem
                       disablePadding
-                      secondaryAction={
-                        <IconButton
-                          sx={{}}
-                          onClick={() => {
-                            addForce({
-                              id: orgKey,
-                              factionId: faction,
-                              subFactionId: subFaction || "none",
-                            });
-                            hideModal();
-                          }}
-                        >
-                          <AddIcon />
-                        </IconButton>
-                      }
+                      // secondaryAction={
+                      //   <IconButton
+                      //     sx={{}}
+                      //     onClick={() => {
+                      //       addForce({
+                      //         id: orgKey,
+                      //         factionId: faction,
+                      //         subFactionId: subFaction || "none",
+                      //       });
+                      //       hideModal();
+                      //     }}
+                      //   >
+                      //     <AddIcon />
+                      //   </IconButton>
+                      // }
                     >
                       <ListItemButton
                         onClick={() => {
@@ -426,7 +426,7 @@ export const AddForce = (props) => {
           <>
             <DialogTitle closeButton>Choose Focus</DialogTitle>
             <DialogContent style={{ padding: 0 }} sx={{ backgroundColor: "background.paper" }}>
-              <List style={{ height: '100%' }}>
+              <Paper style={{ height: '100%', borderRadius: 0, overflowY: 'auto' }}>
                 {subfactions.map((subfaction) => {
                   return (
                     <ListItem
@@ -455,7 +455,7 @@ export const AddForce = (props) => {
                     </ListItem>
                   );
                 })}
-              </List>
+              </Paper>
             </DialogContent>
             <DialogActions>
               <Button
@@ -501,17 +501,17 @@ export const AddUnit = (props) => {
                 <ListItem
                   key={index}
                   disablePadding
-                  secondaryAction={
-                    <IconButton
-                      sx={{}}
-                      onClick={() => {
-                        addUnit(forceId, { id: unit.id });
-                        hideModal();
-                      }}
-                    >
-                      <AddIcon />
-                    </IconButton>
-                  }
+                  // secondaryAction={
+                  //   <IconButton
+                  //     sx={{}}
+                  //     onClick={() => {
+                  //       addUnit(forceId, { id: unit.id });
+                  //       hideModal();
+                  //     }}
+                  //   >
+                  //     <AddIcon />
+                  //   </IconButton>
+                  // }
                 >
                   <ListItemButton
                     onClick={() => {
@@ -832,13 +832,15 @@ export const ViewActionReference = (props) => {
     <>
       <Dialog open maxWidth="lg" fullScreen={fullScreen} onClose={hideModal}>
         <DialogTitle>Rules Reference</DialogTitle>
-        <DialogContent>
-          <ReferenceRules>
-            <ReactMarkdown
-              className="reference-text"
-              children={rules}
-            />
-          </ReferenceRules>
+        <DialogContent sx={{ p: 0 }}>
+          <Paper sx={{ px: 3 }} style={{ height: '100%', borderRadius: 0, overflowY: 'auto' }}>
+            <ReferenceRules>
+              <ReactMarkdown
+                className="reference-text"
+                children={rules}
+              />
+            </ReferenceRules>
+          </Paper>
         </DialogContent>
         <DialogActions>
           <Button color="primary" onClick={hideModal}>
@@ -1061,7 +1063,7 @@ export const EditUnit = (props) => {
           </small>
         </DialogTitle>
         <DialogContent sx={{ p: 0 }}>
-          <Paper style={{ height: '100%', borderRadius: 0 }} sx={{ p: 2 }}>
+          <Paper style={{ height: '100%', borderRadius: 0 }} sx={{ px: 2 }}>
             <FormControl fullWidth sx={{ mt: 2 }}>
               <TextField
                 fullWidth

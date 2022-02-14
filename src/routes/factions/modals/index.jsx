@@ -90,6 +90,7 @@ export const UpdateList = (props) => {
           <Stack spacing={2} sx={{ mt: 1 }}>
             <FormControl>
               <TextField
+                size="small"
                 id="standard-basic"
                 label="Force Name"
                 variant="outlined"

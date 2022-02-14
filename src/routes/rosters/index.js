@@ -468,7 +468,7 @@ export default React.memo((props) => {
                                 <Dropdown>
                                   {({ handleClose, open, handleOpen, anchorElement }) => (
                                     <>
-                                      <IconButton sx={{ color: 'primary.main' }} onClick={handleOpen}>
+                                      <IconButton sx={{ }} onClick={handleOpen}>
                                         <MoreVertIcon />
                                       </IconButton>
                                       <Menu

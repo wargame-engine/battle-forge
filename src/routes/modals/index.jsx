@@ -56,6 +56,7 @@ export const UserPreferences = (props) => {
             <FormControl>
               <InputLabel id="primary-color-label">Primary Color</InputLabel>
               <Select
+                size="small"
                 labelId="primary-color-label"
                 id="primary-color"
                 value={primaryColor}

@@ -30,6 +30,7 @@ import Discord from 'mdi-material-ui/Discord';
 import Github from 'mdi-material-ui/Github';
 import Newspaper from 'mdi-material-ui/Newspaper';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
+import ConstructionIcon from '@mui/icons-material/Construction';
 import React from "react";
 import { useNavigate } from 'react-router-dom';
 import { UserPreferences } from "routes/modals";
@@ -116,12 +117,6 @@ export const MainNav = (props) => {
       }))
     },
     {
-      id: 'lists',
-      name: 'Rosters',
-      icon: <FeaturedPlayListIcon />,
-      to: '/lists'
-    },
-    {
       id: 'rules',
       name: 'Rules',
       icon: <MenuBookIcon />,
@@ -132,6 +127,19 @@ export const MainNav = (props) => {
         icon: <BookmarkIcon />,
         to: `/rules?tab=${index}`
       }))
+    },
+    {
+      id: 'tools',
+      name: 'Tools',
+      icon: <ConstructionIcon />,
+      children: [
+        {
+          id: 'lists',
+          name: 'Rosters',
+          icon: <FeaturedPlayListIcon />,
+          to: '/lists'
+        }
+      ]
     },
     {
       id: 'news',
