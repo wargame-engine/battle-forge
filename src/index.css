@@ -444,3 +444,9 @@ input[type=number] {
   -webkit-print-color-adjust: exact !important;
   color-adjust: exact !important;
 }
+
+.toc ol {
+  margin-top: 0;
+  line-height: 1;
+  padding-inline-start: 25px;
+}

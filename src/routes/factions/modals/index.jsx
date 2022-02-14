@@ -84,7 +84,7 @@ export const UpdateList = (props) => {
     <>
       <Dialog open maxWidth="md" fullWidth onClose={hideModal}>
         <DialogTitle>
-          Roster Settings
+          Edit Roster
         </DialogTitle>
         <DialogContent>
           <Stack spacing={2} sx={{ mt: 1 }}>

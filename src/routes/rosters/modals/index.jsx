@@ -28,6 +28,7 @@ export const AddListOld = (props) => {
           <Stack spacing={2} sx={{ mt: 1 }}>
             <FormControl>
               <TextField
+                size="small"
                 id="standard-basic"
                 label="Force Name"
                 variant="outlined"
@@ -87,7 +88,7 @@ export const UpdateList = (props) => {
     <>
       <Dialog open maxWidth="md" fullWidth onClose={hideModal}>
         <DialogTitle>
-          Roster Settings
+          Edit Roster
         </DialogTitle>
         <DialogContent>
           <Stack spacing={2} sx={{ mt: 1 }}>
@@ -244,7 +245,7 @@ export const AddList = (props) => {
                   const allianceData = gameTypesRaw[allianceKey];
                   return (
                     <>
-                      <ListSubheader>
+                      <ListSubheader sx={{ flex: 1, color: 'inherit' }}>
                         <Typography
                           sx={{ py: 0.5 }}
                           fontWeight="bold"
@@ -306,6 +307,7 @@ export const AddList = (props) => {
             <Stack spacing={2} sx={{ mt: 1 }}>
               <FormControl>
                 <TextField
+                  size="small"
                   id="standard-basic"
                   label="Force Name"
                   variant="outlined"

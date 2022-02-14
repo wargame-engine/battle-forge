@@ -49,7 +49,7 @@ export const InputNumber = (props) => {
             variant="contained"
             disabled={disabled}
             size="small"
-            sx={{ mr: 1, color: 'primary.main' }}
+            sx={{ mr: 1 }}
             onClick={() => changeValue(defaultValue)}
           >
             <RefreshIcon />
@@ -69,7 +69,7 @@ export const InputNumber = (props) => {
         />
         <IconButton
           variant="contained"
-          sx={{ mr: 1, color: 'primary.main' }}
+          sx={{ mr: 1 }}
           disabled={disabled || value === min}
           size="small"
           onClick={() => changeValue(value - 1)}
@@ -77,7 +77,7 @@ export const InputNumber = (props) => {
           <KeyboardArrowDownIcon />
         </IconButton>
         <IconButton
-          sx={{ color: 'primary.main' }}
+          sx={{  }}
           variant="contained"
           disabled={disabled || value === max}
           size="small"

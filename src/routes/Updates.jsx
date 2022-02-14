@@ -49,8 +49,8 @@ export default function QuickRules(props) {
     <Container>
       <>
       <Typography variant="h3" align="center" sx={{ mb: 4 }}>{`Game Updates`}</Typography>
-        <div className="unit-card" style={{ marginBottom: '15px', borderColor: 'rgb(57, 110, 158)' }}>
-          <div className="unit-card-body">
+        <div style={{ marginBottom: '15px', borderColor: 'rgb(57, 110, 158)' }}>
+          <div>
             <StyledRules className="rule-text">
               <ReactMarkdown components={mdRenderer} children={updates} />
             </StyledRules>

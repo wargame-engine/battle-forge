@@ -1,4 +1,5 @@
 import RehypeToc from '@jsdevtools/rehype-toc';
+import { useMediaQuery, useTheme } from '@mui/material';
 import Box from "@mui/material/Box";
 import Container from '@mui/material/Container';
 import Tab from "@mui/material/Tab";
@@ -47,11 +48,13 @@ export default function QuickRules(props) {
   const [{ data: nope, userPrefs }] = useContext(DataContext);
   const { gameRules, skirmishRules } = nope;
   const showBeta = userPrefs.showBeta;
-  const gameTypesRaw = { all: {name: "All"}, ...get(nope, 'gameData.gameTypes', {}) };
+  const gameTypesRaw = { all: { name: "All" }, ...get(nope, 'gameData.gameTypes', {}) };
   const gamesUnsorted = Object.values(get(nope, `gameData.games`, {})).filter((game) => game.version && Number(game.version)).filter((game) => showBeta ? true : game.version && Number(game.version) >= 1);
   const gameTypes = [...Object.keys(gameTypesRaw).filter((gameType) => gamesUnsorted.filter((game) => game.gameType === gameType).length)];
-  let [ activeTab, setActiveTab ] = useQueryParams("tab", 0);
+  let [activeTab, setActiveTab] = useQueryParams("tab", 0);
   const mdRenderer = React.useMemo(() => MarkdownRenderer(), []);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const toggle = tab => {
     if (activeTab !== tab) setActiveTab(tab);
   }
@@ -70,71 +73,44 @@ export default function QuickRules(props) {
   const activeRules = activeGameName === 'Battle' ? gameRules : skirmishRules;
   return (
     <Container>
-      <>
-        {/* <HideOnScroll>
-          {({ show }) => (
-            <SpeedDial
-              ariaLabel="SpeedDial tooltip example"
-              sx={{ position: "fixed", bottom: 16, right: 16 }}
-              icon={<SpeedDialIcon />}
-              hidden={!show}
-            >
-              <SpeedDialAction
-                tooltipOpen
-              FabProps={{
-                sx: {
-                  backgroundColor: theme.palette.primary.main,
-                  color: theme.palette.getContrastText(theme.palette.primary.main)
-                }
-              }}
-                tooltipTitle="Top"
-                color="primary"
-                onClick={scrollToTop}
-                icon={<KeyboardArrowUpIcon />}
-              />
-            </SpeedDial>
-          )}
-        </HideOnScroll> */}
-        <Typography variant="h3" align="center">{`Core Rules`}</Typography>
-        <Box sx={{ width: "100%", bgcolor: "background.paper" }} className="sticky">
-          {!!gameTypes && !!gameTypes.length && (
-            <>
-              <Box sx={{ width: "100%", bgcolor: "background.paper", pb: 1 }}>
-                <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                  <Tabs
-                    value={activeTabNumber}
-                    onChange={handleChange}
-                    aria-label="basic tabs example"
-                  >
-                    {gameTypes.map((tab, index) => {
-                      const gameTypeData = gameTypesRaw[tab];
-                      return (
-                        <Tab
-                          key={index}
-                          sx={{ textTransform: "none" }}
-                          label={gameTypeData?.name}
-                          {...a11yProps(0)}
-                        />
-                      );
-                    })}
-                  </Tabs>
-                </Box>
+      <Typography variant="h3" align="center">{`Core Rules`}</Typography>
+      <Box sx={{ width: "100%", bgcolor: "background.paper", top: isMobile ? "56px" : "64px", }} className="sticky">
+        {!!gameTypes && !!gameTypes.length && (
+          <>
+            <Box sx={{ width: "100%", bgcolor: "background.paper", pb: 1 }}>
+              <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                <Tabs
+                  value={activeTabNumber}
+                  onChange={handleChange}
+                  aria-label="basic tabs example"
+                >
+                  {gameTypes.map((tab, index) => {
+                    const gameTypeData = gameTypesRaw[tab];
+                    return (
+                      <Tab
+                        key={index}
+                        sx={{ textTransform: "none" }}
+                        label={gameTypeData?.name}
+                        {...a11yProps(0)}
+                      />
+                    );
+                  })}
+                </Tabs>
               </Box>
-            </>
-          )}
-        </Box>
-        <Typography variant="h4" align="center" sx={{ mb: 2 }}>{`${activeGameTypeData?.name}`}</Typography>
-        <div
-          className="unit-card"
-          style={{ marginBottom: "15px", borderColor: "rgb(57, 110, 158)" }}
-        >
-          <div className="unit-card-body">
-            <StyledRules>
-              <ReactMarkdown components={mdRenderer} children={activeRules} rehypePlugins={[[ RehypeToc, { headings: ["h1", "h2", "h3"] } ]]} />
-            </StyledRules>
-          </div>
+            </Box>
+          </>
+        )}
+      </Box>
+      {/* <Typography variant="h4" align="center" sx={{ mb: 2 }}>{`${activeGameTypeData?.name}`}</Typography> */}
+      <div
+        style={{ marginBottom: "15px", borderColor: "rgb(57, 110, 158)" }}
+      >
+        <div>
+          <StyledRules>
+            <ReactMarkdown components={mdRenderer} children={activeRules} rehypePlugins={[[RehypeToc, { headings: ["h1", "h2"] }]]} />
+          </StyledRules>
         </div>
-      </>
+      </div>
     </Container>
   );
 }

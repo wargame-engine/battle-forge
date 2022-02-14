@@ -13,7 +13,7 @@ import {
   ListItem,
   ListItemButton,
   ListItemText,
-  ListSubheader, MenuItem, Select, TextField, Typography
+  ListSubheader, MenuItem, Paper, Select, TextField, Typography
 } from "@mui/material";
 import Collapse from "@mui/material/Collapse";
 import ProgressBar from '@mui/material/LinearProgress';
@@ -37,8 +37,8 @@ import { MarkdownRenderer } from "utils/markdown";
 import { getRandomItem } from "utils/math";
 
 const PowerSpecialtySelector = (props) => {
-  const { data: nope, faction, onChange=() => {}, value='none' } = props;
-  const powerCats = { 'none': { name: 'None'}, ...nope.getRawPowerCategories(faction) };
+  const { data: nope, faction, onChange = () => { }, value = 'none' } = props;
+  const powerCats = { 'none': { name: 'None' }, ...nope.getRawPowerCategories(faction) };
   const specialtyOptions = Object.keys(powerCats).map((cat, index) => {
     return <MenuItem key={index} value={cat}>{powerCats[cat]?.name}</MenuItem>;
   });
@@ -80,38 +80,38 @@ export const ChooseSubFaction = (props) => {
       <Dialog open onClose={hideModal} fullScreen={fullScreen} maxWidth="lg" fullWidth>
         <DialogTitle closeButton>Change Focus</DialogTitle>
         <DialogContent style={{ padding: 0 }} sx={{ backgroundColor: "background.paper" }}>
-            <List style={{ height: '100%' }}>
-              {subfactions.map((subfaction) => {
-                return (
-                  <ListItem
-                    disablePadding
-                    secondaryAction={
-                      <IconButton
-                        sx={{ color: "primary.main" }}
-                        onClick={() => {
-                          setSubFaction(forceId, subfaction.id);
-                          hideModal();
-                        }}
-                      >
-                        <AddIcon />
-                      </IconButton>
-                    }
-                  >
-                    <ListItemButton
+          <List style={{ height: '100%' }}>
+            {subfactions.map((subfaction) => {
+              return (
+                <ListItem
+                  disablePadding
+                  secondaryAction={
+                    <IconButton
+                      sx={{}}
                       onClick={() => {
                         setSubFaction(forceId, subfaction.id);
                         hideModal();
                       }}
                     >
-                      <ListItemText
-                        primary={`${subfaction.name}`}
-                        secondary={`${subfaction.description}`}
-                      />
-                    </ListItemButton>
-                  </ListItem>
-                );
-              })}
-            </List>
+                      <AddIcon />
+                    </IconButton>
+                  }
+                >
+                  <ListItemButton
+                    onClick={() => {
+                      setSubFaction(forceId, subfaction.id);
+                      hideModal();
+                    }}
+                  >
+                    <ListItemText
+                      primary={`${subfaction.name}`}
+                      secondary={`${subfaction.description}`}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              );
+            })}
+          </List>
         </DialogContent>
         <DialogActions>
           <Button color="primary" onClick={hideModal}>
@@ -157,7 +157,7 @@ export const AddLegend = (props) => {
       <Dialog open onClose={hideModal} fullScreen={fullScreen} maxWidth="lg" fullWidth>
         <DialogTitle>Add Legend</DialogTitle>
         <DialogContent style={{ padding: 0 }} sx={{ backgroundColor: "background.paper" }}>
-          <List style={{ height: '100%' }}>
+          <Paper  style={{ height: '100%', borderRadius: 0, overflowY: 'auto' }}>
             {Object.keys(RELIC_TYPES)
               .filter(
                 (type) => !!groupedRelics[type] && !!groupedRelics[type].length
@@ -169,9 +169,9 @@ export const AddLegend = (props) => {
                 );
                 return (
                   <>
-                    <ListSubheader>
+                    <ListSubheader sx={{ flex: 1, backgroundColor: 'background.paper', color: 'inherit' }}>
                       <Typography
-                        sx={{ py: 0.5 }}
+                        sx={{ py: 1 }}
                         fontWeight="bold"
                         variant="h5"
                       >
@@ -185,7 +185,7 @@ export const AddLegend = (props) => {
                             disablePadding
                             secondaryAction={
                               <IconButton
-                                sx={{ color: "primary.main" }}
+                                sx={{}}
                                 onClick={() => {
                                   addLegend(forceId, { id: relic.id });
                                   hideModal();
@@ -202,11 +202,11 @@ export const AddLegend = (props) => {
                               }}
                             >
                               <ListItemText
-                                primary={`${relic.name} (${relic.points} pts)`}
-                                secondary={<ReactMarkdown
+                                primary={<Typography fontWeight="bold">{`${relic.name} (${relic.points} pts)`}</Typography>}
+                                secondary={<Typography variant="body2"><ReactMarkdown
                                   children={relic.description}
                                   className="rule-text"
-                                />}
+                                /></Typography>}
                               />
                             </ListItemButton>
                           </ListItem>
@@ -216,7 +216,7 @@ export const AddLegend = (props) => {
                   </>
                 );
               })}
-          </List>
+          </Paper>
         </DialogContent>
         <DialogActions>
           <Button color="primary" onClick={hideModal}>
@@ -284,73 +284,75 @@ export const AddForce = (props) => {
         {!faction && (
           <>
             <DialogTitle closeButton>Choose Faction</DialogTitle>
-            <DialogContent sx={{ backgroundColor: "background.paper" }} style={{ padding: 0 }}>
-              <List>
-                {categoryOrder.map((allianceKey) => {
-                  const theFactions = sortBy(
-                    get(unitCategories, `[${allianceKey}]`, []),
-                    "name"
-                  );
-                  const filteredFactions =
-                    forces.length > 0 &&
-                      !listAlliance &&
-                      list.type !== "narrative"
-                      ? theFactions.filter(
-                        (faction) => faction.id === firstFaction
-                      )
-                      : theFactions;
-                  const allianceData = data.getAlliance(allianceKey);
-                  return (
-                    <>
-                      <ListSubheader>
-                        <Typography
-                          sx={{ py: 0.5 }}
-                          fontWeight="bold"
-                          variant="h5"
-                        >
-                          {allianceData.name || "Unaligned"}
-                        </Typography>
-                      </ListSubheader>
-                      {Object.keys(filteredFactions).map((orgKey) => {
-                        const org = filteredFactions[orgKey];
-                        return (
-                          <ListItem
-                            disablePadding
-                            secondaryAction={
-                              <IconButton
-                                sx={{ color: "primary.main" }}
+            <DialogContent style={{ padding: 0 }}>
+              <Paper  style={{ height: '100%', borderRadius: 0, overflowY: 'auto' }}>
+                <>
+                  {categoryOrder.map((allianceKey) => {
+                    const theFactions = sortBy(
+                      get(unitCategories, `[${allianceKey}]`, []),
+                      "name"
+                    );
+                    const filteredFactions =
+                      forces.length > 0 &&
+                        !listAlliance &&
+                        list.type !== "narrative"
+                        ? theFactions.filter(
+                          (faction) => faction.id === firstFaction
+                        )
+                        : theFactions;
+                    const allianceData = data.getAlliance(allianceKey);
+                    return (
+                      <>
+                        <ListSubheader sx={{ flex: 1, color: 'inherit' }}>
+                          <Typography
+                            sx={{ py: 1 }}
+                            fontWeight="bold"
+                            variant="h5"
+                          >
+                            {allianceData.name || "Unaligned"}
+                          </Typography>
+                        </ListSubheader>
+                        {Object.keys(filteredFactions).map((orgKey) => {
+                          const org = filteredFactions[orgKey];
+                          return (
+                            <ListItem
+                              disablePadding
+                              secondaryAction={
+                                <IconButton
+                                  sx={{}}
+                                  onClick={() => {
+                                    setFaction(org.id);
+                                  }}
+                                >
+                                  <AddIcon />
+                                </IconButton>
+                              }
+                            >
+                              <ListItemButton
                                 onClick={() => {
                                   setFaction(org.id);
                                 }}
                               >
-                                <AddIcon />
-                              </IconButton>
-                            }
-                          >
-                            <ListItemButton
-                              onClick={() => {
-                                setFaction(org.id);
-                              }}
-                            >
-                              <ListItemText
-                                primary={
-                                  <>
-                                    {`${org.name}`}
-                                    <small>
-                                      {org.version ? ` (${org.version})` : ""}
-                                    </small>
-                                  </>
-                                }
-                                secondary={<>{`${org.description || ""}`}</>}
-                              />
-                            </ListItemButton>
-                          </ListItem>
-                        );
-                      })}
-                    </>
-                  );
-                })}
-              </List>
+                                <ListItemText
+                                  primary={
+                                    <Typography fontWeight="bold">
+                                      {`${org.name}`}
+                                      <small>
+                                        {org.version ? ` (${org.version})` : ""}
+                                      </small>
+                                    </Typography>
+                                  }
+                                  secondary={<Typography variant="body2">{`${org.description || ""}`}</Typography>}
+                                />
+                              </ListItemButton>
+                            </ListItem>
+                          );
+                        })}
+                      </>
+                    );
+                  })}
+                </>
+              </Paper>
             </DialogContent>
             <DialogActions>
               <Button color="primary" onClick={hideModal}>
@@ -363,7 +365,7 @@ export const AddForce = (props) => {
           <>
             <DialogTitle closeButton>Add Force Organization</DialogTitle>
             <DialogContent style={{ padding: 0 }} sx={{ backgroundColor: "background.paper" }}>
-              <List style={{ height: '100%' }}>
+              <Paper style={{ height: '100%', borderRadius: 0, overflowY: 'auto' }}>
                 {Object.keys(organizations).map((orgKey) => {
                   const org = organizations[orgKey];
                   return (
@@ -371,7 +373,7 @@ export const AddForce = (props) => {
                       disablePadding
                       secondaryAction={
                         <IconButton
-                          sx={{ color: "primary.main" }}
+                          sx={{}}
                           onClick={() => {
                             addForce({
                               id: orgKey,
@@ -396,14 +398,14 @@ export const AddForce = (props) => {
                         }}
                       >
                         <ListItemText
-                          primary={`${org.name} (Cost ${org.cost})`}
-                          secondary={`${org.description}`}
+                          primary={<Typography fontWeight="bold">{`${org.name} (Cost ${org.cost})`}</Typography>}
+                          secondary={<Typography variant="body2">{org.description}</Typography>}
                         />
                       </ListItemButton>
                     </ListItem>
                   );
                 })}
-              </List>
+              </Paper>
             </DialogContent>
             <DialogActions>
               <Button
@@ -431,7 +433,7 @@ export const AddForce = (props) => {
                       disablePadding
                       secondaryAction={
                         <IconButton
-                          sx={{ color: "primary.main" }}
+                          sx={{}}
                           onClick={() => {
                             setSubFaction(subfaction.id);
                           }}
@@ -446,8 +448,8 @@ export const AddForce = (props) => {
                         }}
                       >
                         <ListItemText
-                          primary={`${subfaction.name}`}
-                          secondary={`${subfaction.description}`}
+                          primary={<Typography fontWeight="bold">{subfaction.name}</Typography>}
+                          secondary={<Typography variant="body2">{subfaction.description}</Typography>}
                         />
                       </ListItemButton>
                     </ListItem>
@@ -492,8 +494,8 @@ export const AddUnit = (props) => {
         <DialogTitle closeButton>
           Add Unit
         </DialogTitle>
-        <DialogContent style={{ padding: 0 }} sx={{ backgroundColor: "background.paper" }}>
-          <List>
+        <DialogContent style={{ padding: 0 }}>
+          <Paper style={{ height: '100%', borderRadius: 0, overflowY: 'auto' }}>
             {sortedUnits.map((unit, index) => {
               return (
                 <ListItem
@@ -501,7 +503,7 @@ export const AddUnit = (props) => {
                   disablePadding
                   secondaryAction={
                     <IconButton
-                      sx={{ color: "primary.main" }}
+                      sx={{}}
                       onClick={() => {
                         addUnit(forceId, { id: unit.id });
                         hideModal();
@@ -518,14 +520,14 @@ export const AddUnit = (props) => {
                     }}
                   >
                     <ListItemText
-                      primary={`${unit.name} (${unit.points} pts)`}
-                      secondary={`${unit.description}`}
+                      primary={<Typography fontWeight="bold">{`${unit.name} (${unit.points} pts)`}</Typography>}
+                      secondary={<Typography variant="body2">{unit.description}</Typography>}
                     />
                   </ListItemButton>
                 </ListItem>
               );
             })}
-          </List>
+          </Paper>
         </DialogContent>
         <DialogActions>
           <Button color="primary" onClick={hideModal}>
@@ -689,24 +691,24 @@ export const ViewUnit = (props) => {
         </DialogTitle>
         <DialogContent sx={{ p: 1, backgroundColor: 'background.paper' }}>
           <Box sx={{ mt: 1 }}>
-          <UnitCard
-            toggler={false}
-            points={unit.points}
-            models={models}
-            weapons={weapons}
-            faction={faction}
-            data={data}
-            unit={unit}
-            rules={rules}
-            setbacks={unitSetbacks}
-            powerSpecialty={unitPowerSpecialty}
-            perks={unitPerks}
-            level={unitLevel}
-            weaponRules={weaponsRules}
-            showOptions={false}
-            embeddedOptions={true}
-            unitOptions={unit.selectedOptionsList}
-          />
+            <UnitCard
+              toggler={false}
+              points={unit.points}
+              models={models}
+              weapons={weapons}
+              faction={faction}
+              data={data}
+              unit={unit}
+              rules={rules}
+              setbacks={unitSetbacks}
+              powerSpecialty={unitPowerSpecialty}
+              perks={unitPerks}
+              level={unitLevel}
+              weaponRules={weaponsRules}
+              showOptions={false}
+              embeddedOptions={true}
+              unitOptions={unit.selectedOptionsList}
+            />
           </Box>
         </DialogContent>
         <DialogActions>
@@ -1058,71 +1060,41 @@ export const EditUnit = (props) => {
             {`(${unit.points} pts)`}
           </small>
         </DialogTitle>
-        <DialogContent>
-          <FormControl fullWidth sx={{ mt: 2 }}>
-            <TextField
-              fullWidth
-              size="small"
-              label="Custom Name"
-              value={unit.customName}
-              onChange={(event) =>
-                setUnitName(forceId, unitId, event.target.value)
-              }
-            />
-            {/* <InputGroup.Append addonType="append">
-                <Button size="sm" color="primary" onClick={() => { setShowNameLists(!showNameLists) }}>
-                {!showNameLists && <FontAwesomeIcon icon={faArrowDown} />}
-                {!!showNameLists && <FontAwesomeIcon icon={faArrowUp} />}
-                <FontAwesomeIcon style={{ marginLeft: '5px' }} icon={faDice} />
-              </Button>
-            </InputGroup.Append> */}
-            <Divider />
-          </FormControl>
-          {/* <FormGroup>
-            <Collapse in={showNameLists}>
-              <div style={{ maxHeight: '300px', overflowY: 'auto'}}>
-                <div className="d-flex align-items-center flex-wrap">
-                  {nameLists.map((nameList) => {
-                    const maleNames = get(nameList, 'male.first', []);
-                    const femaleNames = get(nameList, 'female.first', []);
-                    return (
-                      <div>
-                        <Button size="sm" className="grid-button" color="primary" onClick={() => {setUnitName(forceId, unitId, data.getRandomName(nameList.id))}}>
-                        {`${nameList.name}`} Any <FontAwesomeIcon icon={faDice} />
-                        </Button>
-                        {!!maleNames.length && <Button size="sm" className="grid-button" color="primary" onClick={() => {setUnitName(forceId, unitId, data.getRandomMaleName(nameList.id))}}>
-                        {`${nameList.name}`} Male <FontAwesomeIcon icon={faDice} />
-                        </Button>}
-                        {!!femaleNames.length && <Button size="sm" className="grid-button" color="primary" onClick={() => {setUnitName(forceId, unitId, data.getRandomFemaleName(nameList.id))}}>
-                        {`${nameList.name}`} Female <FontAwesomeIcon icon={faDice} />
-                        </Button>}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </Collapse>
-          </FormGroup> */}
-          <FormGroup>
-            <div>
-              {!!hasPowerRule && <div>
-                <div className="d-flex justify-content-center flex-column">
-                  <PowerSpecialtySelector value={unit?.powerSpecialty} onChange={(event) => setUnitPowerSpecialty(forceId, unitId, event.target.value)} data={data} faction={faction} />
-                </div>
-                <Divider />
-              </div>}
-              {options.map((option, index) => {
-                return (
-                  <div>
-                    <div className="d-flex justify-content-center flex-column">
-                      {renderOption(option, index)}
-                    </div>
-                    <Divider />
+        <DialogContent sx={{ p: 0 }}>
+          <Paper style={{ height: '100%', borderRadius: 0 }} sx={{ p: 2 }}>
+            <FormControl fullWidth sx={{ mt: 2 }}>
+              <TextField
+                fullWidth
+                size="small"
+                label="Custom Name"
+                value={unit.customName}
+                onChange={(event) =>
+                  setUnitName(forceId, unitId, event.target.value)
+                }
+              />
+              <Divider />
+            </FormControl>
+            <FormGroup>
+              <div>
+                {!!hasPowerRule && <div>
+                  <div className="d-flex justify-content-center flex-column">
+                    <PowerSpecialtySelector value={unit?.powerSpecialty} onChange={(event) => setUnitPowerSpecialty(forceId, unitId, event.target.value)} data={data} faction={faction} />
                   </div>
-                );
-              })}
-            </div>
-          </FormGroup>
+                  <Divider />
+                </div>}
+                {options.map((option, index) => {
+                  return (
+                    <div>
+                      <div className="d-flex justify-content-center flex-column">
+                        {renderOption(option, index)}
+                      </div>
+                      <Divider />
+                    </div>
+                  );
+                })}
+              </div>
+            </FormGroup>
+          </Paper>
         </DialogContent>
         <DialogActions>
           <Button

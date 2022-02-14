@@ -4,13 +4,12 @@ import DownloadIcon from '@mui/icons-material/Download';
 import EditIcon from '@mui/icons-material/Edit';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import SettingsIcon from '@mui/icons-material/Settings';
 import UploadIcon from '@mui/icons-material/Upload';
 import {
   Card,
   CardContent,
   CardHeader,
-  Container, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, ListSubheader, Menu,
+  Container, IconButton, ListItem, ListItemButton, ListItemIcon, ListItemText, ListSubheader, Menu,
   MenuItem
 } from "@mui/material";
 import Box from "@mui/material/Box";
@@ -424,45 +423,11 @@ export default React.memo((props) => {
                 </Typography>
               </>
             }
-          // action={
-          //   <Dropdown>
-          //     {({ handleClose, open, handleOpen, anchorElement }) => (
-          //       <>
-          //         <IconButton sx={{ color: 'inherit', mr: 1 }} onClick={handleOpen}>
-          //           <MoreVertIcon />
-          //         </IconButton>
-          //         <Menu
-          //           anchorOrigin={{
-          //             vertical: "bottom",
-          //             horizontal: "right",
-          //           }}
-          //           transformOrigin={{
-          //             vertical: "top",
-          //             horizontal: "right",
-          //           }}
-          //           anchorEl={anchorElement}
-          //           id="basic-menu"
-          //           open={open}
-          //           onClose={handleClose}
-          //           MenuListProps={{
-          //             dense: true,
-          //             onClick: handleClose,
-          //             "aria-labelledby": "basic-button",
-          //           }}
-          //         >
-
-
-          //         </Menu>
-          //       </>
-          //     )}
-          //   </Dropdown>
-
-          // }
           />
           <CardContent
             style={{ padding: (filteredCategories.length) ? 0 : undefined }}
           >
-            {!! filteredCategories.length && <List>
+            {!! filteredCategories.length && <>
               {filteredCategories.map((catKey, catIndex) => {
                 const category = gamesRaw[catKey];
                 const categoryLists = listsByGame[catKey];
@@ -481,21 +446,9 @@ export default React.memo((props) => {
                   <>
                     <ListItem
                       key={catIndex}
-                      // secondaryAction={
-                      //   <>
-                      //     {!!editMode && (
-                      //       <IconButton
-                      //         sx={{ color: "primary.main" }}
-                      //         onClick={() => {}}
-                      //       >
-                      //         <AddIcon />
-                      //       </IconButton>
-                      //     )}
-                      //   </>
-                      // }
                       disablePadding
                     >
-                      <ListSubheader sx={{ flex: 1, zIndex: 0, backgroundColor: 'background.paper' }}>
+                      <ListSubheader sx={{ flex: 1, backgroundColor: 'background.paper', color: 'inherit' }}>
                         <Typography
                           sx={{ py: 1 }}
                           fontWeight="bold"
@@ -537,19 +490,11 @@ export default React.memo((props) => {
                                           "aria-labelledby": "basic-button",
                                         }}
                                       >
-                                        <MenuItem onClick={() => goToList(list.id)}>
+                                        <MenuItem onClick={() => showEditList({ listId: list.id })}>
                                           <ListItemIcon>
                                             <EditIcon />
                                           </ListItemIcon>
                                           <ListItemText>Edit</ListItemText>
-                                        </MenuItem>
-                                        <MenuItem
-                                          onClick={() => showEditList({ listId: list.id })}
-                                        >
-                                          <ListItemIcon>
-                                            <SettingsIcon />
-                                          </ListItemIcon>
-                                          <ListItemText>Settings</ListItemText>
                                         </MenuItem>
                                         <MenuItem onClick={() => downloadList(list.id)}>
                                           <ListItemIcon>
@@ -590,89 +535,13 @@ export default React.memo((props) => {
                   </>
                 );
               })}
-            </List>}
+            </>}
             {!filteredCategories.length && <>
               <Typography>No created lists. Click the <AddIcon /> Button in the top right to get started.</Typography>
             </>}
           </CardContent>
         </Card>
       </>
-      {/* <HideOnScroll>
-        {({ show }) => (
-          <SpeedDial
-            ariaLabel="SpeedDial tooltip example"
-            sx={{ position: "fixed", bottom: 16, right: 16 }}
-            icon={<SpeedDialIcon />}
-            onClose={(event) => {
-              if (event.type === 'click' || event.type === 'blur') {
-                setDialOpen(false);
-              }
-            }}
-            onOpen={(event) => {
-              if (event.type === 'click') {
-                setDialOpen(true);
-              }
-            }}
-            open={dialOpen && show}
-            hidden={!show}
-          >
-            <SpeedDialAction
-              tooltipOpen
-              FabProps={{
-                sx: {
-                  backgroundColor: theme.palette.primary.main,
-                  color: theme.palette.getContrastText(theme.palette.primary.main)
-                }
-              }}
-              id="createList"
-              tooltipTitle="Create"
-              onClick={() => {
-                showAddList();
-              }}
-              icon={<AddIcon />}
-            />
-            <SpeedDialAction
-              tooltipOpen
-              FabProps={{
-                sx: {
-                  backgroundColor: theme.palette.primary.main,
-                  color: theme.palette.getContrastText(theme.palette.primary.main)
-                }
-              }}
-              tooltipTitle="Import"
-              id="importList"
-              onClick={handleClick}
-              icon={<UploadIcon />}
-            />
-            <SpeedDialAction
-              tooltipOpen
-              FabProps={{
-                sx: {
-                  backgroundColor: theme.palette.primary.main,
-                  color: theme.palette.getContrastText(theme.palette.primary.main)
-                }
-              }}
-              id="refreshFactions"
-              tooltipTitle="Refresh"
-              onClick={refreshFactions}
-              icon={<RefreshIcon />}
-            />
-            <SpeedDialAction
-              tooltipOpen
-              FabProps={{
-                sx: {
-                  backgroundColor: theme.palette.primary.main,
-                  color: theme.palette.getContrastText(theme.palette.primary.main)
-                }
-              }}
-              tooltipTitle="Top"
-              color="primary"
-              onClick={scrollToTop}
-              icon={<KeyboardArrowUpIcon />}
-            />
-          </SpeedDial>
-        )}
-      </HideOnScroll> */}
       <Tour
         accentColor={`rgb(57, 110, 158)`}
         className="tour"

@@ -15,8 +15,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import {
   Alert, Box, Card,
   CardContent,
-  CardHeader, FormGroup, IconButton, List,
-  ListItem, ListItemButton, ListItemIcon, ListItemText, ListSubheader, Menu,
+  CardHeader, FormGroup, IconButton, ListItem, ListItemButton, ListItemIcon, ListItemText, ListSubheader, Menu,
   MenuItem, ScopedCssBaseline, Stack, Typography
 } from "@mui/material";
 import Container from "@mui/material/Container";
@@ -35,6 +34,7 @@ import { useSnackbar } from "notistack";
 import React, {
   useContext, useEffect, useRef, useState
 } from "react";
+import { useParams } from 'react-router';
 import { Link as RouterLink } from 'react-router-dom';
 import { useReactToPrint } from "react-to-print";
 import { UpdateList } from 'routes/factions/modals';
@@ -50,7 +50,6 @@ import {
   ChooseSubFaction,
   EditUnit, EditUnitCampaign, ViewActionReference, ViewLegend, ViewPowers, ViewStrategies, ViewUnit
 } from "./modals";
-import { useParams } from 'react-router';
 
 const PrintStyles = styled.div`
 
@@ -1022,9 +1021,9 @@ export default React.memo((props) => {
           style={{ wordBreak: 'break-all' }}
           variant="h4"
           align="center"
-          sx={{ mb: 2 }}
+          sx={{ mb: 1 }}
         >{`${list.name}`}</Typography>
-        <Typography align="center" sx={{ mb: 4 }}>
+        <Typography align="center" sx={{ mb: 2 }}>
           {`${listTypeName}, ${totalForcePoints} pts`},
           {listType === "campaign"
             ? ` ${totalForceReservePoints} pts of reserves,`
@@ -1032,176 +1031,6 @@ export default React.memo((props) => {
           {` ${totalSP} SP`},{" "}
           {`${legendLimit} Legend${legendLimit > 1 ? "s" : ""}`}
         </Typography>
-        {/* <HideOnScroll>
-          {({ show }) => (
-            <SpeedDial
-              ariaLabel="SpeedDial tooltip example"
-              sx={{ position: "fixed", bottom: 16, right: 16 }}
-              icon={<SpeedDialIcon />}
-              onClose={(event) => {
-                if (event.type === 'click' || event.type === 'blur') {
-                  setDialOpen(false);
-                }
-              }}
-              onOpen={(event) => {
-                if (event.type === 'click') {
-                  setDialOpen(true);
-                }
-              }}
-              open={dialOpen && show}
-              hidden={!show}
-              hidden={!show}
-            >
-              {!editMode && (
-                <SpeedDialAction
-                  tooltipOpen
-              FabProps={{
-                sx: {
-                  backgroundColor: theme.palette.primary.main,
-                  color: theme.palette.getContrastText(theme.palette.primary.main)
-                }
-              }}
-                  tooltipTitle="Edit"
-                  color="primary"
-                  onClick={() => setEditMode(true)}
-                  icon={<EditIcon />}
-                />
-              )}
-              {!!editMode && (
-                <SpeedDialAction
-                  tooltipOpen
-              FabProps={{
-                sx: {
-                  backgroundColor: theme.palette.primary.main,
-                  color: theme.palette.getContrastText(theme.palette.primary.main)
-                }
-              }}
-                  tooltipTitle="View"
-                  color="primary"
-                  onClick={() => setEditMode(false)}
-                  icon={<VisibilityIcon />}
-                />
-              )}
-              {!!editMode && (
-                <SpeedDialAction
-                  tooltipOpen
-              FabProps={{
-                sx: {
-                  backgroundColor: theme.palette.primary.main,
-                  color: theme.palette.getContrastText(theme.palette.primary.main)
-                }
-              }}
-                  tooltipTitle="Add"
-                  color="primary"
-                  onClick={showAddForce}
-                  icon={<AddIcon />}
-                />
-              )}
-              {!editMode && (
-                <SpeedDialAction
-                  tooltipOpen
-              FabProps={{
-                sx: {
-                  backgroundColor: theme.palette.primary.main,
-                  color: theme.palette.getContrastText(theme.palette.primary.main)
-                }
-              }}
-                  tooltipTitle="Reference"
-                  color="primary"
-                  onClick={showViewActionReference}
-                  icon={<MenuBookIcon />}
-                />
-              )}
-              {!!editMode && (
-                <SpeedDialAction
-                  tooltipOpen
-              FabProps={{
-                sx: {
-                  backgroundColor: theme.palette.primary.main,
-                  color: theme.palette.getContrastText(theme.palette.primary.main)
-                }
-              }}
-                  tooltipTitle="Update"
-                  style={{ marginRight: "5px" }}
-                  color="primary"
-                  onClick={handleClick}
-                  icon={<FontAwesomeIcon icon={faFileUpload} />}
-                />
-              )}
-              <SpeedDialAction
-                tooltipOpen
-              FabProps={{
-                sx: {
-                  backgroundColor: theme.palette.primary.main,
-                  color: theme.palette.getContrastText(theme.palette.primary.main)
-                }
-              }}
-                tooltipTitle="Download"
-                color="primary"
-                onClick={downloadList}
-                icon={<DownloadIcon />}
-              />
-              <SpeedDialAction
-                tooltipOpen
-              FabProps={{
-                sx: {
-                  backgroundColor: theme.palette.primary.main,
-                  color: theme.palette.getContrastText(theme.palette.primary.main)
-                }
-              }}
-                tooltipTitle="Print"
-                color="primary"
-                onClick={() => handlePrint()}
-                icon={<PrintIcon />}
-              />
-              {!!editMode && (
-                <SpeedDialAction
-                  tooltipOpen
-              FabProps={{
-                sx: {
-                  backgroundColor: theme.palette.primary.main,
-                  color: theme.palette.getContrastText(theme.palette.primary.main)
-                }
-              }}
-                  tooltipTitle="Settings"
-                  color="primary"
-                  onClick={() => showUpdateList()}
-                  icon={<SettingsIcon />}
-                />
-              )}
-              {!editMode && (
-                <Dropdown drop={"bottom"} style={{ display: "inline-block" }}>
-                  <span style={{}}>
-                    <Dropdown.Toggle as={CustomToggle}>
-                      <SpeedDialAction
-                        tooltipOpen
-              FabProps={{
-                sx: {
-                  backgroundColor: theme.palette.primary.main,
-                  color: theme.palette.getContrastText(theme.palette.primary.main)
-                }
-              }}
-                        title="Rules"
-                        style={{ width: "40px" }}
-                        icon={<FontAwesomeIcon icon={faBook} />}
-                      />
-                    </Dropdown.Toggle>
-                  </span>
-                  <Dropdown.Menu>
-                    <Dropdown.Item onClick={() => showViewActionReference()}>
-                      Actions and Reactions
-                    </Dropdown.Item>
-                    {gameType === "skirmish" && (
-                      <Dropdown.Item onClick={() => showViewInjuryTable()}>
-                        Model Injury Chart
-                      </Dropdown.Item>
-                    )}
-                  </Dropdown.Menu>
-                </Dropdown>
-              )}
-            </SpeedDial>
-          )}
-        </HideOnScroll> */}
         {validationErrors.map((error, idx) => (
           <Alert
             key={idx}
@@ -1431,7 +1260,7 @@ export default React.memo((props) => {
               <CardContent
                 style={{ padding: (filteredCategories.length || forceLegends.length) ? 0 : undefined }}
               >
-                <List>
+                <>
                   {!!factionRelics.length &&
                     !showingReserves &&
                     (!!editMode || !!forceLegends.length) && (
@@ -1443,7 +1272,7 @@ export default React.memo((props) => {
                               {!!editMode && (
                                 <IconButton
                                   disabled={filteredLegends?.length === 0}
-                                  sx={{ color: "primary.main" }}
+                                  sx={{ }}
                                   onClick={() =>
                                     showAddLegend({
                                       forceId: index,
@@ -1458,7 +1287,7 @@ export default React.memo((props) => {
                           }
                           disablePadding
                         >
-                          <ListSubheader sx={{ flex: 1, zIndex: 0 }}>
+                          <ListSubheader sx={{ flex: 1, zIndex: 0, color: 'inherit' }}>
                             <Typography
                               sx={{ py: 1 }}
                               fontWeight="bold"
@@ -1477,7 +1306,7 @@ export default React.memo((props) => {
                                   <Dropdown>
                                     {({ handleClose, open, handleOpen, anchorElement }) => (
                                       <>
-                                        <IconButton sx={{ color: 'primary.main' }} onClick={handleOpen}>
+                                        <IconButton sx={{ }} onClick={handleOpen}>
                                           <MoreVertIcon />
                                         </IconButton>
                                         <Menu
@@ -1566,7 +1395,7 @@ export default React.memo((props) => {
                             <>
                               {!!editMode && (
                                 <IconButton
-                                  sx={{ color: "primary.main" }}
+                                  sx={{ }}
                                   disabled={unitCatCount === 0}
                                   onClick={() =>
                                     showAddUnit({
@@ -1585,7 +1414,7 @@ export default React.memo((props) => {
                           }
                           disablePadding
                         >
-                          <ListSubheader sx={{ flex: 1, zIndex: 0, backgroundColor: 'background.paper' }}>
+                          <ListSubheader sx={{ flex: 1, zIndex: 0, backgroundColor: 'background.paper', color: 'inherit' }}>
                             <Typography
                               sx={{ py: 1 }}
                               fontWeight="bold"
@@ -1624,7 +1453,7 @@ export default React.memo((props) => {
                                     <Dropdown>
                                       {({ handleClose, open, handleOpen, anchorElement }) => (
                                         <>
-                                          <IconButton sx={{ color: 'primary.main' }} onClick={handleOpen}>
+                                          <IconButton sx={{ }} onClick={handleOpen}>
                                             <MoreVertIcon />
                                           </IconButton>
                                           <Menu
@@ -1789,7 +1618,7 @@ export default React.memo((props) => {
                       Force is empty...
                     </>
                   )}
-                </List>
+                </>
               </CardContent>
             </Card>
           );
