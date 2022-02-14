@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/static/css/main.66a62633.chunk.css",
-    "main.js": "/static/js/main.20c9447c.chunk.js",
-    "main.js.map": "/static/js/main.20c9447c.chunk.js.map",
+    "main.js": "/static/js/main.a354f3d2.chunk.js",
+    "main.js.map": "/static/js/main.a354f3d2.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.a6e95679.js",
     "runtime-main.js.map": "/static/js/runtime-main.a6e95679.js.map",
-    "static/js/2.d85ecf35.chunk.js": "/static/js/2.d85ecf35.chunk.js",
-    "static/js/2.d85ecf35.chunk.js.map": "/static/js/2.d85ecf35.chunk.js.map",
+    "static/js/2.dc267c8a.chunk.js": "/static/js/2.dc267c8a.chunk.js",
+    "static/js/2.dc267c8a.chunk.js.map": "/static/js/2.dc267c8a.chunk.js.map",
     "index.html": "/index.html",
     "static/css/main.66a62633.chunk.css.map": "/static/css/main.66a62633.chunk.css.map",
-    "static/js/2.d85ecf35.chunk.js.LICENSE.txt": "/static/js/2.d85ecf35.chunk.js.LICENSE.txt",
+    "static/js/2.dc267c8a.chunk.js.LICENSE.txt": "/static/js/2.dc267c8a.chunk.js.LICENSE.txt",
     "static/media/battle_forged_wide.b1be5222.png": "/static/media/battle_forged_wide.b1be5222.png",
     "static/media/battleforged_anvil.60c74805.png": "/static/media/battleforged_anvil.60c74805.png"
   },
   "entrypoints": [
     "static/js/runtime-main.a6e95679.js",
-    "static/js/2.d85ecf35.chunk.js",
+    "static/js/2.dc267c8a.chunk.js",
     "static/css/main.66a62633.chunk.css",
-    "static/js/main.20c9447c.chunk.js"
+    "static/js/main.a354f3d2.chunk.js"
   ]
 }
