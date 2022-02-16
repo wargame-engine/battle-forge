@@ -17,7 +17,7 @@ import Typography from "@mui/material/Typography";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import CustomCircularProgress from "components/CustomCircularProgress";
 import { Dropdown } from "components/dropdown";
-import { DataContext, PointsCacheContext } from "hooks";
+import { DataContext } from "hooks";
 import { get, omitBy } from "lodash";
 import { set } from "lodash/fp";
 import { useSnackbar } from "notistack";
@@ -177,9 +177,8 @@ const FactionsMain = () => {
   }, [coreData, coreGame.factions, fetchGame, game.factions, gameName, isLoading]);
   // Default active tab!!!
   const [activeTab, setActiveTab] = useState(get(appState, "factionTab", 2));
-  const cache = useContext(PointsCacheContext);
   const globalData = mergeGlobalData(game, nope);
-  const data = DataAPI(game, cache, globalData);
+  const data = DataAPI(game, globalData);
   const { enqueueSnackbar } = useSnackbar();
   const lists = get(nope, `lists[${gameName}]`, []);
   const toggle = (tab) => {
@@ -270,7 +269,6 @@ const FactionsMain = () => {
               get(nope, "customData", {})
             );
             setCustomData(newData);
-            cache.resetCache();
             enqueueSnackbar(`${armyObject.name} successfully imported.`, {
               appearance: "success",
             });
@@ -314,7 +312,6 @@ const FactionsMain = () => {
   const refreshFactions = () => {
     refreshData(gameName)
       .then(() => {
-        cache.resetCache();
         enqueueSnackbar(`Game data successfully updated.`, {
           appearance: "success",
         });

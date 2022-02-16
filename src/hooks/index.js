@@ -27,7 +27,6 @@ export function useWindowDimensions() {
   return windowDimensions;
 }
 
-export const PointsCacheContext = React.createContext({});
 export const DataContext = React.createContext({});
 
 const breadCrumbDefaults = {

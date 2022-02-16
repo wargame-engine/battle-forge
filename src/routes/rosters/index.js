@@ -16,7 +16,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import CustomCircularProgress from "components/CustomCircularProgress";
 import { Dropdown } from "components/dropdown";
-import { DataContext, PointsCacheContext, useModal } from "hooks";
+import { DataContext, useModal } from "hooks";
 import { get, groupBy, omit, sortBy } from "lodash";
 import { useSnackbar } from "notistack";
 import React from 'react';
@@ -151,7 +151,6 @@ export default React.memo((props) => {
   const shareData = queryParams?.get("listShare");
     // Default active tab!!!
     const [activeTab] = React.useState(get(appState, "factionTab", 2));
-    const cache = React.useContext(PointsCacheContext);
     const game = get(nope, `gameData.games[${gameName}]`, {});
     const coreGame = get(coreData, `gameData.games[${gameName}]`, {});
     React.useEffect(() => {
@@ -160,7 +159,7 @@ export default React.memo((props) => {
       }
     }, [coreData, coreGame.factions, fetchGame, game.factions, gameName, isLoading]);
     const globalData = mergeGlobalData(game, nope);
-    const data = DataAPI(game, cache, globalData);
+    const data = DataAPI(game, globalData);
     const gamesRaw = get(nope, `gameData.games`, {});
     const rawLists = get(nope, `lists`, []);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -283,7 +282,6 @@ export default React.memo((props) => {
   const refreshFactions = () => {
     refreshData(gameName)
       .then(() => {
-        cache.resetCache();
         enqueueSnackbar(`Game data successfully updated.`, {
           appearance: "success",
         });

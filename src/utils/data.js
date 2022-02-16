@@ -2,10 +2,7 @@ import { castArray, clamp, get, intersection, isArray, isNil, isNumber, isString
 import { formatModel, formatWeapon } from 'utils/format';
 import { getRandomItem, round5 } from 'utils/math';
 
-export const DataAPI = (data, cache = {}, root={}) => {
-  const getCache = cache.getCache || (() => { });
-  const setCache = cache.setCache || (() => { });
-  // const resetCache = cache.resetCache || (() => { });
+export const DataAPI = (data, root={}) => {
   const factionList = Object.values(data.factions || {});
   const globalWeapons = data.weapons || {};
   const globalUnits = data.units || {};
@@ -1156,10 +1153,6 @@ export const DataAPI = (data, cache = {}, root={}) => {
     const dummyShooter = {
       shoot: 10
     }
-    const cachedPoints = getCache(faction.name + power.name);
-    if (cachedPoints) {
-      return cachedPoints;
-    }
     const psychicCost = getRuleCostForModel({ "id": "psychic" }, dummyTarget, faction);
     (power.effects || []).forEach((effect) => {
       if (effect.weapon) {
@@ -1175,7 +1168,6 @@ export const DataAPI = (data, cache = {}, root={}) => {
     });
     const charge = psychicCost / points * 10;
     const finalCharge = clamp(Math.trunc(charge), 1, 9);
-    setCache(faction.name + power.name, finalCharge);
     return finalCharge;
   }
 
@@ -1296,28 +1288,16 @@ export const DataAPI = (data, cache = {}, root={}) => {
   }
 
   const getWeaponCostAverage = (weapon, models, faction) => {
-    const weaponId = weapon.id || weapon;
-    const cachedPoints = getCache(models.map((model) => model.name).join('') + weaponId);
-    if (cachedPoints) {
-      return cachedPoints;
-    }
     const cost = mean((models).map((model) => {
       return getWeaponCostForModel(weapon, model, faction);
     }));
-    setCache(models.map((model) => model.name).join('') + weaponId, cost);
     return cost;
   }
 
   const getRuleCostAverage = (rule, models, faction) => {
-    const ruleId = rule.id || rule;
-    const cachedPoints = getCache(models.map((model) => model.name).join('') + ruleId);
-    if (cachedPoints) {
-      return cachedPoints;
-    }
     const cost = mean((models).map((model) => {
       return getRuleCostForModel(rule, model, faction);
     }));
-    setCache(models.map((model) => model.name).join('') + ruleId, cost);
     return cost;
   }
 
@@ -1431,33 +1411,10 @@ export const DataAPI = (data, cache = {}, root={}) => {
     return points;
   }
 
-  // const getAuraCost = (model, effect, func, faction) => {
-  //   const cachedPoints = getCache(faction.name + JSON.stringify(effect));
-  //   if (cachedPoints) {
-  //     return cachedPoints;
-  //   }
-  //   const filter = effect.filter || {};
-  //   const range = effect.range || 3;
-  //   // For every 3" of range add some to the cost
-  //   const rangeMult = (1 + Math.abs(((range - 3) / 3) * 0.25));
-  //   const models = effect.target === "enemy" ? getAllModels(dummyFaction, { filter }) : getAllModels(faction, { filter });
-  //   let meanCost = mean((models).map(func).filter((value) => !!value));
-  //   if (!meanCost) {
-  //     meanCost = 0;
-  //   }
-  //   const cost = meanCost * rangeMult;
-  //   setCache(faction.name + JSON.stringify(effect), cost);
-  //   return cost;
-  // }
-
   const getRuleCostForModel = (rule, model, faction) => {
     let points = 0;
     const ruleId = rule.id || rule;
     const ruleData = getRule(ruleId, faction);
-    const cachedPoints = getCache(faction.name + model.name + JSON.stringify(rule));
-    if (cachedPoints) {
-      return cachedPoints;
-    }
     const resolvedPoints = resolvePoints(ruleData.points || 0, {
       rule,
       model,
@@ -1756,7 +1713,6 @@ export const DataAPI = (data, cache = {}, root={}) => {
     //     }
     //   }
     // });
-    setCache(faction.name + model.name + JSON.stringify(rule));
     return points;
   }
 

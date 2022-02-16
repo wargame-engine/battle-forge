@@ -14,7 +14,7 @@ import Tabs from "@mui/material/Tabs";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import CustomCircularProgress from "components/CustomCircularProgress";
 import { Dropdown } from "components/dropdown";
-import { DataContext, PointsCacheContext } from "hooks";
+import { DataContext } from "hooks";
 import {
   get, isNil, set
 } from "lodash";
@@ -297,10 +297,9 @@ export default React.memo((props) => {
   const [filterByFocus, ] = useState(true);
   const [subfaction, setSubfaction] = useState("none");
   const [retryCount, setRetryCount] = useState(0);
-  const cache = useContext(PointsCacheContext);
   const game = get(someData, `gameData.games[${gameName}]`, {});
   const globalData = mergeGlobalData(game, someData);
-  const data = DataAPI(game, cache, globalData);
+  const data = DataAPI(game, globalData);
   const faction = filterByFocus
     ? data.getFactionWithSubfaction(factionName, subfaction)
     : data.getFaction(factionName);
