@@ -1063,7 +1063,7 @@ export const EditUnit = (props) => {
           </small>
         </DialogTitle>
         <DialogContent sx={{ p: 0 }}>
-          <Paper style={{ height: '100%', borderRadius: 0 }} sx={{ px: 2 }}>
+          <Paper style={{ height: '100%', borderRadius: 0, overflow: 'auto' }} sx={{ px: 2 }}>
             <FormControl fullWidth sx={{ mt: 2 }}>
               <TextField
                 fullWidth
