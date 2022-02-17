@@ -78,7 +78,7 @@ export default React.memo((props) => {
   const gameType = get(game, "gameType", "battle");
   const isSkirmish = gameType === "skirmish";
   const globalData = mergeGlobalData(game, someData);
-  const data = DataAPI(game, {}, globalData);
+  const data = DataAPI(game, globalData);
   const lists = get(someData, `lists[${gameName}]`, {});
   const fileDialog = React.useRef();
   const orgs = data.getRawOrganizations();
