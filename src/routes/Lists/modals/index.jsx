@@ -431,16 +431,16 @@ export const AddForce = (props) => {
                   return (
                     <ListItem
                       disablePadding
-                      secondaryAction={
-                        <IconButton
-                          sx={{}}
-                          onClick={() => {
-                            setSubFaction(subfaction.id);
-                          }}
-                        >
-                          <AddIcon />
-                        </IconButton>
-                      }
+                      // secondaryAction={
+                      //   <IconButton
+                      //     sx={{}}
+                      //     onClick={() => {
+                      //       setSubFaction(subfaction.id);
+                      //     }}
+                      //   >
+                      //     <AddIcon />
+                      //   </IconButton>
+                      // }
                     >
                       <ListItemButton
                         onClick={() => {
@@ -794,15 +794,16 @@ When a Fight or Shoot action is declared against a unit, it may attempt a Counte
 When a Fight, Shoot, or Charge action is declared against a unit, it may attempt an Escape reaction. If successful, the target unit may make a full move action before the Shoot, Fight or Charge action is performed.
 `;
 const ReferenceRules = styled.div`
+  h1, h2, h3, h4, h5, h6 {
+    margin-bottom: 0.25rem;
+  }
   h1 {
     font-size: 18pt;
     font-weight: bold;
-    padding-bottom: 0.25rem;
   }
   h2 {
     font-size: 16pt;
     margin-top: 0.5em;
-    padding-bottom: 0.25rem;
   }
   h3 {
     font-size: 14pt;
@@ -816,6 +817,7 @@ const ReferenceRules = styled.div`
     font-size: 12pt;
   }
   p {
+    margin-top: 0;
     break-inside: "avoid-column";
     page-break-inside: avoid; /* For Firefox. */
     -webkit-column-break-inside: avoid; /* For Chrome & friends. */

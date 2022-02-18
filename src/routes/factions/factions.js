@@ -65,7 +65,7 @@ export const Factions = (props) => {
                     >
                       <CardActionArea onClick={() => goToFaction(faction)}>
                         <CardHeader
-                          sx={{ backgroundColor: factionColor, color: textColor, p: 1.5 }}
+                          sx={{ backgroundColor: factionColor, color: textColor, p: 1 }}
                           title={
                             <Typography
                               variant="h5"
@@ -124,7 +124,7 @@ export const Factions = (props) => {
                             alt="green iguana"
                           />
                         )}
-                        <CardContent>
+                        <CardContent sx={{ p: 1.5 }}>
                           <Typography>
                             {faction.description || " "}
                           </Typography>

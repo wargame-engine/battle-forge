@@ -22,109 +22,10 @@ import { useSnackbar } from "notistack";
 import React from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { useLocation } from "react-router-dom";
-import Tour from "reactour";
 import { AddList, UpdateList } from 'routes/rosters/modals';
 import { DataAPI, mergeGlobalData } from "utils/data";
 import { downloadFile, readFileContent } from "utils/files";
 import { v4 as uuidv4 } from "uuid";
-
-const allSteps = [];
-const steps = [
-  [
-    {
-      selector: "#tab-0",
-      content:
-        "This is the module overview. This gives you background information and an overview of the game module.",
-      stepInteraction: false,
-    },
-  ],
-  [
-    {
-      selector: "#tab-1",
-      content:
-        "These are the game rules. This gives you the core rules of the game module.",
-      stepInteraction: false,
-    },
-    {
-      selector: ".terrain-card:first-of-type",
-      content:
-        "This is a piece of terrain. It contains a brief description of what it might look like and any assocaited rules.",
-      stepInteraction: false,
-    },
-    {
-      selector: ".mission-card:first-of-type",
-      content:
-        "This is a scenario. Each scenario has its own way to score victory points and deployment conditions.",
-      stepInteraction: false,
-    },
-    {
-      selector: ".secondary-card:first-of-type",
-      content:
-        "This is a secondary objective. Player can select one of these to be the secondary objective for the mission.",
-      stepInteraction: false,
-    },
-    {
-      selector: ".twist-card:first-of-type",
-      content:
-        "This is a twist. Player can select one of these to add an interesting twist to the mission.",
-      stepInteraction: false,
-    },
-  ],
-  [
-    {
-      selector: "#tab-4",
-      content:
-        "This is the factions list. This gives you a list of all factions in the module. Factions can sometimes be grouped into alliances.",
-      stepInteraction: false,
-    },
-    {
-      selector: ".faction-card:first-of-type",
-      content:
-        "This is a faction. It contains a brief description of the faction and clicking on it will bring you to the roster for that faction.",
-      stepInteraction: false,
-    },
-  ],
-  [
-    {
-      selector: "#tab-3",
-      content:
-        "This is the scenarios tab. It can give you a random scenario to play with optional parameters.",
-      stepInteraction: false,
-    },
-    {
-      selector: "#generateScenario",
-      content:
-        "Pressing this button will generate a new scenario for you to play with a random mission, secondary and optional twist.",
-      stepInteraction: false,
-    },
-  ],
-  [
-    {
-      selector: "#tab-4",
-      content:
-        "This is the rosters tab. It allows you to create rosters to play this game module.",
-      stepInteraction: false,
-    },
-    {
-      selector: "#createList",
-      content:
-        "Pressing this button will open the force creator and allow you to give the force a name and choose a type.",
-      stepInteraction: false,
-    },
-    {
-      selector: "#importList",
-      content:
-        "Pressing this button will allow you to import a force from a file into the force manager.",
-      stepInteraction: false,
-    },
-    {
-      selector: "#list-manager",
-      content:
-        "This is the force manager. It contains all your previously created lists. You can click on the name of a list to go to it or click the ellipses to edit or delete the list properties.",
-      stepInteraction: false,
-    },
-  ],
-];
 
 export default React.memo((props) => {
   const { gameName } = useParams();
@@ -142,15 +43,12 @@ export default React.memo((props) => {
     },
   ] = React.useContext(DataContext);
   const nameFilter = appState?.searchText;
-  const [isTourOpen, setIsTourOpen] = React.useState(false);
   const fileDialog = React.useRef();
   const navigate = useNavigate();
   // const theme = useTheme();
   const location = useLocation();
   const queryParams = React.useMemo(() => new URLSearchParams(location.search), [location.search]);
   const shareData = queryParams?.get("listShare");
-    // Default active tab!!!
-    const [activeTab] = React.useState(get(appState, "factionTab", 2));
     const game = get(nope, `gameData.games[${gameName}]`, {});
     const coreGame = get(coreData, `gameData.games[${gameName}]`, {});
     React.useEffect(() => {
@@ -416,7 +314,7 @@ export default React.memo((props) => {
             sx={{ backgroundColor: factionColor, color: textColor, py: 1 }}
             title={
               <>
-                <Typography variant="h5" component="div">
+                <Typography fontSize="1.25rem" fontWeight="bold" component="div">
                   Manage Rosters
                 </Typography>
               </>
@@ -448,9 +346,9 @@ export default React.memo((props) => {
                     >
                       <ListSubheader sx={{ flex: 1, backgroundColor: 'background.paper', color: 'inherit' }}>
                         <Typography
-                          sx={{ py: 1 }}
-                          fontWeight="bold"
-                          variant="h6"
+                            sx={{ py: 1.5 }}
+                            fontWeight="bold"
+                            variant="h6"
                         >
                           {category.name}
                         </Typography>
@@ -520,11 +418,10 @@ export default React.memo((props) => {
                               disablePadding
                             >
                               <ListItemButton
+                                sx={{ py: 1.5 }}
                                 onClick={() => goToList(list.id)}
                               >
-                                <ListItemText
-                                  primary={list.name}
-                                />
+                                {list.name}
                               </ListItemButton>
                             </ListItem>
                           </>
@@ -540,19 +437,6 @@ export default React.memo((props) => {
           </CardContent>
         </Card>
       </>
-      <Tour
-        accentColor={`rgb(57, 110, 158)`}
-        className="tour"
-        key={activeTab}
-        steps={[...allSteps, ...(steps[activeTab] || [])]}
-        isOpen={isTourOpen}
-        onRequestClose={() => {
-          setIsTourOpen(false);
-        }}
-        rounded={5}
-        onAfterOpen={(target) => (document.body.style.overflowY = "hidden")}
-        onBeforeClose={(target) => (document.body.style.overflowY = "auto")}
-      />
       <input
         id="file-Form.Control"
         type="file"

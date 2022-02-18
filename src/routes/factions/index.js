@@ -18,12 +18,12 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import CustomCircularProgress from "components/CustomCircularProgress";
 import { Dropdown } from "components/dropdown";
 import { DataContext } from "hooks";
+import useQueryParams from 'hooks/use-query-params';
 import { get, omitBy } from "lodash";
 import { set } from "lodash/fp";
 import { useSnackbar } from "notistack";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { useParams } from "react-router";
-import Tour from "reactour";
 import { DataAPI, mergeGlobalData } from "utils/data";
 import { readFileContent } from "utils/files";
 import { v4 as uuidv4 } from "uuid";
@@ -31,105 +31,6 @@ import { Factions } from "./factions";
 import { MissionGenerator } from "./mission_generator";
 import { Overview } from "./overview";
 import { Rules } from "./rules";
-
-
-const allSteps = [];
-const steps = [
-  [
-    {
-      selector: "#tab-0",
-      content:
-        "This is the module overview. This gives you background information and an overview of the game module.",
-      stepInteraction: false,
-    },
-  ],
-  [
-    {
-      selector: "#tab-1",
-      content:
-        "These are the game rules. This gives you the core rules of the game module.",
-      stepInteraction: false,
-    },
-    {
-      selector: ".terrain-card:first-of-type",
-      content:
-        "This is a piece of terrain. It contains a brief description of what it might look like and any assocaited rules.",
-      stepInteraction: false,
-    },
-    {
-      selector: ".mission-card:first-of-type",
-      content:
-        "This is a scenario. Each scenario has its own way to score victory points and deployment conditions.",
-      stepInteraction: false,
-    },
-    {
-      selector: ".secondary-card:first-of-type",
-      content:
-        "This is a secondary objective. Player can select one of these to be the secondary objective for the mission.",
-      stepInteraction: false,
-    },
-    {
-      selector: ".twist-card:first-of-type",
-      content:
-        "This is a twist. Player can select one of these to add an interesting twist to the mission.",
-      stepInteraction: false,
-    },
-  ],
-  [
-    {
-      selector: "#tab-4",
-      content:
-        "This is the factions list. This gives you a list of all factions in the module. Factions can sometimes be grouped into alliances.",
-      stepInteraction: false,
-    },
-    {
-      selector: ".faction-card:first-of-type",
-      content:
-        "This is a faction. It contains a brief description of the faction and clicking on it will bring you to the roster for that faction.",
-      stepInteraction: false,
-    },
-  ],
-  [
-    {
-      selector: "#tab-3",
-      content:
-        "This is the scenarios tab. It can give you a random scenario to play with optional parameters.",
-      stepInteraction: false,
-    },
-    {
-      selector: "#generateScenario",
-      content:
-        "Pressing this button will generate a new scenario for you to play with a random mission, secondary and optional twist.",
-      stepInteraction: false,
-    },
-  ],
-  [
-    {
-      selector: "#tab-4",
-      content:
-        "This is the rosters tab. It allows you to create rosters to play this game module.",
-      stepInteraction: false,
-    },
-    {
-      selector: "#createList",
-      content:
-        "Pressing this button will open the force creator and allow you to give the force a name and choose a type.",
-      stepInteraction: false,
-    },
-    {
-      selector: "#importList",
-      content:
-        "Pressing this button will allow you to import a force from a file into the force manager.",
-      stepInteraction: false,
-    },
-    {
-      selector: "#list-manager",
-      content:
-        "This is the force manager. It contains all your previously created lists. You can click on the name of a list to go to it or click the ellipses to edit or delete the list properties.",
-      stepInteraction: false,
-    },
-  ],
-];
 
 const FactionsMain = () => {
   const { gameName } = useParams();
@@ -147,24 +48,11 @@ const FactionsMain = () => {
     },
   ] = useContext(DataContext);
   const nameFilter = appState?.searchText;
-  const [isTourOpen, setIsTourOpen] = useState(false);
+  
   const fileDialog = React.useRef();
   // const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  // const addList = (listName, data) => {
-  //   const listId = uuidv4();
-  //   setLists({
-  //     ...lists,
-  //     [listId]: {
-  //       name: listName,
-  //       ...data,
-  //     },
-  //   });
-  //   goToList(listId);
-  // };
-  // const goToList = (listId) =>
-  //   navigate(`/games/${gameName}/lists/${listId}`);
   const handleClick = () => {
     fileDialog.current.click();
   };
@@ -176,7 +64,7 @@ const FactionsMain = () => {
     }
   }, [coreData, coreGame.factions, fetchGame, game.factions, gameName, isLoading]);
   // Default active tab!!!
-  const [activeTab, setActiveTab] = useState(get(appState, "factionTab", 2));
+  let [ activeTab, setActiveTab ] = useQueryParams("tab", 2);
   const globalData = mergeGlobalData(game, nope);
   const data = DataAPI(game, globalData);
   const { enqueueSnackbar } = useSnackbar();
@@ -441,13 +329,6 @@ const FactionsMain = () => {
   ).length;
   return (
     <Container>
-      {/* {!bannerHidden && (
-        <Alert sx={{ mb: 2 }} severity="info" variant="filled" onClose={hideBanner}> <Link onClick={() => {
-          setActiveTab(4);
-          hideBanner();
-        }} color="inherit">Click here to try the new Roster creator to create a list.</Link>
-        </Alert>
-      )} */}
       <Typography variant="h3" align="center" sx={{ mb: 2 }}>
         {!!isModified && (
           <Dropdown>
@@ -487,42 +368,6 @@ const FactionsMain = () => {
             )}
           </Dropdown>
         )}
-        {/* {!!game.author && (
-          <Dropdown>
-            {({ handleClose, open, handleOpen, anchorElement }) => (
-              <>
-                <IconButton
-                  aria-haspopup="true"
-                  onClick={handleOpen}
-                  onMouseEnter={handleOpen}
-                  onMouseLeave={handleClose} style={{ marginRight: '5px' }}>
-                  <PersonIcon />
-                </IconButton>
-                <Popover
-                  variant="warning"
-                  id="mouse-over-popover"
-                  sx={{
-                    pointerEvents: 'none',
-                  }}
-                  open={open}
-                  anchorEl={anchorElement}
-                  anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'center',
-                  }}
-                  transformOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'center',
-                  }}
-                  onClose={handleClose}
-                  disableRestoreFocus
-                >
-                  <Typography sx={{ p: 1 }}>{`Written by ${game.author}`}</Typography>
-                </Popover>
-              </>
-            )}
-          </Dropdown>
-        )} */}
         {game.name}
         <small style={{ marginLeft: '5px', fontSize: '1rem' }}> {game.version ? `(${game.version})` : ""}</small>
       </Typography>
@@ -538,7 +383,7 @@ const FactionsMain = () => {
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <Tabs
               variant="scrollable"
-              value={activeTab}
+              value={parseInt(activeTab) || 0}
               onChange={handleChange}
             >
               {Object.keys(TABS).map((tab, index) => (
@@ -555,19 +400,6 @@ const FactionsMain = () => {
       <div>
         {Object.values(TABS)[activeTab]}
       </div>
-      <Tour
-        accentColor={`rgb(57, 110, 158)`}
-        className="tour"
-        key={activeTab}
-        steps={[...allSteps, ...(steps[activeTab] || [])]}
-        isOpen={isTourOpen}
-        onRequestClose={() => {
-          setIsTourOpen(false);
-        }}
-        rounded={5}
-        onAfterOpen={(target) => (document.body.style.overflowY = "hidden")}
-        onBeforeClose={(target) => (document.body.style.overflowY = "auto")}
-      />
       <input
         id="file-Form.Control"
         type="file"

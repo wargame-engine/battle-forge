@@ -6,6 +6,7 @@ import {
   Box, Card, CardActionArea, CardContent, Grid, Stack, Typography
 } from "@mui/material";
 import Container from "@mui/material/Container";
+import { useTheme } from '@mui/material/styles';
 import logo from "assets/battle_forged_wide.png";
 import Gallery from 'components/gallery';
 import { shuffle } from "lodash";
@@ -23,6 +24,7 @@ import { MaterialRenderer } from "utils/markdown";
 
 export default function Home() {
   const navigate = useNavigate();
+  const theme = useTheme();
   const images = React.useMemo(() => shuffle(getHeaders()), []);
   const iconSize = '70px';
   const mrender = MaterialRenderer();
@@ -114,7 +116,6 @@ export default function Home() {
             <Grid item sm={6} md={4}>
               <Card
                 sx={{
-                  backgroundColor: card.color,
                   color: "white",
                 }}
               >
@@ -132,7 +133,7 @@ export default function Home() {
                       alignItems="center"
                       justifyContent="center"
                     >
-                      <Box sx={{ mr: 2 }}>{card.icon}</Box>
+                      <Box sx={{ mr: 2, color: theme.palette.primary.main }}>{card.icon}</Box>
                       <Stack>
                         <Typography variant="h4" component="div">
                           {card.name}
@@ -187,7 +188,7 @@ export default function Home() {
               flexDirection="column"
             >
               <div style={{ padding: "5px" }}>
-                <ChessPawn style={{ fontSize: '100px', color: colors.blue.import[800] }} />
+                <ChessPawn style={{ fontSize: '100px', color: theme.palette.primary.main }} />
               </div>
               <Typography variant="h5" gutterBottom>Strategic Gameplay</Typography>
               <Typography paragraph>
@@ -216,7 +217,7 @@ export default function Home() {
             >
               <div style={{ padding: "5px" }}>
                 <PhoneAndroidIcon
-                  style={{ fontSize: '100px', color: colors.green.import[800] }}
+                  style={{ fontSize: '100px', color: theme.palette.primary.main }}
                 />
               </div>
               <Typography variant="h5" gutterBottom>Living Rules</Typography>
@@ -242,7 +243,7 @@ export default function Home() {
             >
               <div style={{ padding: "10px" }}>
                 <BuildIcon
-                  style={{ fontSize: '100px', color: colors.gray.import[800] }}
+                  style={{ fontSize: '100px', color: theme.palette.primary.main }}
                 />
               </div>
               <Typography variant="h5" gutterBottom>Fully Mod-able</Typography>
@@ -262,33 +263,6 @@ export default function Home() {
             </Box>
           </Grid>
         </Grid>
-        {/* <Stack
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          flexDirection="row"
-          direction="row"
-          spacing={2}
-        >
-          <Button
-            variant="contained"
-            startIcon={<FontAwesomeIcon icon={faPencilAlt} />}
-            onClick={() => {
-              window.open("https://github.com/wargame-engine");
-            }}
-          >
-            {"Contribute"}
-          </Button>
-          <Button
-            variant="contained"
-            startIcon={<FontAwesomeIcon icon={faMoneyBillWave} />}
-            onClick={() => {
-              window.open("https://www.patreon.com/bePatron?u=36845786");
-            }}
-          >
-            {"Support"}
-          </Button>
-        </Stack> */}
       </Container>
     </>
   );

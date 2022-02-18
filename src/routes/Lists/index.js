@@ -100,7 +100,7 @@ export default React.memo((props) => {
     { label: "Narrative", value: "narrative" },
     { label: "Campaign", value: "campaign" },
   ];
-  const calculateUnitPoints = (
+  const calculateUnitPoints = React.useCallback((
     unit,
     faction,
     options,
@@ -146,95 +146,158 @@ export default React.memo((props) => {
       );
     });
     return cost;
-  };
-  const forces = get(list, "forces", [])
-    .filter(
-      (force) =>
-        !!data.getFactionWithSubfaction(
-          force.factionId,
-          force.subFactionId || "none"
-        )
-    )
-    .map((force, forceId) => {
-      const forceFaction = data.getFactionWithSubfaction(
-        force.factionId,
-        force.subFactionId || "none"
-      );
-      if (!get(forceFaction, "units")) {
-        return force;
-      }
-      const forceReserves = get(list, `reserves[${force.factionId}]`, []);
-      const availablePerks = new Set(
-        data.getPerks(forceFaction).map((perk) => perk.id)
-      );
-      const availableSetbacks = new Set(
-        data.getSetbacks(forceFaction).map((setback) => setback.id)
-      );
-      const forceUnits = get(force, "units", []);
-      const processUnits = (daUnits) => {
-        return daUnits
-          .filter((theUnit) => !!data.getUnit(forceFaction, theUnit.id))
-          .map((theUnit, unitId) => {
-            const unitKey = theUnit.id;
-            const unit = data.getUnit(forceFaction, unitKey);
-            const selectedOptions = get(theUnit, `selectedOptions`, []);
-            // Get raw option list
-            let optionList = data.getOptionsList(unit, forceFaction);
-            const modelCounts = {};
-            get(unit, "models", []).forEach((model, index) => {
-              const count = model.min || 0;
-              if (!isNil(modelCounts[index])) {
-                modelCounts[index] += count;
-              } else {
-                modelCounts[index] = count;
-              }
-            });
-            optionList.forEach((option, idx) => {
-              option.list.forEach((optItem, optIdx) => {
-                const selections = get(
-                  selectedOptions,
-                  `[${idx}][${optIdx}]`,
-                  0
-                );
-                const optModels = get(optItem, "modelIds", [])
-                  .flat()
-                  .map((model) => model.id || model);
-                optModels.forEach((model) => {
-                  if (!isNil(modelCounts[model])) {
-                    modelCounts[model] += selections;
-                  } else {
-                    modelCounts[model] = selections;
-                  }
-                });
+  }, [data]);
+  const mapForces = React.useCallback((force, forceId) => {
+    const forceFaction = data.getFactionWithSubfaction(
+      force.factionId,
+      force.subFactionId || "none"
+    );
+    if (!get(forceFaction, "units")) {
+      return force;
+    }
+    const forceReserves = get(list, `reserves[${force.factionId}]`, []);
+    const availablePerks = new Set(
+      data.getPerks(forceFaction).map((perk) => perk.id)
+    );
+    const availableSetbacks = new Set(
+      data.getSetbacks(forceFaction).map((setback) => setback.id)
+    );
+    const forceUnits = get(force, "units", []);
+    const processUnits = (daUnits) => {
+      return daUnits
+        .filter((theUnit) => !!data.getUnit(forceFaction, theUnit.id))
+        .map((theUnit, unitId) => {
+          const unitKey = theUnit.id;
+          const unit = data.getUnit(forceFaction, unitKey);
+          const selectedOptions = get(theUnit, `selectedOptions`, []);
+          // Get raw option list
+          let optionList = data.getOptionsList(unit, forceFaction);
+          const modelCounts = {};
+          get(unit, "models", []).forEach((model, index) => {
+            const count = model.min || 0;
+            if (!isNil(modelCounts[index])) {
+              modelCounts[index] += count;
+            } else {
+              modelCounts[index] = count;
+            }
+          });
+          optionList.forEach((option, idx) => {
+            option.list.forEach((optItem, optIdx) => {
+              const selections = get(
+                selectedOptions,
+                `[${idx}][${optIdx}]`,
+                0
+              );
+              const optModels = get(optItem, "modelIds", [])
+                .flat()
+                .map((model) => model.id || model);
+              optModels.forEach((model) => {
+                if (!isNil(modelCounts[model])) {
+                  modelCounts[model] += selections;
+                } else {
+                  modelCounts[model] = selections;
+                }
               });
             });
-            const oldModelCounts = { ...modelCounts };
-            optionList.forEach((option, idx) => {
-              option.list.forEach((optItem, optIdx) => {
-                const selections = get(
-                  selectedOptions,
-                  `[${idx}][${optIdx}]`,
-                  0
-                );
-                const optReplacedModels = get(optItem, "replacedModel", [])
-                  .flat()
-                  .map((model) => model.id || model);
-                optReplacedModels.forEach((model) => {
-                  if (!isNil(modelCounts[model])) {
-                    modelCounts[model] -= selections;
-                  } else {
-                    modelCounts[model] = -selections;
-                  }
-                });
+          });
+          const oldModelCounts = { ...modelCounts };
+          optionList.forEach((option, idx) => {
+            option.list.forEach((optItem, optIdx) => {
+              const selections = get(
+                selectedOptions,
+                `[${idx}][${optIdx}]`,
+                0
+              );
+              const optReplacedModels = get(optItem, "replacedModel", [])
+                .flat()
+                .map((model) => model.id || model);
+              optReplacedModels.forEach((model) => {
+                if (!isNil(modelCounts[model])) {
+                  modelCounts[model] -= selections;
+                } else {
+                  modelCounts[model] = -selections;
+                }
               });
             });
-            // Adjust for model counts
-            optionList = data.getOptionsList(unit, forceFaction, {
-              selectedModels: modelCounts,
-              selectedModelsRaw: oldModelCounts,
-            });
-            const selectedModels = uniqBy(
+          });
+          // Adjust for model counts
+          optionList = data.getOptionsList(unit, forceFaction, {
+            selectedModels: modelCounts,
+            selectedModelsRaw: oldModelCounts,
+          });
+          const selectedModels = uniqBy(
+            [
+              ...optionList.map((option, idx) => {
+                return [
+                  ...option.list
+                    .filter((optItem, optIdx) => {
+                      const selections = get(
+                        selectedOptions,
+                        `[${idx}][${optIdx}]`,
+                        0
+                      );
+                      return selections > 0;
+                    })
+                    .map((opt) => get(opt, "model", []).flat())
+                    .flat(),
+                ];
+              }, []),
+            ].flat(),
+            (item) => item.id || item
+          );
+          const unitModels = [
+            ...get(unit, "models", []),
+            ...data.getModelList(selectedModels, forceFaction),
+          ];
+          const selectedPerks = get(theUnit, "selectedPerks", []).filter(
+            (perk) => availablePerks.has(perk)
+          );
+          const selectedSetbacks = get(
+            theUnit,
+            "selectedSetbacks",
+            []
+          ).filter((setback) => availableSetbacks.has(setback));
+          const thing = {
+            ...unit,
+            customName: theUnit.customName,
+            experience: theUnit.experience,
+            modelCounts,
+            selectedOptionsList: optionList
+              .map((option, idx) => {
+                return {
+                  ...option,
+                  list: option.list
+                    .map((optItem, optIdx) => {
+                      const selections = get(
+                        selectedOptions,
+                        `[${idx}][${optIdx}]`,
+                        0
+                      );
+                      return {
+                        ...optItem,
+                        text:
+                          optItem.text +
+                          ` (${selections} ${selections > 1 ? "selections" : "selection"
+                          })`,
+                      };
+                    })
+                    .filter((optItem, optIdx) => {
+                      const selections = get(
+                        selectedOptions,
+                        `[${idx}][${optIdx}]`,
+                        0
+                      );
+                      return selections > 0;
+                    }),
+                };
+              })
+              .filter((option) => option.list.length),
+            selectedModels,
+            selectedWeapons: uniqBy(
               [
+                ...unitModels
+                  .map((model) => get(model, "weapons", []))
+                  .flat(),
                 ...optionList.map((option, idx) => {
                   return [
                     ...option.list
@@ -246,49 +309,20 @@ export default React.memo((props) => {
                         );
                         return selections > 0;
                       })
-                      .map((opt) => get(opt, "model", []).flat())
+                      .map((opt) => get(opt, "weapons", []).flat())
                       .flat(),
                   ];
                 }, []),
               ].flat(),
               (item) => item.id || item
-            );
-            const unitModels = [
-              ...get(unit, "models", []),
-              ...data.getModelList(selectedModels, forceFaction),
-            ];
-            const selectedPerks = get(theUnit, "selectedPerks", []).filter(
-              (perk) => availablePerks.has(perk)
-            );
-            const selectedSetbacks = get(
-              theUnit,
-              "selectedSetbacks",
-              []
-            ).filter((setback) => availableSetbacks.has(setback));
-            const thing = {
-              ...unit,
-              customName: theUnit.customName,
-              experience: theUnit.experience,
-              modelCounts,
-              selectedOptionsList: optionList
-                .map((option, idx) => {
-                  return {
-                    ...option,
-                    list: option.list
-                      .map((optItem, optIdx) => {
-                        const selections = get(
-                          selectedOptions,
-                          `[${idx}][${optIdx}]`,
-                          0
-                        );
-                        return {
-                          ...optItem,
-                          text:
-                            optItem.text +
-                            ` (${selections} ${selections > 1 ? "selections" : "selection"
-                            })`,
-                        };
-                      })
+            ),
+            selectedRules: uniqBy(
+              [
+                ...get(unit, "rules", []),
+                ...unitModels.map((model) => get(model, "rules", [])).flat(),
+                ...optionList.map((option, idx) => {
+                  return [
+                    ...option.list
                       .filter((optItem, optIdx) => {
                         const selections = get(
                           selectedOptions,
@@ -296,100 +330,67 @@ export default React.memo((props) => {
                           0
                         );
                         return selections > 0;
-                      }),
-                  };
-                })
-                .filter((option) => option.list.length),
-              selectedModels,
-              selectedWeapons: uniqBy(
-                [
-                  ...unitModels
-                    .map((model) => get(model, "weapons", []))
-                    .flat(),
-                  ...optionList.map((option, idx) => {
-                    return [
-                      ...option.list
-                        .filter((optItem, optIdx) => {
-                          const selections = get(
-                            selectedOptions,
-                            `[${idx}][${optIdx}]`,
-                            0
-                          );
-                          return selections > 0;
-                        })
-                        .map((opt) => get(opt, "weapons", []).flat())
-                        .flat(),
-                    ];
-                  }, []),
-                ].flat(),
-                (item) => item.id || item
-              ),
-              selectedRules: uniqBy(
-                [
-                  ...get(unit, "rules", []),
-                  ...unitModels.map((model) => get(model, "rules", [])).flat(),
-                  ...optionList.map((option, idx) => {
-                    return [
-                      ...option.list
-                        .filter((optItem, optIdx) => {
-                          const selections = get(
-                            selectedOptions,
-                            `[${idx}][${optIdx}]`,
-                            0
-                          );
-                          return selections > 0;
-                        })
-                        .map((opt) => get(opt, "rules", []).flat())
-                        .flat(),
-                    ];
-                  }, []),
-                ].flat(),
-                (item) => item.id || item
-              ),
-              id: unitId,
-              optionList,
-              selectedPerks,
-              selectedSetbacks,
-              totalModels: sum(Object.values(modelCounts)),
-              selectedOptions: optionList.map((option, idx) => {
-                if (option.list) {
-                  const indValue = get(selectedOptions, `[${idx}]`, []);
-                  return option.list.map((opt, optIdx) =>
-                    !isNil(indValue[optIdx]) ? indValue[optIdx] : 0
-                  );
-                }
-                return !isNil(selectedOptions[idx]) ? selectedOptions[idx] : [];
-              }),
-              powerSpecialty: theUnit?.powerSpecialty
-            };
-            thing.points = calculateUnitPoints(
-              thing,
-              forceFaction,
-              optionList,
-              selectedOptions,
-              selectedPerks,
-              selectedSetbacks
-            );
-            return thing;
-          });
-      };
-      return {
-        ...force,
-        ...get(orgs, `[${force.id}]`, {}),
-        faction: forceFaction,
-        legends: get(force, "legends", []).map((theLegend, relicId) => {
-          const legendKey = theLegend.id;
-          const relic = data.getRelic(forceFaction, legendKey);
-          return {
-            ...relic,
-            id: relicId,
-            points: data.getRelicCost(relic, forceFaction),
+                      })
+                      .map((opt) => get(opt, "rules", []).flat())
+                      .flat(),
+                  ];
+                }, []),
+              ].flat(),
+              (item) => item.id || item
+            ),
+            id: unitId,
+            optionList,
+            selectedPerks,
+            selectedSetbacks,
+            totalModels: sum(Object.values(modelCounts)),
+            selectedOptions: optionList.map((option, idx) => {
+              if (option.list) {
+                const indValue = get(selectedOptions, `[${idx}]`, []);
+                return option.list.map((opt, optIdx) =>
+                  !isNil(indValue[optIdx]) ? indValue[optIdx] : 0
+                );
+              }
+              return !isNil(selectedOptions[idx]) ? selectedOptions[idx] : [];
+            }),
+            powerSpecialty: theUnit?.powerSpecialty
           };
-        }),
-        units: processUnits(forceUnits),
-        reserves: processUnits(forceReserves),
-      };
-    });
+          thing.points = calculateUnitPoints(
+            thing,
+            forceFaction,
+            optionList,
+            selectedOptions,
+            selectedPerks,
+            selectedSetbacks
+          );
+          return thing;
+        });
+    };
+    return {
+      ...force,
+      ...get(orgs, `[${force.id}]`, {}),
+      faction: forceFaction,
+      legends: get(force, "legends", []).map((theLegend, relicId) => {
+        const legendKey = theLegend.id;
+        const relic = data.getRelic(forceFaction, legendKey);
+        return {
+          ...relic,
+          id: relicId,
+          points: data.getRelicCost(relic, forceFaction),
+        };
+      }),
+      units: processUnits(forceUnits),
+      reserves: processUnits(forceReserves),
+    };
+  }, [calculateUnitPoints, data, list, orgs]);
+  const forces = React.useMemo(() => get(list, "forces", [])
+    .filter(
+      (force) =>
+        !!data.getFactionWithSubfaction(
+          force.factionId,
+          force.subFactionId || "none"
+        )
+    )
+    .map(mapForces), [data, list, mapForces]);
   const forceFactionIds = get(list, "forces", [])
     .map((force) => force.factionId)
     .join(",");
@@ -901,8 +902,7 @@ export default React.memo((props) => {
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ editMode ]);
-  // const [dialOpen, setDialOpen] = React.useState(false);
+  }, [editMode]);
   if (!someData || !allFactionsLoaded) {
     return (
       <Box sx={{ textAlign: "center" }}>
@@ -1051,7 +1051,7 @@ export default React.memo((props) => {
           <CardHeader
             sx={{ backgroundColor: "rgb(57, 110, 158)", color: "white", py: 1 }}
             title={
-              <Typography variant="h5" component="div">
+              <Typography fontSize="1.25rem" fontWeight="bold" component="div">
                 Game Trackers
               </Typography>
             }
@@ -1150,7 +1150,7 @@ export default React.memo((props) => {
                 sx={{ backgroundColor: factionColor, color: textColor, py: 1 }}
                 title={
                   <>
-                    <Typography variant="h5" component="div">
+                    <Typography fontSize="1.25rem" fontWeight="bold" component="div">
                       {`${forceFaction.name} ${!forceSubFactionId || forceSubFactionId === "none"
                         ? ""
                         : `(${forceSubfaction.name})`
@@ -1272,7 +1272,7 @@ export default React.memo((props) => {
                               {!!editMode && (
                                 <IconButton
                                   disabled={filteredLegends?.length === 0}
-                                  sx={{ }}
+                                  sx={{}}
                                   onClick={() =>
                                     showAddLegend({
                                       forceId: index,
@@ -1289,7 +1289,7 @@ export default React.memo((props) => {
                         >
                           <ListSubheader sx={{ flex: 1, zIndex: 0, color: 'inherit' }}>
                             <Typography
-                              sx={{ py: 1 }}
+                              sx={{ py: 1.5 }}
                               fontWeight="bold"
                               variant="h6"
                             >
@@ -1306,7 +1306,7 @@ export default React.memo((props) => {
                                   <Dropdown>
                                     {({ handleClose, open, handleOpen, anchorElement }) => (
                                       <>
-                                        <IconButton sx={{ }} onClick={handleOpen}>
+                                        <IconButton sx={{}} onClick={handleOpen}>
                                           <MoreVertIcon />
                                         </IconButton>
                                         <Menu
@@ -1356,6 +1356,7 @@ export default React.memo((props) => {
                                 disablePadding
                               >
                                 <ListItemButton
+                                  sx={{ py: 1.5 }}
                                   onClick={(event) => {
                                     event.preventDefault();
                                     showViewLegend({
@@ -1364,13 +1365,9 @@ export default React.memo((props) => {
                                     });
                                   }}
                                 >
-                                  <ListItemText
-                                    primary={
-                                      <>
-                                        {legend.name} {`(${legend.points} pts)`}
-                                      </>
-                                    }
-                                  />
+                                  <>
+                                    {legend.name} {`(${legend.points} pts)`}
+                                  </>
                                 </ListItemButton>
                               </ListItem>
                             </>
@@ -1395,7 +1392,7 @@ export default React.memo((props) => {
                             <>
                               {!!editMode && (
                                 <IconButton
-                                  sx={{ }}
+                                  sx={{}}
                                   disabled={unitCatCount === 0}
                                   onClick={() =>
                                     showAddUnit({
@@ -1416,9 +1413,8 @@ export default React.memo((props) => {
                         >
                           <ListSubheader sx={{ flex: 1, zIndex: 0, backgroundColor: 'background.paper', color: 'inherit' }}>
                             <Typography
-                              sx={{ py: 1 }}
+                              sx={{ py: 1.5 }}
                               fontWeight="bold"
-                              variant="h6"
                             >
                               {category.name}{" "}
                               {listType !== "narrative"
@@ -1453,7 +1449,7 @@ export default React.memo((props) => {
                                     <Dropdown>
                                       {({ handleClose, open, handleOpen, anchorElement }) => (
                                         <>
-                                          <IconButton sx={{ }} onClick={handleOpen}>
+                                          <IconButton sx={{}} onClick={handleOpen}>
                                             <MoreVertIcon />
                                           </IconButton>
                                           <Menu
@@ -1574,6 +1570,7 @@ export default React.memo((props) => {
                                   disablePadding
                                 >
                                   <ListItemButton
+                                    sx={{ py: 1.5 }}
                                     onClick={(event) => {
                                       event.preventDefault();
                                       showViewUnit({
@@ -1582,29 +1579,25 @@ export default React.memo((props) => {
                                       });
                                     }}
                                   >
-                                    <ListItemText
-                                      primary={
-                                        <>
-                                          <span style={{ marginRight: '5px' }}>{unit.customName || unit.name}
-                                          </span>{`(${unit.points} pts)`}
-                                          <span className="badge badge-success">
-                                            {listType === "campaign" &&
-                                              unitLevel > 0
-                                              ? ` ${formatLevel(unitLevel)}`
-                                              : ""}
-                                          </span>
-                                          <span className="badge badge-danger">
-                                            {listType === "campaign" &&
-                                              unitSetbacksCount > 0
-                                              ? `${unitSetbacksCount} ${unitSetbacksCount > 1
-                                                ? "Injuries"
-                                                : "Injury"
-                                              }`
-                                              : ""}
-                                          </span>
-                                        </>
-                                      }
-                                    />
+                                    <>
+                                      <span style={{ marginRight: '5px' }}>{unit.customName || unit.name}
+                                      </span>{`(${unit.points} pts)`}
+                                      <span className="badge badge-success">
+                                        {listType === "campaign" &&
+                                          unitLevel > 0
+                                          ? ` ${formatLevel(unitLevel)}`
+                                          : ""}
+                                      </span>
+                                      <span className="badge badge-danger">
+                                        {listType === "campaign" &&
+                                          unitSetbacksCount > 0
+                                          ? `${unitSetbacksCount} ${unitSetbacksCount > 1
+                                            ? "Injuries"
+                                            : "Injury"
+                                          }`
+                                          : ""}
+                                      </span>
+                                    </>
                                   </ListItemButton>
                                 </ListItem>
                               </>

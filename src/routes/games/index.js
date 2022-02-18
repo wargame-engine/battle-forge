@@ -22,35 +22,13 @@ import Typography from "@mui/material/Typography";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { Dropdown } from "components/dropdown";
 import { DataContext } from "hooks";
+import useQueryParams from 'hooks/use-query-params';
 import { get, groupBy, omit, sortBy } from "lodash";
 import { useSnackbar } from "notistack";
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from 'react-router-dom';
-import Tour from "reactour";
 import { readFileContent } from "utils/files";
 import "./games.css";
-import useQueryParams from 'hooks/use-query-params';
-
-const steps = [
-  {
-    selector: "#gameTypeTabs",
-    content:
-      "This is the list of game types. Each game type has its own core rules set and all modules share the same core rules.",
-    stepInteraction: false,
-  },
-  {
-    selector: "#gameList",
-    content:
-      "This is the list of game modules. Modules are split into different settings. They are all cross-compatible.",
-    stepInteraction: false,
-  },
-  {
-    selector: ".game-card:first-of-type",
-    content:
-      "Clicking on a game module will bring you to that module where you can explore all the game data.",
-    stepInteraction: false,
-  },
-];
 
 const Games = (props) => {
   const [
@@ -70,7 +48,7 @@ const Games = (props) => {
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const nameFilter = appState?.searchText;
-  const [isTourOpen, setIsTourOpen] = useState(false);
+  
   const showBeta = userPrefs.showBeta;
   const gameTypesRaw = {
     all: { name: "All" },
@@ -300,93 +278,6 @@ const Games = (props) => {
           </Box>
         )}
       </Box>
-      {/* <HideOnScroll>
-        {({ show }) => (
-          <SpeedDial
-            ariaLabel="SpeedDial tooltip example"
-            sx={{ position: "fixed", bottom: 16, right: 16 }}
-            icon={<SpeedDialIcon />}
-            onClose={(event) => {
-              if (event.type === 'click' || event.type === 'blur') {
-                setDialOpen(false);
-              }
-            }}
-            onOpen={(event) => {
-              if (event.type === 'click') {
-                setDialOpen(true);
-              }
-            }}
-            open={dialOpen && show}
-            hidden={!show}
-          >
-            <SpeedDialAction
-              FabProps={{
-                sx: { backgroundColor: 'primary.main', color: theme.palette.getContrastText(theme.palette.primary.main) }
-              }}
-              tooltipOpen
-              id="refreshGame"
-              tooltipTitle="Refresh"
-              onClick={refreshFactions}
-              icon={<RefreshIcon />}
-            />
-            {!!userPrefs.developerMode && (
-              <SpeedDialAction
-                FabProps={{
-                  sx: {
-                    backgroundColor: 'primary.main',
-                    color: theme.palette.getContrastText(theme.palette.primary.main)
-                  }
-                }}
-                tooltipOpen
-                id="importGameData"
-                tooltipTitle="Import"
-                onClick={handleClick}
-                icon={<UploadIcon />}
-              />
-            )}
-            {!!reportUrl && (
-              <SpeedDialAction
-                FabProps={{
-                  sx: {
-                    backgroundColor: 'primary.main',
-                    color: theme.palette.getContrastText(theme.palette.primary.main)
-                  }
-                }}
-                tooltipOpen
-                id="reportGameIssue"
-                tooltipTitle="Issue"
-                onClick={() => window.open(reportUrl, "_blank")}
-                icon={<BugReportIcon />}
-              />
-            )}
-            <SpeedDialAction
-              tooltipOpen
-              FabProps={{
-                sx: {
-                  backgroundColor: theme.palette.primary.main,
-                  color: theme.palette.getContrastText(theme.palette.primary.main)
-                }
-              }}
-              tooltipTitle="Top"
-              color="primary"
-              onClick={scrollToTop}
-              icon={<KeyboardArrowUpIcon />}
-            />
-            <SpeedDialAction
-              tooltipOpen
-              FabProps={{
-                sx: {
-                  backgroundColor: theme.palette.primary.main,
-                  color: theme.palette.getContrastText(theme.palette.primary.main)
-                }
-              }}
-              tooltipTitle="Help"
-              icon={<FontAwesomeIcon icon={faQuestion} />}
-              onClick={() => setIsTourOpen(true)}
-            />
-          </SpeedDial>
-        )}
-      </HideOnScroll> */}
       <div id="gameList">
         {categoryOrder.map((gameKey, idx) => {
           const games = get(unitCategories, `[${gameKey}]`, []);
@@ -421,6 +312,7 @@ const Games = (props) => {
                         <CardActionArea onClick={() => goToFaction(game)}>
                           <CardHeader
                             sx={{
+                              py: 1.25,
                               backgroundColor: factionColor,
                               color: "white",
                             }}
@@ -518,7 +410,7 @@ const Games = (props) => {
                               alt="green iguana"
                             />
                           )}
-                          <CardContent>
+                          <CardContent sx={{ p: 1.5 }}>
                             <Typography>{game.description || " "}</Typography>
                           </CardContent>
                         </CardActionArea>
@@ -545,18 +437,6 @@ const Games = (props) => {
           );
         })}
       </div>
-      <Tour
-        accentColor={`rgb(57, 110, 158)`}
-        className="tour"
-        steps={steps}
-        isOpen={isTourOpen}
-        onRequestClose={() => {
-          setIsTourOpen(false);
-        }}
-        rounded={5}
-        onAfterOpen={(target) => (document.body.style.overflowY = "hidden")}
-        onBeforeClose={(target) => (document.body.style.overflowY = "auto")}
-      />
       <input
         id="file-input"
         type="file"

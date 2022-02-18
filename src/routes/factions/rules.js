@@ -42,8 +42,8 @@ export function Rules(props) {
   const { rawData, game, data, nameFilter } = props;
   const { gameRules, skirmishRules } = rawData;
   const gameType = get(game, "gameType", "battle");
-  const gameTypeData = get(rawData, `gameData.gameTypes[${gameType}]`, {});
-  const gameTypeName = get(gameTypeData, "name", "Unknown Game");
+  // const gameTypeData = get(rawData, `gameData.gameTypes[${gameType}]`, {});
+  // const gameTypeName = get(gameTypeData, "name", "Unknown Game");
   const isSkirmish = isEqual(gameType, "battle");
   const rules = isSkirmish ? gameRules : skirmishRules;
   const mdRenderer = React.useMemo(() => MarkdownRenderer(), []);
@@ -80,16 +80,10 @@ export function Rules(props) {
   );
   return (
     <>
-      <Typography
-        sx={{ my: 2 }}
-        variant="h4"
-        align="center"
-      >{`${gameTypeName} Rules`}</Typography>
       <div
-        className="unit-card"
         style={{ marginBottom: "15px", borderColor: "rgb(57, 110, 158)" }}
       >
-        <div className="unit-card-body">
+        <div>
           <StyledRules>
             <ReactMarkdown components={mdRenderer} children={rules}
               rehypePlugins={[[RehypeToc, { headings: ["h1", "h2", "h3"] }]]} />
@@ -157,10 +151,6 @@ export function Rules(props) {
                     />
                   </a>
                   <div className="width-100">
-                    {/* <h5>{'Setup'}</h5>
-                  <p style={{ breakInside: "avoid-column" }}>{mission.setup}</p>
-                  <h5>{'Deployment'}</h5>
-                  <p style={{ breakInside: "avoid-column" }}>{mission.deployment}</p> */}
                     <ReactMarkdown
                       className="rule-text"
                       style={{ breakInside: "avoid-column" }}
@@ -193,7 +183,7 @@ export function Rules(props) {
                   color: "white",
                 }}
               >
-                <h3 className="text-center">{condition.name}</h3>
+                <h3 align="center">{condition.name}</h3>
               </div>
               <div className="unit-card-body">
                 <div className="width-100">
@@ -216,7 +206,7 @@ export function Rules(props) {
         ))}
       </div>
 
-      <Typography variant="h4" align="center">Twists</Typography>
+      <Typography sx={{ pt: 2 }} variant="h4" align="center">Twists</Typography>
       <hr className="hr-blue" />
       <div className="two-columns">
         {weathers.map((weather, index) => (
@@ -235,7 +225,7 @@ export function Rules(props) {
                   color: "white",
                 }}
               >
-                <h3 className="text-center">{weather.name}</h3>
+                <h3 align="center">{weather.name}</h3>
               </div>
               <div className="unit-card-body">
                 <div className="width-100">

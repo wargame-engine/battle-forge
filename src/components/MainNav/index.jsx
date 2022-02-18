@@ -263,11 +263,12 @@ export const MainNav = (props) => {
             aria-label="open drawer"
             onClick={() => open ? handleDrawerClose() : handleDrawerOpen()}
             edge="start"
-            sx={{ mr: 0 }}
+            sx={{ mr: 0, pl: '13px' }}
           >
             <MenuIcon />
           </IconButton>}
-          <Button onClick={() => navigate('/games')} sx={{ color: 'inherit' }} startIcon={<img src={IGR} alt="igr" style={{ height: fullScreen ? '35px' : '30px' }} />}>
+          <Button onClick={() => navigate('/games')} sx={{ color: 'inherit', p: 0, backgroundColor: 'transparent' }} disableRipple>
+            <img src={IGR} alt="igr" style={{ height: fullScreen ? '35px' : '30px', marginRight: '5px' }} />
             <Typography noWrap fontSize={fullScreen ? 20 : 18} fontWeight="bold" sx={{ color: 'inherit' }} style={{ textTransform: 'none' }}>
               Battle Forge
             </Typography>

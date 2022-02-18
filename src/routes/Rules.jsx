@@ -13,37 +13,6 @@ import ReactMarkdown from "react-markdown";
 import styled from 'styled-components';
 import { MarkdownRenderer } from 'utils/markdown';
 
-const StyledRules = styled.div`
-h1 {
-  font-size: 20pt;
-  font-weight: bold;
-  border-bottom: 4px solid rgb(57, 110, 158);
-  padding-bottom: 0.25rem;
-}
-h2 {
-  font-size: 18pt;
-  border-bottom: 2px solid rgb(57, 110, 158);
-  padding-bottom: 0.25rem;
-}
-h3 {
-  font-size: 16pt;
-}
-h4 {
-  font-weight: bold;
-  font-size: 12pt;
-}
-h5 {
-  font-weight: bold;
-  font-size: 12pt;
-}
-p {
-  break-inside: "avoid-column";
-  page-break-inside: avoid; /* For Firefox. */
-  -webkit-column-break-inside: avoid; /* For Chrome & friends. */
-  break-inside: avoid; /* For standard browsers like IE. :-) */
-}
-`;
-
 export default function QuickRules(props) {
   const [{ data: nope, userPrefs }] = useContext(DataContext);
   const { gameRules, skirmishRules } = nope;
@@ -67,6 +36,36 @@ export default function QuickRules(props) {
       "aria-controls": `simple-tabpanel-${index}`,
     };
   }
+  const StyledRules = styled.div`
+    h1 {
+      font-size: 20pt;
+      font-weight: bold;
+      border-bottom: 4px solid ${theme.palette.primary.main};
+      padding-bottom: 0.25rem;
+    }
+    h2 {
+      font-size: 18pt;
+      border-bottom: 2px solid ${theme.palette.primary.main};
+      padding-bottom: 0.25rem;
+    }
+    h3 {
+      font-size: 16pt;
+    }
+    h4 {
+      font-weight: bold;
+      font-size: 12pt;
+    }
+    h5 {
+      font-weight: bold;
+      font-size: 12pt;
+    }
+    p {
+      break-inside: "avoid-column";
+      page-break-inside: avoid; /* For Firefox. */
+      -webkit-column-break-inside: avoid; /* For Chrome & friends. */
+      break-inside: avoid; /* For standard browsers like IE. :-) */
+    }
+  `;
   const activeTabNumber = parseInt(activeTab) || 0;
   const activeGameTypeData = gameTypesRaw[gameTypes[activeTabNumber]];
   const activeGameName = get(activeGameTypeData, 'name', 'Battle');
