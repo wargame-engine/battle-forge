@@ -1,5 +1,13 @@
 export const BASE_THEME = {
   components: {
+    MuiCard: {
+      styleOverrides: {
+        // Name of the slot
+        root: {
+          borderRadius: '2px'
+        }
+      }
+    },
     MuiCardContent: {
       styleOverrides: {
         // Name of the slot

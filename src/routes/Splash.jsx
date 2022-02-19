@@ -114,11 +114,7 @@ export default function Home() {
         >
           {CARDS.map((card) => (
             <Grid item sm={6} md={4}>
-              <Card
-                sx={{
-                  color: "white",
-                }}
-              >
+              <Card>
                 <CardActionArea
                   onClick={() =>
                     card.toAbs
