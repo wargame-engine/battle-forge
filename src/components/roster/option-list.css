@@ -8,6 +8,11 @@
 .optionSubUl {
     padding-inline-start: 20px;
 }
+
+.optionSubUl, .optionUl {
+    margin-top: 0 !important;
+}
+
 .optionSub {
     display: inline-block;
     padding-right: 1em;
