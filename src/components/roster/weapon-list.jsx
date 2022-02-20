@@ -57,7 +57,7 @@ export const WeaponList = (props) => {
         </div>
       )}
       <Collapse in={!toggler || showWeapons}>
-        <TableContainer sx={{ borderRadius: 1, mb: 1 }}>
+        <TableContainer sx={{ borderRadius: '2px', mb: 1 }}>
           <Table size="small" style={{ borderColor: borderColor }}>
             <TableHead>
               <StyledTableRow style={thStyle}>

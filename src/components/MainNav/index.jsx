@@ -32,7 +32,7 @@ import Newspaper from 'mdi-material-ui/Newspaper';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import ConstructionIcon from '@mui/icons-material/Construction';
 import React from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { UserPreferences } from "routes/modals";
 import { get } from 'lodash';
 

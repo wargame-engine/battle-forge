@@ -17,7 +17,7 @@ import Github from 'mdi-material-ui/Github';
 import Newspaper from 'mdi-material-ui/Newspaper';
 import React from "react";
 import ReactMarkdown from "react-markdown";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { colors } from 'utils/colors';
 import { getHeaders, getRandomHeader } from "utils/images";
 import { MaterialRenderer } from "utils/markdown";

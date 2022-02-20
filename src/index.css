@@ -213,7 +213,7 @@ strong b {
 }
 
 .table-responsive {
-  border-radius: 5px;
+  border-radius: 2px;
 }
 
 .table-striped tbody tr:nth-of-type(odd) {

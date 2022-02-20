@@ -21,7 +21,7 @@ import { get, groupBy, omit, sortBy } from "lodash";
 import { useSnackbar } from "notistack";
 import React from 'react';
 import { useNavigate, useParams } from 'react-router';
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 import { AddList, UpdateList } from 'routes/rosters/modals';
 import { DataAPI, mergeGlobalData } from "utils/data";
 import { downloadFile, readFileContent } from "utils/files";

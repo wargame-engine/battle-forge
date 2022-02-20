@@ -85,32 +85,6 @@ export function ForceBuilder(props) {
                   <ListItem
                     key={index}
                     secondaryAction={
-                      // <Menu
-                      //   id="menu-appbar"
-                      //   anchorEl={anchorEl}
-                      //   anchorOrigin={{
-                      //     vertical: "top",
-                      //     horizontal: "right",
-                      //   }}
-                      //   keepMounted
-                      //   transformOrigin={{
-                      //     vertical: "top",
-                      //     horizontal: "right",
-                      //   }}
-                      //   open={Boolean(anchorEl)}
-                      //   onClose={handleClose}
-                      // >
-                      //   <MenuItem onClick={handleOpenSettings}>
-                      //     Settings
-                      //   </MenuItem>
-                      // </Menu>
-                      // <Dropdown drop={"left"}>
-                      //   <Dropdown.Toggle as={CustomToggle}>
-                      //     <IconButton>
-                      //       <MoreVertIcon />
-                      //     </IconButton>
-                      //   </Dropdown.Toggle>
-                      // </Dropdown>
                       <Dropdown>
                         {({ handleClose, open, handleOpen, anchorElement }) => (
                           <>

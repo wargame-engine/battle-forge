@@ -26,7 +26,7 @@ import useQueryParams from 'hooks/use-query-params';
 import { get, groupBy, omit, sortBy } from "lodash";
 import { useSnackbar } from "notistack";
 import React from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { readFileContent } from "utils/files";
 import "./games.css";
 

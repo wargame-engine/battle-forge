@@ -13,7 +13,7 @@ import { get } from "lodash";
 import { SnackbarProvider } from 'notistack';
 import React from 'react';
 import { useLocation } from 'react-router';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router';
 import Faction from "routes/faction";
 import Factions from "routes/factions";
 import Games from "routes/games";

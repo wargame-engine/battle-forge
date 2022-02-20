@@ -101,7 +101,7 @@ export const UnitStats = (props) => {
           </div>
           {!!unitModels.length && (
             <>
-              <TableContainer sx={{ borderRadius: 1 }}>
+              <TableContainer sx={{ borderRadius: '2px' }}>
                 <Table size="small" aria-label="simple table" style={{ padding: 0 }}>
                   <TableHead>
                     <StyledTableRow style={thStyle}>

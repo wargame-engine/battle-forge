@@ -86,7 +86,7 @@ export const UnitDebugModal = (props) => {
                 ))}
               </RadioGroup>
             </FormControl>
-            <TableContainer sx={{ borderRadius: 1, mb: 2 }}>
+            <TableContainer sx={{ borderRadius: '2px', mb: 2 }}>
               <Table size="small" style={{ borderColor: borderColor }}>
                 <TableHead>
                   <StyledTableRow style={thStyle}>
@@ -178,7 +178,7 @@ export const UnitDebugModal = (props) => {
               return (
                 <>
                   {!!modelWeapons.length && (
-                    <TableContainer sx={{ borderRadius: 1, mb: 2 }}>
+                    <TableContainer sx={{ borderRadius: '2px', mb: 2 }}>
                       <Table
                         striped
                         responsive
@@ -215,7 +215,7 @@ export const UnitDebugModal = (props) => {
                     </TableContainer>
                   )}
                   {!!modelRules.length && (
-                    <TableContainer sx={{ borderRadius: 1 }}>
+                    <TableContainer sx={{ borderRadius: '2px' }}>
                       <Table
                         striped
                         responsive

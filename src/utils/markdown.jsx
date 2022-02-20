@@ -113,7 +113,7 @@ export const MaterialRenderer = (options = {}) => {
       src,
       title,
     }) => (
-      <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)', borderRadius: '5px' }}>
+      <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)', borderRadius: '2px' }}>
         <a href={src} rel="noreferrer" target={"_blank"}>
           <CardMedia
             alt={alt}

@@ -1,8 +1,35 @@
 export const BASE_THEME = {
   components: {
+    MuiTableContainer: {
+      styleOverrides: {
+        root: {
+          borderRadius: '2px'
+        }
+      }
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          borderRadius: '2px'
+        }
+      }
+    },
+    MuiDialog: {
+      styleOverrides: {
+        root: {
+          borderRadius: '2px'
+        }
+      }
+    },
     MuiCard: {
       styleOverrides: {
-        // Name of the slot
+        root: {
+          borderRadius: '2px'
+        }
+      }
+    },
+    MuiAlert: {
+      styleOverrides: {
         root: {
           borderRadius: '2px'
         }
@@ -10,7 +37,6 @@ export const BASE_THEME = {
     },
     MuiCardContent: {
       styleOverrides: {
-        // Name of the slot
         root: {
           ':last-child': {
             paddingBottom: '16px'

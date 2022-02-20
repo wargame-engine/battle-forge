@@ -1,7 +1,7 @@
 import React from "react";
 
 export const Dropdown = (props) => {
-  const { children, as } = props;
+  const { children } = props;
   const [isOpen, setIsOpen] = React.useState(false);
   const [anchorElement, setAnchorElement] = React.useState(null);
   const handleClose = () => {
@@ -19,7 +19,6 @@ export const Dropdown = (props) => {
   }
   return (
     <>
-      <as onClick={(event) => setIsOpen(true)} />
       {children({
         open: isOpen,
         handleClose,
