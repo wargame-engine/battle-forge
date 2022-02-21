@@ -66,7 +66,7 @@
 
 .btn-tall {
   height: 60px;
-  border-radius: 5px;
+  border-radius: 2px;
 }
 
 .row-padded {
@@ -95,7 +95,7 @@
   /* border: 1px solid black; */
   padding: 16px;
   margin-bottom: 15px;
-  border-radius: 5px;
+  border-radius: 2px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   /* box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); */
   transition: 0.3s;
@@ -379,7 +379,7 @@ hr {
   background-repeat: no-repeat;
   background-size: cover !important;
   background-color: #1d3557;
-  border-radius: 5px;
+  border-radius: 2px;
 }
 
 .carousel-item img {

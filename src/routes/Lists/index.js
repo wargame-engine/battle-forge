@@ -16,7 +16,7 @@ import {
   Alert, Box, Card,
   CardContent,
   CardHeader, FormGroup, IconButton, ListItem, ListItemButton, ListItemIcon, ListItemText, ListSubheader, Menu,
-  MenuItem, ScopedCssBaseline, Stack, Typography
+  MenuItem, ScopedCssBaseline, Stack, Typography, useTheme
 } from "@mui/material";
 import Container from "@mui/material/Container";
 import Link from '@mui/material/Link';
@@ -86,7 +86,7 @@ export default React.memo((props) => {
   const shouldStartEditMode = gameName && !get(list, "forces", []).length;
   const [editMode, setEditMode] = useState(shouldStartEditMode);
   const [showReserves, setShowReserves] = useState({});
-  // const theme = useTheme();
+  const theme = useTheme();
   const componentRef = useRef();
   const doPrint = useReactToPrint({
     pageStyle: pageStyle,
@@ -1044,12 +1044,12 @@ export default React.memo((props) => {
         <Card
           className="no-break"
           sx={{
-            border: `2px solid rgb(57, 110, 158)`,
+            border: `2px solid ${theme.palette.primary.main}`,
             mb: 2,
           }}
         >
           <CardHeader
-            sx={{ backgroundColor: "rgb(57, 110, 158)", color: "white", py: 1 }}
+            sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.getContrastText(theme.palette.primary.main), py: 1 }}
             title={
               <Typography fontSize="1.25rem" fontWeight="bold" component="div">
                 Game Trackers

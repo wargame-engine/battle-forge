@@ -102,7 +102,7 @@ export default function QuickRules(props) {
       </Box>
       {/* <Typography variant="h4" align="center" sx={{ mb: 2 }}>{`${activeGameTypeData?.name}`}</Typography> */}
       <div
-        style={{ marginBottom: "15px", borderColor: "rgb(57, 110, 158)" }}
+        style={{ marginBottom: "15px", borderColor: theme.palette.primary.main }}
       >
         <div>
           <StyledRules>

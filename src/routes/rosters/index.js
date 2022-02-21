@@ -10,7 +10,8 @@ import {
   CardContent,
   CardHeader,
   Container, IconButton, ListItem, ListItemButton, ListItemIcon, ListItemText, ListSubheader, Menu,
-  MenuItem
+  MenuItem,
+  useTheme
 } from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -45,7 +46,7 @@ export default React.memo((props) => {
   const nameFilter = appState?.searchText;
   const fileDialog = React.useRef();
   const navigate = useNavigate();
-  // const theme = useTheme();
+  const theme = useTheme();
   const location = useLocation();
   const queryParams = React.useMemo(() => new URLSearchParams(location.search), [location.search]);
   const shareData = queryParams?.get("listShare");
@@ -293,7 +294,7 @@ export default React.memo((props) => {
       </Box>
     );
   }
-  const factionColor = ' rgb(57, 110, 158)';
+  const factionColor = theme.palette.primary.main;
   const textColor = 'white';
   const filteredCategories = Object.keys(listsByGame);
 

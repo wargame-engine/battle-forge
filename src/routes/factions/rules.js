@@ -1,5 +1,5 @@
 import RehypeToc from '@jsdevtools/rehype-toc';
-import { Grid } from "@mui/material";
+import { Grid, useTheme } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { get, isEqual, sortBy } from "lodash";
 import React from "react";
@@ -7,16 +7,21 @@ import ReactMarkdown from "react-markdown";
 import styled from "styled-components";
 import { MarkdownRenderer } from "utils/markdown";
 
-const StyledRules = styled.div`
+export function Rules(props) {
+  const { rawData, game, data, nameFilter } = props;
+  const { gameRules, skirmishRules } = rawData;
+  const theme = useTheme();
+  const gameType = get(game, "gameType", "battle");
+  const StyledRules = styled.div`
   h1 {
     font-size: 22pt;
     font-weight: bold;
-    border-bottom: 4px solid rgb(57, 110, 158);
+    border-bottom: 4px solid ${theme.palette.primary.main};
     padding-bottom: 0.25rem;
   }
   h2 {
     font-size: 20pt;
-    border-bottom: 2px solid rgb(57, 110, 158);
+    border-bottom: 2px solid ${theme.palette.primary.main};
     padding-bottom: 0.25rem;
   }
   h3 {
@@ -37,11 +42,6 @@ const StyledRules = styled.div`
     break-inside: avoid; /* For standard browsers like IE. :-) */
   }
 `;
-
-export function Rules(props) {
-  const { rawData, game, data, nameFilter } = props;
-  const { gameRules, skirmishRules } = rawData;
-  const gameType = get(game, "gameType", "battle");
   // const gameTypeData = get(rawData, `gameData.gameTypes[${gameType}]`, {});
   // const gameTypeName = get(gameTypeData, "name", "Unknown Game");
   const isSkirmish = isEqual(gameType, "battle");
@@ -81,7 +81,7 @@ export function Rules(props) {
   return (
     <>
       <div
-        style={{ marginBottom: "15px", borderColor: "rgb(57, 110, 158)" }}
+        style={{ marginBottom: "15px", borderColor: theme.palette.primary.main }}
       >
         <div>
           <StyledRules>
@@ -96,11 +96,11 @@ export function Rules(props) {
         {terrains.map((terrain) => (
           <div
             className="unit-card terrain-card"
-            style={{ marginBottom: "15px", borderColor: "rgb(57, 110, 158)" }}
+            style={{ marginBottom: "15px", borderColor: theme.palette.primary.main }}
           >
             <div
               className="unit-card-title"
-              style={{ backgroundColor: "rgb(57, 110, 158)", color: "white" }}
+              style={{ backgroundColor: theme.palette.primary.main, color: theme.palette.getContrastText(theme.palette.primary.main) }}
             >
               <Typography variant="h5" align="center">{terrain.name}</Typography>
             </div>
@@ -133,11 +133,11 @@ export function Rules(props) {
             <Grid item md={6} key={index}>
               <div
                 className="unit-card mission-card"
-                style={{ marginBottom: "15px", borderColor: "rgb(57, 110, 158)" }}
+                style={{ marginBottom: "15px", borderColor: theme.palette.primary.main }}
               >
                 <div
                   className="unit-card-title"
-                  style={{ backgroundColor: "rgb(57, 110, 158)", color: "white" }}
+                  style={{ backgroundColor: theme.palette.primary.main, color: theme.palette.getContrastText(theme.palette.primary.main) }}
                 >
                   <Typography variant="h5" align="center">{mission.name}</Typography>
                 </div>
@@ -173,14 +173,13 @@ export function Rules(props) {
               className="unit-card secondary-card"
               style={{
                 marginBottom: "15px",
-                borderColor: "rgb(57, 110, 158)",
+                borderColor: theme.palette.primary.main,
               }}
             >
               <div
                 className="unit-card-title"
                 style={{
-                  backgroundColor: "rgb(57, 110, 158)",
-                  color: "white",
+                  backgroundColor: theme.palette.primary.main, color: theme.palette.getContrastText(theme.palette.primary.main)
                 }}
               >
                 <h3 align="center">{condition.name}</h3>
@@ -215,14 +214,14 @@ export function Rules(props) {
               className="unit-card twist-card"
               style={{
                 marginBottom: "15px",
-                borderColor: "rgb(57, 110, 158)",
+                borderColor: theme.palette.primary.main,
               }}
             >
               <div
                 className="unit-card-title"
                 style={{
-                  backgroundColor: "rgb(57, 110, 158)",
-                  color: "white",
+                  backgroundColor: theme.palette.primary.main,
+                  color: theme.palette.getContrastText(theme.palette.primary.main)
                 }}
               >
                 <h3 align="center">{weather.name}</h3>

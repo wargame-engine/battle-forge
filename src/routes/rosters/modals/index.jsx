@@ -277,7 +277,7 @@ export const AddList = (props) => {
                             >
                               <ListItemText
                                 primary={
-                                  <Typography fontWeight="bold" fontSize="1.25em">
+                                  <Typography fontWeight="bold">
                                     {`${org.name}`}
                                     <small>
                                       {org.version ? ` (${org.version})` : ""}

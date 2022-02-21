@@ -59,12 +59,12 @@ export function ForceBuilder(props) {
       </Typography>
       <Card
         sx={{
-          border: `2px solid rgb(57, 110, 158)`,
+          border: `2px solid ${theme.palette.primary.main}`,
           mb: 2,
         }}
       >
         <CardHeader
-          sx={{ backgroundColor: "rgb(57, 110, 158)", color: "white", p: 1 }}
+          sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.getContrastText(theme.palette.primary.main), p: 1 }}
           title={
             <Typography variant="h5" component="div">
               Manage Rosters

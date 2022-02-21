@@ -1,6 +1,6 @@
 import { Sync } from "@mui/icons-material";
 import {
-  Button, CardHeader, Checkbox, Divider, FormControlLabel, FormGroup, Grid, Typography
+  Button, CardHeader, Checkbox, Divider, FormControlLabel, FormGroup, Grid, Typography, useTheme
 } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -11,6 +11,7 @@ import { getRandomItem, getRandomItems } from "utils/math";
 
 export function MissionGenerator(props) {
   const { nameFilter, data } = props;
+  const theme = useTheme();
   const missions = data
     .getMissionScenarios()
     .filter((mission) =>
@@ -38,12 +39,12 @@ export function MissionGenerator(props) {
       </Typography>
       <Card
         sx={{
-          border: `2px solid rgb(57, 110, 158)`,
+          border: `2px solid ${theme.palette.primary.main}`,
           mb: 2,
         }}
       >
         <CardHeader
-          sx={{ backgroundColor: "rgb(57, 110, 158)", color: "white", p: 1 }}
+          sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.getContrastText(theme.palette.primary.main), p: 1 }}
           title={
             <Typography variant="h5" component="div" align="center">
               Options
@@ -81,11 +82,11 @@ export function MissionGenerator(props) {
         <>
           <div
             className="rule-card unit-card"
-            style={{ marginBottom: "15px", borderColor: "rgb(57, 110, 158)" }}
+            style={{ marginBottom: "15px", borderColor: theme.palette.primary.main }}
           >
             <div
               className="unit-card-title"
-              style={{ backgroundColor: "rgb(57, 110, 158)", color: "white" }}
+              style={{ backgroundColor: theme.palette.primary.main, color: theme.palette.getContrastText(theme.palette.primary.main) }}
             >
               <h5>None Found</h5>
             </div>
@@ -105,13 +106,13 @@ export function MissionGenerator(props) {
             <Grid item sx={{ mb: 2 }} md={6}>
               <Card
                 sx={{
-                  border: `2px solid rgb(57, 110, 158)`,
+                  border: `2px solid ${theme.palette.primary.main}`,
                 }}
               >
                 <CardHeader
                   sx={{
-                    backgroundColor: "rgb(57, 110, 158)",
-                    color: "white",
+                    backgroundColor: theme.palette.primary.main,
+                    color: theme.palette.getContrastText(theme.palette.primary.main),
                     p: 1,
                   }}
                   title={
@@ -139,13 +140,13 @@ export function MissionGenerator(props) {
             <Grid item sx={{ mb: 2 }} md={6}>
               <Card
                 sx={{
-                  border: `2px solid rgb(57, 110, 158)`,
+                  border: `2px solid ${theme.palette.primary.main}`,
                 }}
               >
                 <CardHeader
                   sx={{
-                    backgroundColor: "rgb(57, 110, 158)",
-                    color: "white",
+                    backgroundColor: theme.palette.primary.main,
+                    color: theme.palette.getContrastText(theme.palette.primary.main),
                     p: 1,
                   }}
                   title={
@@ -182,13 +183,12 @@ export function MissionGenerator(props) {
               <Grid item sx={{ mb: 2 }} md={12}>
                 <Card
                   sx={{
-                    border: `2px solid rgb(57, 110, 158)`,
+                    border: `2px solid ${theme.palette.primary.main}`,
                   }}
                 >
                   <CardHeader
                     sx={{
-                      backgroundColor: "rgb(57, 110, 158)",
-                      color: "white",
+                      backgroundColor: theme.palette.primary.main, color: theme.palette.getContrastText(theme.palette.primary.main),
                     }}
                     title={
                       <Typography variant="h5" component="div" align="center">
