@@ -27,7 +27,7 @@ import { StrategyCard } from 'components/roster/strategy-card';
 import { UnitCard } from "components/roster/unit-card";
 import {
   find, get, groupBy, isEqual, sortBy, sum,
-  toNumber, uniqBy
+  toNumber, uniqBy, uniq
 } from "lodash";
 import React, { useState } from "react";
 import ReactMarkdown from "react-markdown";
@@ -253,9 +253,9 @@ export const AddForce = (props) => {
       "mercenaries",
     ];
   }
-  const categoryOrder = filteredAlliances.filter(
+  const categoryOrder = uniq(filteredAlliances.filter(
     (cat) => unitCategories[cat] && unitCategories[cat].length
-  );
+  ));
   // Subfactions
   const rawSubfactions = Object.values(
     data.getFaction(faction).subfactions || []
