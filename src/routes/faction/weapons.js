@@ -42,7 +42,7 @@ export const Weapons = React.memo((props) => {
                     py: 1,
                   }}
                   title={
-                    <Typography variant="h6" component="div">
+                    <Typography fontWeight="bold" variant="h6" component="div">
                       {rule.name}
                     </Typography>
                   }

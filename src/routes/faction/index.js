@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import BugReportIcon from '@mui/icons-material/BugReport';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import UploadIcon from '@mui/icons-material/Upload';
+import InfoIcon from '@mui/icons-material/Info';
 import { Box, Typography } from "@mui/material";
 import Container from "@mui/material/Container";
 import Popover from "@mui/material/Popover";
@@ -14,7 +15,7 @@ import Tabs from "@mui/material/Tabs";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import CustomCircularProgress from "components/CustomCircularProgress";
 import { Dropdown } from "components/dropdown";
-import { DataContext } from "hooks";
+import { DataContext, useModal } from "hooks";
 import useQueryParams from 'hooks/use-query-params';
 import {
   get, isNil, set
@@ -35,6 +36,7 @@ import { Rules } from "./rules";
 import { Strategies } from "./strategies";
 import { Units } from "./units";
 import { Weapons } from "./weapons";
+import { ShowInfo } from "routes/modals";
 
 export default React.memo((props) => {
   const { factionName, gameName } = useParams();
@@ -193,6 +195,19 @@ export default React.memo((props) => {
       "aria-controls": `simple-tabpanel-${index}`,
     };
   }
+  const [showShowInfo, hideShowInfo] = useModal(
+    ({ extraProps }) => (
+      <ShowInfo
+        hideModal={hideShowInfo}
+        contextTitle={'Faction Details'}
+        author={faction?.author}
+        version={faction?.version}
+        id={faction?.id}
+        {...extraProps}
+      />
+    ),
+    []
+  );
   React.useEffect(() => {
     setAppState({
       enableSearch: true,
@@ -215,7 +230,12 @@ export default React.memo((props) => {
             icon: <BugReportIcon />,
             onClick: () => window.open(game.reportUrl, "_blank")
           }
-        ] : [])
+        ] : []),
+        {
+          name: 'Details',
+          icon: <InfoIcon />,
+          onClick: () => showShowInfo()
+        }
       ]
     })
     return () => {
@@ -345,7 +365,7 @@ export default React.memo((props) => {
           </Dropdown>
         )}
         {`${faction.name}${subfactionData.name ? ` - ${subfactionData.name}` : ""}`}
-        <small style={{ fontSize: '1rem' }}> {faction.version ? `(${faction.version})` : ""}</small>
+        {/* <small style={{ fontSize: '1rem' }}> {faction.version ? `(${faction.version})` : ""}</small> */}
       </Typography>
       <Box
         className="sticky"

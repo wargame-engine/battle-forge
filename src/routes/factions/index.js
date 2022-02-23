@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import BugReportIcon from '@mui/icons-material/BugReport';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import UploadIcon from '@mui/icons-material/Upload';
+import InfoIcon from '@mui/icons-material/Info';
 import {
   Container
 } from "@mui/material";
@@ -17,13 +18,14 @@ import Typography from "@mui/material/Typography";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import CustomCircularProgress from "components/CustomCircularProgress";
 import { Dropdown } from "components/dropdown";
-import { DataContext } from "hooks";
+import { DataContext, useModal } from "hooks";
 import useQueryParams from 'hooks/use-query-params';
 import { get, omitBy } from "lodash";
 import { set } from "lodash/fp";
 import { useSnackbar } from "notistack";
 import React, { useContext } from "react";
 import { useParams } from "react-router";
+import { ShowInfo } from "routes/modals";
 import { DataAPI, mergeGlobalData } from "utils/data";
 import { readFileContent } from "utils/files";
 import { v4 as uuidv4 } from "uuid";
@@ -232,6 +234,19 @@ const FactionsMain = () => {
     };
     setData(newGameData);
   };
+  const [showShowInfo, hideShowInfo] = useModal(
+    ({ extraProps }) => (
+      <ShowInfo
+        hideModal={hideShowInfo}
+        contextTitle={'Game Details'}
+        author={game?.author}
+        version={game?.version}
+        id={game?.id}
+        {...extraProps}
+      />
+    ),
+    []
+  );
   React.useEffect(() => {
     setAppState({
       enableSearch: true,
@@ -254,7 +269,12 @@ const FactionsMain = () => {
             icon: <BugReportIcon />,
             onClick: () => window.open(game.reportUrl, "_blank")
           }
-        ] : [])
+        ] : []),
+        {
+          name: 'Details',
+          icon: <InfoIcon />,
+          onClick: () => showShowInfo()
+        }
       ]
     })
     return () => {
@@ -369,7 +389,7 @@ const FactionsMain = () => {
           </Dropdown>
         )}
         {game.name}
-        <small style={{ marginLeft: '5px', fontSize: '1rem' }}> {game.version ? `(${game.version})` : ""}</small>
+        {/* <small style={{ marginLeft: '5px', fontSize: '1rem' }}> {game.version ? `(${game.version})` : ""}</small> */}
       </Typography>
       <Box
         className="sticky"

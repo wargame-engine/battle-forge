@@ -79,7 +79,7 @@ export default React.memo((props) => {
   const isSkirmish = gameType === "skirmish";
   const globalData = mergeGlobalData(game, someData);
   const data = DataAPI(game, globalData);
-  const lists = get(someData, `lists[${gameName}]`, {});
+  const lists = get(someData, `lists`, {});
   const fileDialog = React.useRef();
   const orgs = data.getRawOrganizations();
   const { enqueueSnackbar } = useSnackbar();
@@ -846,7 +846,7 @@ export default React.memo((props) => {
         {...extraProps}
       />
     ),
-    [forces, lists]
+    [forces, lists, listId]
   );
   React.useEffect(() => {
     setAppState({

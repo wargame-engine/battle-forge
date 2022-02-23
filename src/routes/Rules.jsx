@@ -12,10 +12,11 @@ import React, { useContext } from 'react';
 import ReactMarkdown from "react-markdown";
 import styled from 'styled-components';
 import { MarkdownRenderer } from 'utils/markdown';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 
 export default function QuickRules(props) {
-  const [{ data: nope, userPrefs }] = useContext(DataContext);
-  const { gameRules, skirmishRules } = nope;
+  const [{ data: nope, userPrefs, setAppState }] = useContext(DataContext);
+  const { gameRules, skirmishRules, racingRules } = nope;
   const showBeta = userPrefs.showBeta;
   const gameTypesRaw = { all: { name: "All" }, ...get(nope, 'gameData.gameTypes', {}) };
   const gamesUnsorted = Object.values(get(nope, `gameData.games`, {})).filter((game) => game.version && Number(game.version)).filter((game) => showBeta ? true : game.version && Number(game.version) >= 1);
@@ -69,7 +70,33 @@ export default function QuickRules(props) {
   const activeTabNumber = parseInt(activeTab) || 0;
   const activeGameTypeData = gameTypesRaw[gameTypes[activeTabNumber]];
   const activeGameName = get(activeGameTypeData, 'name', 'Battle');
-  const activeRules = activeGameName === 'Battle' ? gameRules : skirmishRules;
+  let activeRules = gameRules;
+  if (activeGameName === 'Skirmish') {
+    activeRules = skirmishRules
+  } else if (activeGameName === 'Racing') {
+    activeRules = racingRules
+  }
+  const scrollWithOffset = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  React.useEffect(() => {
+    setAppState({
+      enableSearch: false,
+      contextActions: [
+        {
+          name: 'Top',
+          icon: <ArrowUpwardIcon />,
+          onClick: () => scrollWithOffset()
+        }
+      ]
+    })
+    return () => {
+      setAppState({
+        contextActions: []
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ userPrefs.developerMode ]);
   return (
     <Container>
       <Typography variant="h3" align="center">{`Core Rules`}</Typography>

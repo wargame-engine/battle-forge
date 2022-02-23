@@ -3,14 +3,12 @@ import {
   faChevronUp, faDice, faTimes
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import AddIcon from '@mui/icons-material/Add';
 import {
   Button, Checkbox, Dialog,
   DialogActions,
   DialogContent,
   DialogTitle, Divider, FormControl,
-  FormControlLabel, FormGroup, IconButton, InputLabel, List,
-  ListItem,
+  FormControlLabel, FormGroup, InputLabel, ListItem,
   ListItemButton,
   ListItemText,
   ListSubheader, MenuItem, Paper, Select, TextField, Typography
@@ -27,7 +25,7 @@ import { StrategyCard } from 'components/roster/strategy-card';
 import { UnitCard } from "components/roster/unit-card";
 import {
   find, get, groupBy, isEqual, sortBy, sum,
-  toNumber, uniqBy, uniq
+  toNumber, uniq, uniqBy
 } from "lodash";
 import React, { useState } from "react";
 import ReactMarkdown from "react-markdown";
@@ -80,22 +78,22 @@ export const ChooseSubFaction = (props) => {
       <Dialog open onClose={hideModal} fullScreen={fullScreen} maxWidth="lg" fullWidth>
         <DialogTitle closeButton>Change Focus</DialogTitle>
         <DialogContent style={{ padding: 0 }} sx={{ backgroundColor: "background.paper" }}>
-          <List style={{ height: '100%' }}>
+          <Paper style={{ height: '100%', borderRadius: 0, overflowY: 'auto' }}>
             {subfactions.map((subfaction) => {
               return (
                 <ListItem
                   disablePadding
-                  secondaryAction={
-                    <IconButton
-                      sx={{}}
-                      onClick={() => {
-                        setSubFaction(forceId, subfaction.id);
-                        hideModal();
-                      }}
-                    >
-                      <AddIcon />
-                    </IconButton>
-                  }
+                  // secondaryAction={
+                  //   <IconButton
+                  //     sx={{}}
+                  //     onClick={() => {
+                  //       setSubFaction(forceId, subfaction.id);
+                  //       hideModal();
+                  //     }}
+                  //   >
+                  //     <AddIcon />
+                  //   </IconButton>
+                  // }
                 >
                   <ListItemButton
                     onClick={() => {
@@ -104,14 +102,14 @@ export const ChooseSubFaction = (props) => {
                     }}
                   >
                     <ListItemText
-                      primary={`${subfaction.name}`}
-                      secondary={`${subfaction.description}`}
+                      primary={<Typography fontWeight="bold">{`${subfaction.name}`}</Typography>}
+                      secondary={<Typography variant="body2">{subfaction.description}</Typography>}
                     />
                   </ListItemButton>
                 </ListItem>
               );
             })}
-          </List>
+          </Paper>
         </DialogContent>
         <DialogActions>
           <Button color="primary" onClick={hideModal}>

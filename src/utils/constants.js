@@ -64,27 +64,28 @@ export const BASE_THEME = {
       'Noto Sans JP'
     ],
     h1: {
-      fontSize: '4rem',
+      fontSize: '3.75rem',
       fontWeight: 'bold'
     },
     h2: {
-      fontSize: '3rem',
+      fontSize: '2.75rem',
       fontWeight: 'bold'
     },
     h3: {
-      fontSize: '2.5rem',
+      fontSize: '2.25rem',
       fontWeight: 'bold'
     },
     h4: {
-      fontSize: '2rem',
+      fontSize: '1.75rem',
       fontWeight: 'bold'
     },
     h5: {
-      fontSize: '1.5rem',
+      fontSize: '1.25rem',
       fontWeight: 'bold'
     },
     h6: {
       fontSize: '1rem',
+      fontWeight: 'bold'
     }
   },
 };

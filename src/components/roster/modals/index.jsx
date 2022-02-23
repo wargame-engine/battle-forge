@@ -1,5 +1,5 @@
 import {
-  Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormControlLabel, Paper, Radio, RadioGroup, Table, TableBody, TableCell, TableContainer, TableHead
+  Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormControlLabel, Paper, Radio, RadioGroup, Table, TableBody, TableCell, TableContainer, TableHead, useMediaQuery, useTheme
 } from "@mui/material";
 import { StyledTableRow } from "components/styled-table";
 import {
@@ -60,9 +60,17 @@ export const UnitDebugModal = (props) => {
   }, [data, unit, faction]);
   const selectedModels =
     modelSelection === 0 ? unitModels : [unitModels[modelSelection - 1]];
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <>
-      <Dialog fullWidth maxWidth="md" open onClose={hideModal}>
+      <Dialog
+        open
+        fullScreen={fullScreen}
+        fullWidth
+        onClose={hideModal}
+        maxWidth="lg"
+      >
         <DialogTitle>
           {unit.name} <small>{`(${unitPoints} pts)`}</small>
         </DialogTitle>

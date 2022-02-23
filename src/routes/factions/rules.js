@@ -1,52 +1,56 @@
-import RehypeToc from '@jsdevtools/rehype-toc';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import { Grid, useTheme } from "@mui/material";
 import Typography from "@mui/material/Typography";
-import { get, isEqual, sortBy } from "lodash";
-import React from "react";
+import { DataContext } from 'hooks';
+import { get, sortBy } from "lodash";
+import React, { useContext } from "react";
 import ReactMarkdown from "react-markdown";
-import styled from "styled-components";
-import { MarkdownRenderer } from "utils/markdown";
 
 export function Rules(props) {
-  const { rawData, game, data, nameFilter } = props;
-  const { gameRules, skirmishRules } = rawData;
+  const { data, nameFilter } = props;
+  const [
+    {
+      setAppState,
+      userPrefs,
+    },
+  ] = useContext(DataContext);
   const theme = useTheme();
-  const gameType = get(game, "gameType", "battle");
-  const StyledRules = styled.div`
-  h1 {
-    font-size: 22pt;
-    font-weight: bold;
-    border-bottom: 4px solid ${theme.palette.primary.main};
-    padding-bottom: 0.25rem;
-  }
-  h2 {
-    font-size: 20pt;
-    border-bottom: 2px solid ${theme.palette.primary.main};
-    padding-bottom: 0.25rem;
-  }
-  h3 {
-    font-size: 16pt;
-  }
-  h4 {
-    font-weight: bold;
-    font-size: 12pt;
-  }
-  h5 {
-    font-weight: bold;
-    font-size: 12pt;
-  }
-  p {
-    break-inside: "avoid-column";
-    page-break-inside: avoid; /* For Firefox. */
-    -webkit-column-break-inside: avoid; /* For Chrome & friends. */
-    break-inside: avoid; /* For standard browsers like IE. :-) */
-  }
-`;
+  // const gameType = get(game, "gameType", "battle");
+//   const StyledRules = styled.div`
+//   h1 {
+//     font-size: 22pt;
+//     font-weight: bold;
+//     border-bottom: 4px solid ${theme.palette.primary.main};
+//     padding-bottom: 0.25rem;
+//   }
+//   h2 {
+//     font-size: 20pt;
+//     border-bottom: 2px solid ${theme.palette.primary.main};
+//     padding-bottom: 0.25rem;
+//   }
+//   h3 {
+//     font-size: 16pt;
+//   }
+//   h4 {
+//     font-weight: bold;
+//     font-size: 12pt;
+//   }
+//   h5 {
+//     font-weight: bold;
+//     font-size: 12pt;
+//   }
+//   p {
+//     break-inside: "avoid-column";
+//     page-break-inside: avoid; /* For Firefox. */
+//     -webkit-column-break-inside: avoid; /* For Chrome & friends. */
+//     break-inside: avoid; /* For standard browsers like IE. :-) */
+//   }
+// `;
   // const gameTypeData = get(rawData, `gameData.gameTypes[${gameType}]`, {});
   // const gameTypeName = get(gameTypeData, "name", "Unknown Game");
-  const isSkirmish = isEqual(gameType, "battle");
-  const rules = isSkirmish ? gameRules : skirmishRules;
-  const mdRenderer = React.useMemo(() => MarkdownRenderer(), []);
+  // const isSkirmish = isEqual(gameType, "battle");
+  // const rules = isSkirmish ? gameRules : skirmishRules;
+  // const mdRenderer = React.useMemo(() => MarkdownRenderer(), []);
   const missions = data
     .getMissionScenarios()
     .filter((mission) =>
@@ -78,9 +82,30 @@ export function Rules(props) {
       ),
     "name"
   );
+  const scrollWithOffset = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  React.useEffect(() => {
+    setAppState({
+      enableSearch: false,
+      contextActions: [
+        {
+          name: 'Top',
+          icon: <ArrowUpwardIcon />,
+          onClick: () => scrollWithOffset()
+        }
+      ]
+    })
+    return () => {
+      setAppState({
+        contextActions: []
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ userPrefs.developerMode ]);
   return (
     <>
-      <div
+      {/* <div
         style={{ marginBottom: "15px", borderColor: theme.palette.primary.main }}
       >
         <div>
@@ -89,9 +114,8 @@ export function Rules(props) {
               rehypePlugins={[[RehypeToc, { headings: ["h1", "h2", "h3"] }]]} />
           </StyledRules>
         </div>
-      </div>
-      <Typography variant="h4" align="center">Terrain Examples</Typography>
-      <hr className="hr-blue" />
+      </div> */}
+      <Typography sx={{ my: 2 }} variant="h4" align="center">Terrain Examples</Typography>
       <div className="two-columns">
         {terrains.map((terrain) => (
           <div
@@ -104,11 +128,11 @@ export function Rules(props) {
             >
               <Typography variant="h5" align="center">{terrain.name}</Typography>
             </div>
-            <div className="unit-card-body">
+            <div style={{ padding: '0 15px' }}>
               <div>
-                <p style={{ breakInside: "avoid-column", marginBottom: "0.5em" }}>
+                <Typography sx={{ my: 2 }} style={{ breakInside: "avoid-column", marginBottom: "0.5em" }}>
                   <i>{terrain.description}</i>
-                </p>
+                </Typography>
                 <ul className="ul-indent">
                   {get(terrain, "rules", []).map((rule) => (
                     <li>{rule}</li>
@@ -120,8 +144,7 @@ export function Rules(props) {
         ))}
       </div>
       <span id="scenario-h1">
-        <Typography variant="h4" align="center">Scenarios</Typography>
-        <hr className="hr-blue" />
+        <Typography sx={{ my: 2 }} variant="h4" align="center">Scenarios</Typography>
         <Grid
           container
           rowSpacing={1}
@@ -164,8 +187,7 @@ export function Rules(props) {
 
         </Grid>
       </span>
-      <Typography variant="h4" align="center">Secondary Objectives</Typography>
-      <hr className="hr-blue" />
+      <Typography sx={{ my: 2 }} variant="h4" align="center">Secondary Objectives</Typography>
       <div className="two-columns">
         {secondaries.map((condition, index) => (
           <div key={index} style={{ breakInside: "avoid" }}>
@@ -204,9 +226,7 @@ export function Rules(props) {
           </div>
         ))}
       </div>
-
-      <Typography sx={{ pt: 2 }} variant="h4" align="center">Twists</Typography>
-      <hr className="hr-blue" />
+      <Typography sx={{ my: 2 }} variant="h4" align="center">Twists</Typography>
       <div className="two-columns">
         {weathers.map((weather, index) => (
           <div key={index} style={{ breakInside: "avoid" }}>

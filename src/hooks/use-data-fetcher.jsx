@@ -38,6 +38,7 @@ export const useDataFetcher = (myUrl) => {
   // const missionUrl = "/data/missions/index.json";
   const ruleUrl = "/data/rules.md";
   const skirmishRuleUrl = "/data/rules_skirmish.md";
+  const racingRuleUrl = "/data/rules_racing.md";
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
@@ -102,6 +103,13 @@ export const useDataFetcher = (myUrl) => {
       })
       .catch((e) => Promise.reject(e));
   }, []);
+  const fetchRacingRules = React.useCallback(async (rulesUrl) => {
+    return fetchTextData(rulesUrl || racingRuleUrl)
+      .then((resultData) => {
+        return resultData;
+      })
+      .catch((e) => Promise.reject(e));
+  }, []);
   const fetchAllData = React.useCallback(async (reset = false) => {
     const resultData = await fetchGameSystems();
     // const resultDataMissions = await fetchMissions();
@@ -109,6 +117,7 @@ export const useDataFetcher = (myUrl) => {
     const resultDataUpdates = await fetchGameUpdates();
     const resultDataRules = await fetchRules();
     const resultSkirmishRules = await fetchSkirmishRules();
+    const resultRacingRules = await fetchRacingRules();
     const allData = {
       lastFetch: Date.now(),
       gameData: {
@@ -132,11 +141,12 @@ export const useDataFetcher = (myUrl) => {
       updates: resultDataUpdates,
       gameRules: resultDataRules,
       skirmishRules: resultSkirmishRules,
-      lists: get(data, "lists", {}),
+      racingRules: resultRacingRules,
+      lists: get(data, "lists", {})
     };
     updateData(allData);
     return allData;
-  }, [data, fetchGameSystems, fetchGameUpdates, fetchNameLists, fetchRules, fetchSkirmishRules]);
+  }, [data, fetchGameSystems, fetchGameUpdates, fetchNameLists, fetchRules, fetchSkirmishRules, fetchRacingRules]);
   useEffect(() => {
     const hasGameData = !Object.keys(get(data, `gameData.games`, {})).length;
     const MAX_CACHE_AGE = 2 * 60 * 60 * 1000; // 2 hours

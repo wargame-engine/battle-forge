@@ -229,7 +229,7 @@ export const UnitCard = (props) => {
       }}
     >
       <CardHeader
-        sx={{ backgroundColor: factionColor, color: textColor, py: 1.5 }}
+        sx={{ backgroundColor: factionColor, color: textColor, py: 1.25 }}
         title={
           <>
             <Typography variant="h5">

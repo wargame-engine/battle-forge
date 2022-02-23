@@ -110,9 +110,9 @@ export const Factions = (props) => {
                                 </Dropdown>
                               )}
                               {faction.name}
-                              <small style={{ marginLeft: '5px', fontSize: '1rem'}}>
+                              {/* <small style={{ marginLeft: '5px', fontSize: '1rem'}}>
                                 {game.version ? `(${game.version})` : ""}
-                              </small>
+                              </small> */}
                             </Typography>
                           }
                         />
