@@ -236,7 +236,7 @@ const Games = (props) => {
   return (
     <Container>
       <Typography variant="h3" align="center" sx={{ mb: 2 }}>
-        Games Modules
+        Game Modules
       </Typography>
       <Box
         className="sticky"
