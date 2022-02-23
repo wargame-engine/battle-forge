@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/static/css/main.b65dc82e.css",
-    "main.js": "/static/js/main.ebbfa2b8.js",
+    "main.js": "/static/js/main.94f79240.js",
     "static/media/battle_forged_wide.png": "/static/media/battle_forged_wide.b1be5222dae6388293d6.png",
     "static/media/battleforged_anvil.png": "/static/media/battleforged_anvil.60c74805c3c1552a1320.png",
     "index.html": "/index.html",
     "main.b65dc82e.css.map": "/static/css/main.b65dc82e.css.map",
-    "main.ebbfa2b8.js.map": "/static/js/main.ebbfa2b8.js.map"
+    "main.94f79240.js.map": "/static/js/main.94f79240.js.map"
   },
   "entrypoints": [
     "static/css/main.b65dc82e.css",
-    "static/js/main.ebbfa2b8.js"
+    "static/js/main.94f79240.js"
   ]
 }
