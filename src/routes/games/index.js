@@ -1,18 +1,15 @@
-import {
-  faCheckCircle, faExclamationCircle
-} from "@fortawesome/free-solid-svg-icons";
+import { faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import BugReportIcon from '@mui/icons-material/BugReport';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import UploadIcon from '@mui/icons-material/Upload';
 import {
   Button, CardActionArea,
-  CardActions, CardHeader, Grid
+  CardActions, CardHeader, Chip
 } from "@mui/material";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import Container from "@mui/material/Container";
 import Popover from "@mui/material/Popover";
 import { useTheme } from "@mui/material/styles";
@@ -23,7 +20,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { Dropdown } from "components/dropdown";
 import { DataContext } from "hooks";
 import useQueryParams from 'hooks/use-query-params';
-import { get, groupBy, omit, sortBy } from "lodash";
+import { get, omit, sortBy } from "lodash";
 import { useSnackbar } from "notistack";
 import React from "react";
 import { useNavigate } from 'react-router';
@@ -42,13 +39,13 @@ const Games = (props) => {
       userPrefs
     },
   ] = React.useContext(DataContext);
-  let [ activeTab, setActiveTab ] = useQueryParams("tab", 0);
+  let [activeTab, setActiveTab] = useQueryParams("tab", 0);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const nameFilter = appState?.searchText;
-  
+
   const showBeta = userPrefs.showBeta;
   const gameTypesRaw = {
     all: { name: "All" },
@@ -80,10 +77,6 @@ const Games = (props) => {
       : game.gameType === gameTypes[activeTab]
   );
   const gameCategories = get(nope, "gameData.categories", {});
-  const unitCategories = groupBy(games, "category");
-  const categoryOrder = [...Object.keys(gameCategories), undefined].filter(
-    (cat) => unitCategories[cat] && unitCategories[cat].length
-  );
   const reportUrl = get(nope, "gameData.reportUrl");
   const fileDialog = React.useRef();
 
@@ -176,7 +169,7 @@ const Games = (props) => {
           appearance: "error",
         });
       });
-  }, [ enqueueSnackbar, refreshAllData ]);
+  }, [enqueueSnackbar, refreshAllData]);
   const handleClick = () => {
     fileDialog.current.click();
   };
@@ -224,8 +217,8 @@ const Games = (props) => {
         contextActions: []
       })
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ userPrefs.developerMode ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userPrefs.developerMode]);
   // const [dialOpen, setDialOpen] = React.useState(false);
   if (!games) {
     return (
@@ -278,165 +271,148 @@ const Games = (props) => {
           </Box>
         )}
       </Box>
-      <div id="gameList">
-        {categoryOrder.map((gameKey, idx) => {
-          const games = get(unitCategories, `[${gameKey}]`, []);
-          const categoryData = get(nope, `gameData.categories[${gameKey}]`, {});
+      <Box sx={{ mt: 2}} className="two-columns">
+        {games.map((game, index) => {
+          const factionColor = game.color;
+          const isModified = Object.values(
+            get(nope, `customData.games[${game.id}]`, {})
+          ).length;
           return (
-            <>
-              <Typography variant="h4" gutterBottom align="center" sx={{ my: 2 }}>
-                {categoryData.name || "No Category"}
-              </Typography>
-              <Grid
-                container
-                spacing={{ xs: 2, md: 3 }}
-                key={idx}
+            <Box
+              className="no-break"
+              item
+              sx={{ pb: 2 }}
+              md={games.length > 1 ? "6" : "6"}
+              key={index}
+            >
+              <Card
+                sx={{
+                  border: `2px solid ${factionColor}`,
+                }}
               >
-                {games.map((game, index) => {
-                  const factionColor = game.color;
-                  const isModified = Object.values(
-                    get(nope, `customData.games[${game.id}]`, {})
-                  ).length;
-                  return (
-                    <Grid
-                      item
-                      sx={{ pb: 2 }}
-                      md={games.length > 1 ? "6" : "12"}
-                      key={index}
-                    >
-                      <Card
-                        sx={{
-                          border: `2px solid ${factionColor}`,
-                        }}
+                <CardActionArea onClick={() => goToFaction(game)}>
+                  <CardHeader
+                    sx={{
+                      py: 1.25,
+                      backgroundColor: factionColor,
+                      color: "white",
+                    }}
+                    title={
+                      <Typography
+                        variant="h5"
+                        component="div"
+                        align="center"
                       >
-                        <CardActionArea onClick={() => goToFaction(game)}>
-                          <CardHeader
-                            sx={{
-                              py: 1.25,
-                              backgroundColor: factionColor,
-                              color: "white",
-                            }}
-                            title={
-                              <Typography
-                                variant="h5"
-                                component="div"
-                                align="center"
-                              >
-                                {!!isModified && (
-                                  <Dropdown>
-                                    {({ handleClose, open, handleOpen, anchorElement }) => (
-                                      <>
-                                        <span
-                                          aria-haspopup="true"
-                                          onMouseEnter={handleOpen}
-                                          onMouseLeave={handleClose} style={{ marginRight: '5px' }}>
-                                          <FontAwesomeIcon
-                                            size="sm"
-                                            icon={faExclamationCircle}
-                                          />
-                                        </span>
-                                        <Popover
-                                          variant="warning"
-                                          id="mouse-over-popover"
-                                          sx={{
-                                            pointerEvents: 'none',
-                                          }}
-                                          open={open}
-                                          anchorEl={anchorElement}
-                                          anchorOrigin={{
-                                            vertical: 'top',
-                                            horizontal: 'center',
-                                          }}
-                                          transformOrigin={{
-                                            vertical: 'bottom',
-                                            horizontal: 'center',
-                                          }}
-                                          onClose={handleClose}
-                                          disableRestoreFocus
-                                        >
-                                          <Typography sx={{ p: 1 }}>Warning: Data Is Modified Locally</Typography>
-                                        </Popover>
-                                      </>
-                                    )}
-                                  </Dropdown>
-                                )}
-                                {!isModified && (
-                                  <Dropdown>
-                                    {({ handleClose, open, handleOpen, anchorElement }) => (
-                                      <>
-                                        <span
-                                          aria-haspopup="true"
-                                          onMouseEnter={handleOpen}
-                                          onMouseLeave={handleClose} style={{ marginRight: '5px' }}>
-                                          <FontAwesomeIcon size="sm" icon={faCheckCircle} />
-                                        </span>
-                                        <Popover
-                                          variant="warning"
-                                          id="mouse-over-popover"
-                                          sx={{
-                                            pointerEvents: 'none',
-                                          }}
-                                          open={open}
-                                          anchorEl={anchorElement}
-                                          anchorOrigin={{
-                                            vertical: 'top',
-                                            horizontal: 'center',
-                                          }}
-                                          transformOrigin={{
-                                            vertical: 'bottom',
-                                            horizontal: 'center',
-                                          }}
-                                          onClose={handleClose}
-                                          disableRestoreFocus
-                                        >
-                                          <Typography sx={{ p: 1 }}>Official Game Module</Typography>
-                                        </Popover>
-                                      </>
-                                    )}
-                                  </Dropdown>
-                                )}
-                                {game.name}
-                                <small style={{ marginLeft: '5px', fontSize: '1rem' }}>
-                                  {game.version ? `(${game.version})` : ""}
-                                </small>
-                              </Typography>
-                            }
-                          />
-                          {!!game.image && (
-                            <CardMedia
-                              component="img"
-                              height="250"
-                              image={game.image}
-                              alt="green iguana"
-                            />
-                          )}
-                          <CardContent sx={{ p: 1.5 }}>
-                            <Typography>{game.description || " "}</Typography>
-                          </CardContent>
-                        </CardActionArea>
-                        {!game.url && (
-                          <CardActions>
-                            <Button
-                              size="small"
-                              color="primary"
-                              onClick={(event) => {
-                                event.stopPropagation();
-                                deleteGame(game.id);
-                              }}
-                            >
-                              Delete
-                            </Button>
-                          </CardActions>
+                        {!!isModified && (
+                          <Dropdown>
+                            {({ handleClose, open, handleOpen, anchorElement }) => (
+                              <>
+                                <span
+                                  aria-haspopup="true"
+                                  onMouseEnter={handleOpen}
+                                  onMouseLeave={handleClose} style={{ marginRight: '5px' }}>
+                                  <FontAwesomeIcon
+                                    size="sm"
+                                    icon={faExclamationCircle}
+                                  />
+                                </span>
+                                <Popover
+                                  variant="warning"
+                                  id="mouse-over-popover"
+                                  sx={{
+                                    pointerEvents: 'none',
+                                  }}
+                                  open={open}
+                                  anchorEl={anchorElement}
+                                  anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'center',
+                                  }}
+                                  transformOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'center',
+                                  }}
+                                  onClose={handleClose}
+                                  disableRestoreFocus
+                                >
+                                  <Typography sx={{ p: 1 }}>Warning: Data Is Modified Locally</Typography>
+                                </Popover>
+                              </>
+                            )}
+                          </Dropdown>
                         )}
-                      </Card>
-                    </Grid>
-                  );
-                })}
-              </Grid>
-            </>
+                        {/* {!isModified && (
+                          <Dropdown>
+                            {({ handleClose, open, handleOpen, anchorElement }) => (
+                              <>
+                                <span
+                                  aria-haspopup="true"
+                                  onMouseEnter={handleOpen}
+                                  onMouseLeave={handleClose} style={{ marginRight: '5px' }}>
+                                  <FontAwesomeIcon size="sm" icon={faCheckCircle} />
+                                </span>
+                                <Popover
+                                  variant="warning"
+                                  id="mouse-over-popover"
+                                  sx={{
+                                    pointerEvents: 'none',
+                                  }}
+                                  open={open}
+                                  anchorEl={anchorElement}
+                                  anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'center',
+                                  }}
+                                  transformOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'center',
+                                  }}
+                                  onClose={handleClose}
+                                  disableRestoreFocus
+                                >
+                                  <Typography sx={{ p: 1 }}>Official Game Module</Typography>
+                                </Popover>
+                              </>
+                            )}
+                          </Dropdown>
+                        )} */}
+                        {game.name}
+                        {/* <small style={{ marginLeft: '5px', fontSize: '1rem' }}>
+                          {game.version ? `(${game.version})` : ""}
+                        </small> */}
+                      </Typography>
+                    }
+                  />
+                  <CardContent sx={{ p: 0, display: 'flex', alignItems: 'end' }} style={{ background: `url(${!!game.image ? game.image : ''})`, backgroundSize: 'cover' }}>
+                    <Box className={!!game.image ? "hover-fade" : ''} sx={{ p: 2 }} style={{ flex: 1, background: 'rgba(0,0,0, 0.75)' }}>
+                      <Typography color="white" paragraph>
+                        {game.description || " "}
+                      </Typography>
+                      {gameCategories[game.category]?.name && <Chip color="primary" label={gameCategories[game.category]?.name || ''} />}
+                      {gameTypesRaw[gameTypes[parseInt(activeTab)]]?.name && <Chip color="primary" sx={{ ml: 1 }} label={gameTypesRaw[gameTypes[parseInt(activeTab)]]?.name || ''} />}
+                      {Number(game.version) < 1 && <Chip color="warning" sx={{ ml: 1 }} label={(Number(game.version) < 1) ? 'Beta' : ''} />}
+                    </Box>
+                  </CardContent>
+                </CardActionArea>
+                {!game.url && (
+                  <CardActions>
+                    <Button
+                      size="small"
+                      color="primary"
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        deleteGame(game.id);
+                      }}
+                    >
+                      Delete
+                    </Button>
+                  </CardActions>
+                )}
+              </Card>
+            </Box>
           );
         })}
-      </div>
+      </Box>
       <input
         id="file-input"
         type="file"

@@ -124,7 +124,7 @@ export const Factions = (props) => {
                             alt="green iguana"
                           />
                         )}
-                        <CardContent sx={{ p: 1.5 }}>
+                        <CardContent sx={{ p: 2 }}>
                           <Typography>
                             {faction.description || " "}
                           </Typography>

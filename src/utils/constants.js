@@ -1,5 +1,12 @@
 export const BASE_THEME = {
   components: {
+    MuiChip: {
+      styleOverrides: {
+        root: {
+          borderRadius: '2px'
+        }
+      }
+    },
     MuiTableContainer: {
       styleOverrides: {
         root: {
