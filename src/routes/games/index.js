@@ -384,13 +384,15 @@ const Games = (props) => {
                     }
                   />
                   <CardContent sx={{ p: 0, display: 'flex', alignItems: 'end' }} style={{ background: `url(${!!game.image ? game.image : ''})`, backgroundSize: 'cover' }}>
-                    <Box className={!!game.image ? "hover-fade" : ''} sx={{ p: 2 }} style={{ flex: 1, background: 'rgba(0,0,0, 0.75)' }}>
-                      <Typography color="white" paragraph>
+                    <Box className={!!game.image ? "hover-fade" : ''} sx={{ p: 1.5 }} style={{ flex: 1, background: 'rgba(0,0,0, 0.75)' }}>
+                      <Typography align="center" color="white" paragraph>
                         {game.description || " "}
                       </Typography>
-                      {gameCategories[game.category]?.name && <Chip color="primary" label={gameCategories[game.category]?.name || ''} />}
-                      {gameTypesRaw[gameTypes[parseInt(activeTab)]]?.name && <Chip color="primary" sx={{ ml: 1 }} label={gameTypesRaw[gameTypes[parseInt(activeTab)]]?.name || ''} />}
-                      {Number(game.version) < 1 && <Chip color="warning" sx={{ ml: 1 }} label={(Number(game.version) < 1) ? 'Beta' : ''} />}
+                      <Box display="flex" justifyContent="center">
+                        {gameCategories[game.category]?.name && <Chip color="primary" label={gameCategories[game.category]?.name || ''} />}
+                        {gameTypesRaw[gameTypes[parseInt(activeTab)]]?.name && <Chip color="primary" sx={{ ml: 1 }} label={gameTypesRaw[gameTypes[parseInt(activeTab)]]?.name || ''} />}
+                        {Number(game.version) < 1 && <Chip color="warning" sx={{ ml: 1 }} label={(Number(game.version) < 1) ? 'Beta' : ''} />}
+                      </Box>
                     </Box>
                   </CardContent>
                 </CardActionArea>

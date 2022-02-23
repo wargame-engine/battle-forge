@@ -124,8 +124,8 @@ export const Factions = (props) => {
                             alt="green iguana"
                           />
                         )}
-                        <CardContent sx={{ p: 2 }}>
-                          <Typography>
+                        <CardContent sx={{ p: 1.5 }}>
+                          <Typography align="center">
                             {faction.description || " "}
                           </Typography>
                         </CardContent>
