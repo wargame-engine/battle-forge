@@ -1,10 +1,14 @@
 import { ExpandLess, ExpandMore, Home } from '@mui/icons-material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
+import ConstructionIcon from '@mui/icons-material/Construction';
+import ExtensionIcon from '@mui/icons-material/Extension';
 import FeaturedPlayListIcon from '@mui/icons-material/FeaturedPlayList';
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SearchIcon from '@mui/icons-material/Search';
+import SettingsIcon from '@mui/icons-material/Settings';
 import { Collapse, Drawer, ListItemButton, Menu, MenuItem } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -24,17 +28,13 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import IGR from "assets/battleforged_anvil.png";
 import { Dropdown } from "components/dropdown";
 import { DataContext, useModal } from "hooks";
-import SettingsIcon from '@mui/icons-material/Settings';
-import Dice6 from 'mdi-material-ui/Dice6';
+import { get } from 'lodash';
 import Discord from 'mdi-material-ui/Discord';
 import Github from 'mdi-material-ui/Github';
 import Newspaper from 'mdi-material-ui/Newspaper';
-import BookmarkIcon from '@mui/icons-material/Bookmark';
-import ConstructionIcon from '@mui/icons-material/Construction';
 import React from "react";
 import { useNavigate } from 'react-router';
 import { UserPreferences } from "routes/modals";
-import { get } from 'lodash';
 
 const drawerWidth = 250;
 
@@ -105,9 +105,9 @@ export const MainNav = (props) => {
       to: '/'
     },
     {
-      id: 'games',
-      name: 'Games',
-      icon: <Dice6 />,
+      id: 'modules',
+      name: 'Modules',
+      icon: <ExtensionIcon />,
       to: '/games',
       children: gameTypes.map((gameTypeKey, index) => (        {
         id: gameTypeKey,

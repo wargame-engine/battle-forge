@@ -234,7 +234,7 @@ export const AddList = (props) => {
       >
         {!gameId && (
           <>
-            <DialogTitle closeButton>Choose Game</DialogTitle>
+            <DialogTitle closeButton>Choose Module</DialogTitle>
             <DialogContent style={{ padding: 0 }} sx={{ backgroundColor: 'background.paper' }}>
               <Paper style={{  height: '100%', borderRadius: 0, overflowY: 'auto' }}>
                 {categoryOrder.map((allianceKey) => {

@@ -11,7 +11,7 @@ import logo from "assets/battle_forged_wide.png";
 import Gallery from 'components/gallery';
 import { shuffle } from "lodash";
 import ChessPawn from 'mdi-material-ui/ChessPawn';
-import Dice6 from 'mdi-material-ui/Dice6';
+import ExtensionIcon from '@mui/icons-material/Extension';
 import Discord from 'mdi-material-ui/Discord';
 import Github from 'mdi-material-ui/Github';
 import Newspaper from 'mdi-material-ui/Newspaper';
@@ -38,8 +38,8 @@ export default function Home() {
       color: colors.red.import[800],
     },
     {
-      name: "Games",
-      icon: <Dice6 style={{ fontSize: iconSize }} />,
+      name: "Modules",
+      icon: <ExtensionIcon style={{ fontSize: iconSize }} />,
       text: "Browse all of the available game modules to experience.",
       to: "/games",
       color: colors.green.import[900],
