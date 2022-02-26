@@ -1,4 +1,5 @@
 import BuildIcon from '@mui/icons-material/Build';
+import ExtensionIcon from '@mui/icons-material/Extension';
 import FeaturedPlayListIcon from '@mui/icons-material/FeaturedPlayList';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
@@ -10,11 +11,10 @@ import { useTheme } from '@mui/material/styles';
 import logo from "assets/battle_forged_wide.png";
 import Gallery from 'components/gallery';
 import { shuffle } from "lodash";
+import { Patreon } from 'mdi-material-ui';
 import ChessPawn from 'mdi-material-ui/ChessPawn';
-import ExtensionIcon from '@mui/icons-material/Extension';
 import Discord from 'mdi-material-ui/Discord';
 import Github from 'mdi-material-ui/Github';
-import Newspaper from 'mdi-material-ui/Newspaper';
 import React from "react";
 import ReactMarkdown from "react-markdown";
 import { useNavigate } from 'react-router';
@@ -51,14 +51,15 @@ export default function Home() {
       to: "/lists",
       color: colors.brown.import[500],
     },
+    // {
+    //   name: "Updates",
+    //   icon: <Newspaper style={{ fontSize: iconSize }} />,
+    //   text: "View any recent game updates and important announcements.",
+    //   to: "/updates",
+    //   color: colors.purple.import[600],
+    // },
     {
-      name: "Updates",
-      icon: <Newspaper style={{ fontSize: iconSize }} />,
-      text: "View any recent game updates and important announcements.",
-      to: "/updates",
-      color: colors.purple.import[600],
-    },
-    {
+      id: 'discuss',
       name: "Discuss",
       icon: <Discord style={{ fontSize: iconSize }} />,
       text: "Discuss the game and provide feedback here on our Discord.",
@@ -72,6 +73,13 @@ export default function Home() {
       toAbs: "https://github.com/wargame-engine",
       color: colors.blueGray.import[600],
     },
+    {
+      id: 'support',
+      name: 'Donate',
+      icon: <Patreon style={{ fontSize: iconSize }} />,
+      text: "Support further development of the game.",
+      toAbs: 'https://www.patreon.com/indiegamerules'
+    }
   ];
 
   return (

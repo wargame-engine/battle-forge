@@ -31,7 +31,7 @@ import { DataContext, useModal } from "hooks";
 import { get } from 'lodash';
 import Discord from 'mdi-material-ui/Discord';
 import Github from 'mdi-material-ui/Github';
-import Newspaper from 'mdi-material-ui/Newspaper';
+import Patreon from 'mdi-material-ui/Patreon';
 import React from "react";
 import { useNavigate } from 'react-router';
 import { UserPreferences } from "routes/modals";
@@ -144,12 +144,12 @@ export const MainNav = (props) => {
     {
       id: 'divider'
     },
-    {
-      id: 'news',
-      name: 'Updates',
-      icon: <Newspaper />,
-      to: '/updates'
-    },
+    // {
+    //   id: 'news',
+    //   name: 'Updates',
+    //   icon: <Newspaper />,
+    //   to: '/updates'
+    // },
     {
       id: 'github',
       name: 'Github',
@@ -161,6 +161,12 @@ export const MainNav = (props) => {
       name: 'Discord',
       icon: <Discord />,
       toAbs: 'https://discord.com/invite/M9sets4'
+    },
+    {
+      id: 'support',
+      name: 'Support Us',
+      icon: <Patreon />,
+      toAbs: 'https://www.patreon.com/indiegamerules'
     },
     {
       id: 'divider'
