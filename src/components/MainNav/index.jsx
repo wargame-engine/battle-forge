@@ -163,8 +163,8 @@ export const MainNav = (props) => {
       toAbs: 'https://discord.com/invite/M9sets4'
     },
     {
-      id: 'support',
-      name: 'Support Us',
+      id: 'donate',
+      name: 'Donate',
       icon: <Patreon />,
       toAbs: 'https://www.patreon.com/indiegamerules'
     },
