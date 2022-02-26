@@ -72,14 +72,14 @@ export default React.memo((props) => {
       setAppState
     },
   ] = useContext(DataContext);
-  const list = get(someData, `lists[${listId}]`, {});
+  const lists = get(someData, `lists`, {});
+  const list = get(lists, `[${listId}]`, {});
   const gameName = get(list, 'gameId');
   const game = get(someData, `gameData.games[${gameName}]`, {});
   const gameType = get(game, "gameType", "battle");
   const isSkirmish = gameType === "skirmish";
   const globalData = mergeGlobalData(game, someData);
   const data = DataAPI(game, globalData);
-  const lists = get(someData, `lists`, {});
   const fileDialog = React.useRef();
   const orgs = data.getRawOrganizations();
   const { enqueueSnackbar } = useSnackbar();
@@ -902,7 +902,7 @@ export default React.memo((props) => {
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editMode]);
+  }, [ editMode, list ]);
   if (!someData || !allFactionsLoaded) {
     return (
       <Box sx={{ textAlign: "center" }}>
