@@ -1,4 +1,4 @@
-import { castArray, clamp, get, intersection, isArray, isNil, isNumber, isString, mapValues, mean, mergeWith, pickBy, sortBy, sum, toNumber, uniq } from 'lodash';
+import { castArray, clamp, get, intersection, isArray, isNil, isNumber, isString, mapValues, mean, mergeWith, pickBy, sortBy, sum, toNumber, uniq, keyBy, isObject } from 'lodash';
 import { formatModel, formatWeapon } from 'utils/format';
 import { getRandomItem, round5 } from 'utils/math';
 
@@ -1316,21 +1316,19 @@ export const DataAPI = (data, root={}) => {
     const weaponBase = getWeaponPoints(weaponData, model, faction);
     const weaponPoints = weaponBase * weaponCount * weaponMountMult;
     points += weaponPoints;
-    // if (points > 0) {
-    //   // Cost weapon rules that do not scale with weapon
-    //   const weaponRules = weaponData.rules || [];
-    //   weaponRules.forEach((rule) => {
-    //     const weaponsWithoutCurr = (model.weapons || []).filter((wep) => (wep.id || wep) !== (weapon.id || weapon));
-    //     const ruleCost = getRuleCostForModel(rule, {
-    //       ...model,
-    //       weapons: weaponsWithoutCurr
-    //     }, faction);
-
-    //     points += ruleCost;
-    //   });
-    // }
-    //console.log(model.name, weaponData.name, points);
     return points;
+  }
+
+  const formatRuleVariables = (rules) => {
+    return mapValues(keyBy(rules, (rule) => rule?.id || rule), (rule) => {
+      if (isString(rule)){
+        return 1;
+      } else if (isObject(rule) && Object.keys(rule).length <= 1) {
+        return 1;
+      } else {
+        return rule;
+      }
+    });
   }
 
   /*
@@ -1362,7 +1360,7 @@ export const DataAPI = (data, root={}) => {
       weaponRules.forEach((rule) => {
         const ruleId = rule.id || rule;
         const ruleData = getRule(ruleId, faction);
-        const resolvedPoints = resolvePoints(ruleData.points || 0, {
+        const resolveVariables = {
           weapon: {
             ...weapon,
             ap: weapon.ap || 0,
@@ -1372,9 +1370,13 @@ export const DataAPI = (data, root={}) => {
             points
           },
           rule,
-          model,
+          model: {
+            ...model,
+            rules: formatRuleVariables(get(model, 'rules', []))
+          },
           faction
-        });
+        };
+        const resolvedPoints = resolvePoints(ruleData.points || 0, resolveVariables);
         if (resolvedPoints) {
           points += resolvedPoints;
         }
@@ -1415,304 +1417,18 @@ export const DataAPI = (data, root={}) => {
     let points = 0;
     const ruleId = rule.id || rule;
     const ruleData = getRule(ruleId, faction);
-    const resolvedPoints = resolvePoints(ruleData.points || 0, {
+    const resolveVariables = {
       rule,
-      model,
+      model: {
+        ...model,
+        rules: formatRuleVariables(get(model, 'rules', []))
+      },
       faction
-    });
+    };
+    const resolvedPoints = resolvePoints(ruleData.points || 0, resolveVariables);
     if (resolvedPoints) {
       points += resolvedPoints;
     }
-    // (ruleData.effects || []).forEach((effect) => {
-    //   // How often the ability will trigger (frequency / 10 is the percentage time it's active)
-    //   let frequency = (typeof effect.frequency === 'string' ? rule[effect.frequency] : effect.frequency) || 10;
-    //   const value = (typeof effect.value === 'string' ? rule[effect.value] : effect.value) || 1;
-    //   // Ignore terrain penalties
-    //   if (effect.type === "ignoreTerrain") {
-    //     const modelWounds = model.wounds || 1;
-    //     points += modelWounds * 2 * (frequency / 10);
-    //   }
-    //   // Ignore terrain penalties
-    //   if (effect.type === "ambush") {
-    //     const modelWounds = model.wounds || 1;
-    //     points += modelWounds * 2 * (frequency / 10);
-    //   }
-    //   // Ignore terrain penalties
-    //   if (effect.type === "stealth") {
-    //     const modelWounds = model.wounds || 1;
-    //     points += modelWounds * 3 * value * (frequency / 10);
-    //   }
-    //   if (effect.type === "activateUnit") {
-    //     const modelWounds = model.wounds || 1;
-    //     points += (modelWounds / 2) * value * (frequency / 10);
-    //   }
-    //   if (effect.type === "regeneration") {
-    //     const modelWounds = model.wounds || 1;
-    //     points += modelWounds * frequency;
-    //   }
-    //   if (effect.type === "invulnerable") {
-    //     const modelDefense = model.defense || 1;
-    //     points += modelDefense * value * (frequency / 10);
-    //   }
-    //   if (effect.type === "transport") {
-    //     const size = (typeof effect.size === 'string' ? rule[effect.size] : effect.size) || 1;
-    //     points += size * (frequency / 10);
-    //   }
-    //   if (effect.type === "open_topped") {
-    //     points += value * (frequency / 10);
-    //   }
-    //   if (effect.type === "psychic") {
-    //     points += (15 * value) * (frequency / 10);
-    //   }
-    //   if (effect.type === "heal") {
-    //     points += 5 * value * (frequency / 10);
-    //   }
-    //   if (effect.type === "spawnModel") {
-    //     const spawnedModel = effect.model || {};
-    //     const modelData = getModel(spawnedModel, faction);
-    //     const cost = getModelTotalPoints({
-    //       ...modelData,
-    //     }, faction);
-    //     points += cost * 0.8 * (frequency / 10);
-    //   }
-    //   // Give a new rule
-    //   if (effect.type === "grantRule") {
-    //     const ruleName = effect.rule;
-    //     if (ruleName === ruleId) {
-    //       console.log('cycle detected wot you doing m8');
-    //       return 0;
-    //     };
-    //     const target = effect.target || "self";
-    //     if (target !== "self") {
-    //       const auraCost = getAuraCost(model, effect, (modelTarget) => {
-    //         //const modelRulesWithoutCurr = (modelTarget.rules || []).filter((filterRule) => filterRule.id !== ruleId && filterRule !== ruleId);
-    //         const modelRulesWithoutCurr = [];
-    //         const oldCost = getModelTotalPoints({
-    //           ...modelTarget,
-    //           rules: modelRulesWithoutCurr
-    //         }, faction);
-    //         const modelRulesWithNew = uniq([...modelRulesWithoutCurr, ruleName]);
-    //         const newCost = getModelTotalPoints({
-    //           ...modelTarget,
-    //           rules: modelRulesWithNew
-    //         }, faction);
-    //         const cost = (newCost - oldCost) * (effect.targetModels || modelTarget.min || 1);
-    //         return cost;
-    //       }, faction);
-    //       points += auraCost * (frequency / 10);
-    //     } else {
-    //       const modelRulesWithoutCurr = (model.rules || []).filter((filterRule) => filterRule.id !== ruleId && filterRule !== ruleId);
-    //       const oldCost = getModelTotalPoints({
-    //         ...model,
-    //         rules: modelRulesWithoutCurr
-    //       }, faction);
-    //       const modelRulesWithNew = uniq([...modelRulesWithoutCurr, ruleName]);
-    //       const newCost = getModelTotalPoints({
-    //         ...model,
-    //         rules: modelRulesWithNew
-    //       }, faction);
-    //       const cost = (newCost - oldCost) * (frequency / 10);
-    //       points += cost;
-    //     }
-    //   }
-    //   // Modify stat by some amount
-    //   if (effect.type === "alterStat") {
-    //     const target = effect.target || "self";
-    //     const improvedValue = (typeof effect.value === 'string' ? rule[effect.value] : effect.value) || 1;
-    //     const improvedStat = effect.statName;
-    //     if (target !== "self") {
-    //       const auraCost = getAuraCost(model, effect, (modelTarget) => {
-    //         const oldCost = getModelTotalPoints({
-    //           ...modelTarget,
-    //           rules: [],
-    //         }, faction);
-    //         const newCost = getModelTotalPoints({
-    //           ...modelTarget,
-    //           [improvedStat]: (modelTarget[improvedStat] || CONSTANTS[improvedStat] || 0) + improvedValue,
-    //           rules: [],
-    //         }, faction);
-    //         const cost = (newCost - oldCost) * (effect.targetModels || modelTarget.min || 1);
-    //         return cost;
-    //       }, faction);
-    //       // Tweak this cost up for possible upgrade interactions
-    //       points += auraCost * (frequency / 10) * 1.25;
-    //     } else {
-    //       const oldCost = getModelTotalPoints({
-    //         ...model,
-    //         weapons: [],
-    //         rules: []
-    //       }, faction);
-    //       const newCost = getModelTotalPoints({
-    //         ...model,
-    //         [improvedStat]: (model[improvedStat] || CONSTANTS[improvedStat] || 0) + improvedValue,
-    //         rules: [],
-    //         weapons: [],
-    //       }, faction);
-    //       const cost = (newCost - oldCost) * (frequency / 10);
-    //       points += cost;
-    //     }
-    //   }
-    //   // Modify stat by some amount
-    //   if (effect.type === "changeStat") {
-    //     const target = effect.target || "self";
-    //     const improvedValue = (typeof effect.value === 'string' ? rule[effect.value] : effect.value) || 1;
-    //     const improvedStat = effect.statName;
-    //     if (target !== "self") {
-    //       const auraCost = getAuraCost(model, effect, (modelTarget) => {
-    //         const oldCost = getModelTotalPoints({
-    //           ...modelTarget,
-    //           rules: []
-    //         }, faction);
-    //         const newCost = getModelTotalPoints({
-    //           ...modelTarget,
-    //           [improvedStat]: improvedValue,
-    //           rules: []
-    //         }, faction);
-    //         const cost = (newCost - oldCost) * (effect.targetModels || modelTarget.min || 1);
-    //         return cost;
-    //       }, faction);
-    //       // Tweak this cost up for possible upgrade interactions
-    //       points += auraCost * (frequency / 10) * 1.25;
-    //     } else {
-    //       const oldCost = getModelTotalPoints({
-    //         ...model,
-    //         rules: []
-    //       }, faction);
-    //       const newCost = getModelTotalPoints({
-    //         ...model,
-    //         [improvedStat]: improvedValue,
-    //         rules: []
-    //       }, faction);
-    //       const cost = (newCost - oldCost) * (frequency / 10);
-    //       points += cost;
-    //     }
-    //   }
-    //   // Give free attacks
-    //   if (effect.type === "freeAttacks") {
-    //     const weaponName = effect.weapon;
-    //     const fight = (typeof effect.fight === 'string' ? rule[effect.fight] : effect.fight) || 5;
-    //     const shoot = (typeof effect.shoot === 'string' ? rule[effect.shoot] : effect.shoot) || 5;
-    //     const numAttacks = (typeof effect.attacks === 'string' ? rule[effect.attacks] : effect.attacks) || 1;
-    //     const newMod = { ...model };
-    //     if (effect.shoot) {
-    //       newMod.shoot = shoot;
-    //     }
-    //     if (effect.fight) {
-    //       newMod.fight = fight;
-    //     }
-    //     const attackCost = getWeaponCostForModel(weaponName, newMod, faction);
-    //     const cost = numAttacks * attackCost * (frequency / 10);
-    //     points += cost;
-    //   }
-    //   // Alter a rule
-    //   if (effect.type === "alterRule") {
-    //     const target = effect.target || "self";
-    //     const improvedValue = (typeof effect.value === 'string' ? rule[effect.value] : effect.value) || 1;
-    //     const improvedInput = effect.input;
-    //     const ruleName = effect.ruleName;
-    //     if (target !== "self") {
-    //       const auraCost = getAuraCost(model, effect, (modelTarget) => {
-    //         const oldCost = getModelTotalPoints({
-    //           ...modelTarget,
-    //           rules: []
-    //         }, faction);
-    //         const modelRule = find(modelTarget.rules, ['id', ruleName]);
-    //         if (modelRule) {
-    //           const newCost = getModelTotalPoints({
-    //             ...modelTarget,
-    //             rules: [{ ...modelRule, [improvedInput]: modelRule[improvedInput] + improvedValue }]
-    //           }, faction);
-    //           return (newCost - oldCost) * (effect.targetModels || modelTarget.min || 1);
-    //         }
-    //         return 0;
-    //       }, faction);
-    //       points += auraCost * (frequency / 10) * 1.25;
-    //     } else {
-    //       const oldCost = getModelTotalPoints({
-    //         ...model,
-    //         rules: []
-    //       }, faction);
-    //       const modelRule = find(model.rules, ['id', ruleName]);
-    //       if (modelRule) {
-    //         const newCost = getModelTotalPoints({
-    //           ...model,
-    //           rules: [{ ...modelRule, [improvedInput]: modelRule[improvedInput] + improvedValue }]
-    //         }, faction);
-    //         const cost = (newCost - oldCost) * (frequency / 10);
-    //         points += cost;
-    //       }
-    //     }
-    //   }
-    //   // Give bonus attacks with any weapon of that type
-    //   if (effect.type === "bonusAttack") {
-    //     const weaponType = effect.weaponType || "shoot";
-    //     const weaponFilter = weaponType === "fight" ? (wep) => getWeapon(wep, faction).short === "Melee" : (wep) => getWeapon(wep, faction).short !== "Melee";
-    //     let mostExpensiveWeaponDiff = 0;
-    //     const improvedWeaponStat = "attacks";
-    //     (model.weapons || []).filter(weaponFilter).forEach((wep) => {
-    //       const weapon = getWeapon(wep, faction);
-    //       const newCost = getWeaponCostForModel(wep.id ? { ...wep, count: 1 } : wep, model, faction, {
-    //         ...weapon,
-    //         [improvedWeaponStat]: (weapon[improvedWeaponStat] || 0) + value,
-    //         profiles: get(weapon, 'profiles', []).map((profile) => ({ ...profile, [improvedWeaponStat]: (profile[improvedWeaponStat] || 0) + value }))
-    //       });
-    //       mostExpensiveWeaponDiff = Math.max(mostExpensiveWeaponDiff, newCost);
-    //     });
-    //     points += mostExpensiveWeaponDiff * (frequency / 10);
-    //   }
-    //   // change all weapons
-    //   if (effect.type === "alterWeapon") {
-    //     const improvedInput = effect.statName;
-    //     const target = effect.target || "self";
-    //     if (target !== "self") {
-    //       const auraCost = getAuraCost(model, effect, (modelTarget) => {
-    //         let weaponCostTotal = 0;
-    //         (modelTarget.weapons || []).forEach((wep) => {
-    //           const weaponData = getWeapon(wep, faction);
-    //           const wepRulesWithoutCurrent = (weaponData.rules || []).filter((rule) => rule.id !== ruleId && rule !== ruleId);
-    //           if (weaponData[improvedInput]) {
-    //             const oldCost = getWeaponCostForModel(wep, modelTarget, faction, {
-    //               ...weaponData,
-    //               rules: wepRulesWithoutCurrent
-    //             });
-    //             const newCost = getWeaponCostForModel(wep, modelTarget, faction, {
-    //               ...weaponData,
-    //               rules: wepRulesWithoutCurrent,
-    //               [improvedInput]: (weaponData[improvedInput] || 0) + value,
-    //               profiles: get(weaponData, 'profiles', []).map((profile) => ({ ...profile, [improvedInput]: (profile[improvedInput] || 0) + value }))
-    //             });
-    //             const cost = (newCost - oldCost) * (frequency / 10);
-    //             weaponCostTotal += cost;
-    //           }
-    //         });
-    //         return weaponCostTotal * (effect.targetModels || modelTarget.min || 1);
-    //       }, faction);
-    //       points += auraCost * (frequency / 10) * 1.25;
-    //     } else {
-    //       const modelTarget = model;
-    //       let weaponCostTotal = 0;
-    //       (modelTarget.weapons || []).forEach((wep) => {
-    //         const weaponData = getWeapon(wep, faction);
-    //         const wepRulesWithoutCurrent = (weaponData.rules || []).filter((rule) => rule.id !== ruleId && rule !== ruleId);
-    //         if (weaponData[improvedInput]) {
-    //           const oldCost = getWeaponCostForModel(wep, modelTarget, faction, {
-    //             ...weaponData,
-    //             rules: wepRulesWithoutCurrent
-    //           });
-    //           const newCost = getWeaponCostForModel(wep, modelTarget, faction, {
-    //             ...weaponData,
-    //             rules: wepRulesWithoutCurrent,
-    //             [improvedInput]: (weaponData[improvedInput] || 0) + value,
-    //             profiles: get(weaponData, 'profiles', []).map((profile) => ({ ...profile, [improvedInput]: (profile[improvedInput] || 0) + value }))
-    //           });
-    //           const cost = (newCost - oldCost);
-    //           weaponCostTotal += cost;
-    //         }
-    //       });
-    //       points += weaponCostTotal * (frequency / 10);
-    //     }
-    //   }
-    // });
     return points;
   }
 
