@@ -31,8 +31,9 @@ import { DataContext, ModalProvider } from './hooks';
 const App = () => {
   const dataFetcher = useDataFetcher();
   const [{ userPrefs, data }] = dataFetcher;
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-  const browserTheme = prefersDarkMode ? 'dark' : 'light';
+  // const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  // const browserTheme = prefersDarkMode ? 'dark' : 'light';
+  const browserTheme = 'dark';
   const userTheme = userPrefs?.theme;
   const themeId = (!userTheme || userTheme === 'system') ? browserTheme : userTheme;
   const userPrimaryColor = getColor(userPrefs?.primaryColor)?.import || getColor('blue')?.import;
