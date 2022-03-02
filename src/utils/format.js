@@ -36,8 +36,8 @@ export const formatWeapon = (weapon, faction, data, options={}) => {
   return `${`${wepName}${weaponCount ? `(${weaponCount})` : ''}`}${wepMount}`;
 }
 
-const LEVEL_TO_NAME = {
-  0: '',
+export const LEVEL_TO_NAME = {
+  0: 'No Rank',
   1: 'Rank I',
   2: 'Rank II',
   3: 'Rank III',
@@ -48,6 +48,8 @@ const LEVEL_TO_NAME = {
   8: 'Rank VIII',
   9: 'Rank IX',
   10: 'Rank X',
+  11: 'Rank XI',
+  12: 'Rank XII',
 }
 
 export const formatLevel = (level) => {

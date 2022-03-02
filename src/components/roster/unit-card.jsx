@@ -5,7 +5,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
-  Card, CardContent, CardHeader, Divider, IconButton, ListItemIcon,
+  Card, CardContent, CardHeader, Chip, Divider, IconButton, ListItemIcon,
   ListItemText,
   Menu, MenuItem, Typography
 } from "@mui/material";
@@ -190,7 +190,7 @@ export const UnitCard = (props) => {
                 open={open}
                 onClose={handleClose}
                 MenuListProps={{
-                  dense: true,
+                  dense: false,
                   onClick: handleClose,
                   "aria-labelledby": "basic-button",
                 }}
@@ -235,21 +235,21 @@ export const UnitCard = (props) => {
             <Typography variant="h5">
               <span style={{ marginRight: "5px" }}>{unit.customName || unit.name}</span>
               <small style={{ fontSize: '1rem' }}>{`(${unitPoints}pts)`}</small>
-              <span
-                style={{ marginLeft: "5px" }}
-                className="badge badge-success"
-              >
-                {level ? `${formatLevel(level)}` : ""}
-              </span>
-              <span
-                style={{ marginLeft: "5px" }}
-                className="badge badge-danger"
-              >
-                {unitSetbacksCount > 0
+              {level > 0 && <Chip
+                size="small"
+                color="secondary"
+                sx={{ ml: 1 }}
+                label={level ? `${formatLevel(level)}` : ""}
+              />}
+              {unitSetbacksCount > 0 && <Chip
+                size="small"
+                color="error"
+                sx={{ ml: 1 }}
+                label={unitSetbacksCount > 0
                   ? `${unitSetbacksCount} ${unitSetbacksCount > 1 ? "Injuries" : "Injury"
                   }`
                   : ""}
-              </span>
+              />}
             </Typography>
           </>
         }

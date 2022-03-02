@@ -365,7 +365,7 @@ export default React.memo((props) => {
                                 <Dropdown>
                                   {({ handleClose, open, handleOpen, anchorElement }) => (
                                     <>
-                                      <IconButton sx={{ }} onClick={handleOpen}>
+                                      <IconButton sx={{ mr: -1 }} onClick={handleOpen}>
                                         <MoreVertIcon />
                                       </IconButton>
                                       <Menu
@@ -382,7 +382,7 @@ export default React.memo((props) => {
                                         open={open}
                                         onClose={handleClose}
                                         MenuListProps={{
-                                          dense: true,
+                                          dense: false,
                                           onClick: handleClose,
                                           "aria-labelledby": "basic-button",
                                         }}

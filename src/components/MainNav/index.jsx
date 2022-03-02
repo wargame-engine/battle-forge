@@ -1,4 +1,4 @@
-import { ExpandLess, ExpandMore, Home } from '@mui/icons-material';
+import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import ConstructionIcon from '@mui/icons-material/Construction';
@@ -98,12 +98,12 @@ export const MainNav = (props) => {
     ),
   ];
   const navItems = [
-    {
-      id: 'home',
-      name: 'Home',
-      icon: <Home />,
-      to: '/'
-    },
+    // {
+    //   id: 'home',
+    //   name: 'Home',
+    //   icon: <Home />,
+    //   to: '/'
+    // },
     {
       id: 'modules',
       name: 'Modules',
@@ -273,7 +273,7 @@ export const MainNav = (props) => {
           >
             <MenuIcon />
           </IconButton>}
-          <Button onClick={() => navigate('/games')} sx={{ color: 'inherit', p: 0, backgroundColor: 'transparent' }} disableRipple>
+          <Button onClick={() => navigate('/')} sx={{ color: 'inherit', p: 0, backgroundColor: 'transparent' }} disableRipple>
             <img src={IGR} alt="igr" style={{ height: fullScreen ? '35px' : '30px', marginRight: '5px' }} />
             <Typography noWrap fontSize={fullScreen ? 20 : 18} fontWeight="bold" sx={{ color: 'inherit' }} style={{ textTransform: 'none' }}>
               Battle Forge
@@ -321,7 +321,7 @@ export const MainNav = (props) => {
                     open={open}
                     onClose={handleClose}
                     MenuListProps={{
-                      dense: true,
+                      dense: false,
                       onClick: handleClose,
                       "aria-labelledby": "basic-button",
                     }}

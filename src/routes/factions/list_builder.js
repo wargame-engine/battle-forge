@@ -105,7 +105,7 @@ export function ForceBuilder(props) {
                               open={open}
                               onClose={handleClose}
                               MenuListProps={{
-                                dense: true,
+                                dense: false,
                                 onClick: handleClose,
                                 "aria-labelledby": "basic-button",
                               }}

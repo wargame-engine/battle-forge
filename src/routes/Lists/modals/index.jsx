@@ -1,24 +1,20 @@
+import { Delete, ExpandLess, ExpandMore } from "@mui/icons-material";
 import {
-  faCheck, faChevronDown,
-  faChevronUp, faDice, faTimes
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  Button, Checkbox, Dialog,
+  Button, Checkbox, Chip, Dialog,
   DialogActions,
   DialogContent,
   DialogTitle, Divider, FormControl,
-  FormControlLabel, FormGroup, InputLabel, ListItem,
+  FormControlLabel, FormGroup, IconButton, InputLabel, LinearProgress, ListItem,
   ListItemButton,
   ListItemText,
-  ListSubheader, MenuItem, Paper, Select, TextField, Typography
+  ListSubheader, MenuItem, Paper, Select, Stack, TextField, Typography
 } from "@mui/material";
 import Collapse from "@mui/material/Collapse";
-import ProgressBar from '@mui/material/LinearProgress';
 import useTheme from "@mui/material/styles/useTheme";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { Box } from "@mui/system";
 import { InputNumber } from "components/bootstrap";
+import { Dropdown } from "components/dropdown";
 import { PowerCard } from "components/roster/power-card";
 import { RelicCard } from "components/roster/relic-card";
 import { StrategyCard } from 'components/roster/strategy-card';
@@ -30,7 +26,7 @@ import {
 import React, { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import styled from "styled-components";
-import { formatLevel } from "utils/format";
+import { formatLevel, LEVEL_TO_NAME } from "utils/format";
 import { MarkdownRenderer } from "utils/markdown";
 import { getRandomItem } from "utils/math";
 
@@ -83,17 +79,17 @@ export const ChooseSubFaction = (props) => {
               return (
                 <ListItem
                   disablePadding
-                  // secondaryAction={
-                  //   <IconButton
-                  //     sx={{}}
-                  //     onClick={() => {
-                  //       setSubFaction(forceId, subfaction.id);
-                  //       hideModal();
-                  //     }}
-                  //   >
-                  //     <AddIcon />
-                  //   </IconButton>
-                  // }
+                // secondaryAction={
+                //   <IconButton
+                //     sx={{}}
+                //     onClick={() => {
+                //       setSubFaction(forceId, subfaction.id);
+                //       hideModal();
+                //     }}
+                //   >
+                //     <AddIcon />
+                //   </IconButton>
+                // }
                 >
                   <ListItemButton
                     onClick={() => {
@@ -155,7 +151,7 @@ export const AddLegend = (props) => {
       <Dialog open onClose={hideModal} fullScreen={fullScreen} maxWidth="lg" fullWidth>
         <DialogTitle>Add Legend</DialogTitle>
         <DialogContent style={{ padding: 0 }} sx={{ backgroundColor: "background.paper" }}>
-          <Paper  style={{ height: '100%', borderRadius: 0, overflowY: 'auto' }}>
+          <Paper style={{ height: '100%', borderRadius: 0, overflowY: 'auto' }}>
             {Object.keys(RELIC_TYPES)
               .filter(
                 (type) => !!groupedRelics[type] && !!groupedRelics[type].length
@@ -181,17 +177,17 @@ export const AddLegend = (props) => {
                         <div key={relic.id}>
                           <ListItem
                             disablePadding
-                            // secondaryAction={
-                            //   <IconButton
-                            //     sx={{}}
-                            //     onClick={() => {
-                            //       addLegend(forceId, { id: relic.id });
-                            //       hideModal();
-                            //     }}
-                            //   >
-                            //     <AddIcon />
-                            //   </IconButton>
-                            // }
+                          // secondaryAction={
+                          //   <IconButton
+                          //     sx={{}}
+                          //     onClick={() => {
+                          //       addLegend(forceId, { id: relic.id });
+                          //       hideModal();
+                          //     }}
+                          //   >
+                          //     <AddIcon />
+                          //   </IconButton>
+                          // }
                           >
                             <ListItemButton
                               onClick={() => {
@@ -283,7 +279,7 @@ export const AddForce = (props) => {
           <>
             <DialogTitle closeButton>Choose Faction</DialogTitle>
             <DialogContent style={{ padding: 0 }}>
-              <Paper  style={{ height: '100%', borderRadius: 0, overflowY: 'auto' }}>
+              <Paper style={{ height: '100%', borderRadius: 0, overflowY: 'auto' }}>
                 <>
                   {categoryOrder.map((allianceKey) => {
                     const theFactions = sortBy(
@@ -315,16 +311,16 @@ export const AddForce = (props) => {
                           return (
                             <ListItem
                               disablePadding
-                              // secondaryAction={
-                              //   <IconButton
-                              //     sx={{}}
-                              //     onClick={() => {
-                              //       setFaction(org.id);
-                              //     }}
-                              //   >
-                              //     <AddIcon />
-                              //   </IconButton>
-                              // }
+                            // secondaryAction={
+                            //   <IconButton
+                            //     sx={{}}
+                            //     onClick={() => {
+                            //       setFaction(org.id);
+                            //     }}
+                            //   >
+                            //     <AddIcon />
+                            //   </IconButton>
+                            // }
                             >
                               <ListItemButton
                                 onClick={() => {
@@ -369,21 +365,21 @@ export const AddForce = (props) => {
                   return (
                     <ListItem
                       disablePadding
-                      // secondaryAction={
-                      //   <IconButton
-                      //     sx={{}}
-                      //     onClick={() => {
-                      //       addForce({
-                      //         id: orgKey,
-                      //         factionId: faction,
-                      //         subFactionId: subFaction || "none",
-                      //       });
-                      //       hideModal();
-                      //     }}
-                      //   >
-                      //     <AddIcon />
-                      //   </IconButton>
-                      // }
+                    // secondaryAction={
+                    //   <IconButton
+                    //     sx={{}}
+                    //     onClick={() => {
+                    //       addForce({
+                    //         id: orgKey,
+                    //         factionId: faction,
+                    //         subFactionId: subFaction || "none",
+                    //       });
+                    //       hideModal();
+                    //     }}
+                    //   >
+                    //     <AddIcon />
+                    //   </IconButton>
+                    // }
                     >
                       <ListItemButton
                         onClick={() => {
@@ -429,16 +425,16 @@ export const AddForce = (props) => {
                   return (
                     <ListItem
                       disablePadding
-                      // secondaryAction={
-                      //   <IconButton
-                      //     sx={{}}
-                      //     onClick={() => {
-                      //       setSubFaction(subfaction.id);
-                      //     }}
-                      //   >
-                      //     <AddIcon />
-                      //   </IconButton>
-                      // }
+                    // secondaryAction={
+                    //   <IconButton
+                    //     sx={{}}
+                    //     onClick={() => {
+                    //       setSubFaction(subfaction.id);
+                    //     }}
+                    //   >
+                    //     <AddIcon />
+                    //   </IconButton>
+                    // }
                     >
                       <ListItemButton
                         onClick={() => {
@@ -499,17 +495,17 @@ export const AddUnit = (props) => {
                 <ListItem
                   key={index}
                   disablePadding
-                  // secondaryAction={
-                  //   <IconButton
-                  //     sx={{}}
-                  //     onClick={() => {
-                  //       addUnit(forceId, { id: unit.id });
-                  //       hideModal();
-                  //     }}
-                  //   >
-                  //     <AddIcon />
-                  //   </IconButton>
-                  // }
+                // secondaryAction={
+                //   <IconButton
+                //     sx={{}}
+                //     onClick={() => {
+                //       addUnit(forceId, { id: unit.id });
+                //       hideModal();
+                //     }}
+                //   >
+                //     <AddIcon />
+                //   </IconButton>
+                // }
                 >
                   <ListItemButton
                     onClick={() => {
@@ -1113,6 +1109,62 @@ export const EditUnit = (props) => {
   );
 };
 
+export const RenameUnit = (props) => {
+  const {
+    hideModal,
+    getUnit,
+    setUnitName,
+    forceId,
+    unitId
+  } = props;
+  const unit = getUnit(forceId, unitId);
+  const unitModels = sum(Object.values(get(unit, "modelCounts", {})));
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  if (!unit) {
+    return <div></div>;
+  }
+  return (
+    <>
+      <Dialog open onClose={hideModal} fullScreen={fullScreen} maxWidth="lg" fullWidth>
+        <DialogTitle>
+          {`${unit.customName || unit.name} `}{" "}
+          <small>
+            {`(${unitModels} ${unitModels > 1 ? "models" : "model"})`}{" "}
+            {`(${unit.points} pts)`}
+          </small>
+        </DialogTitle>
+        <DialogContent sx={{ p: 0 }}>
+          <Paper style={{ height: '100%', borderRadius: 0, overflow: 'auto' }} sx={{ px: 2 }}>
+            <FormControl fullWidth sx={{ mt: 2 }}>
+              <TextField
+                fullWidth
+                size="small"
+                label="Custom Name"
+                value={unit.customName}
+                onChange={(event) =>
+                  setUnitName(forceId, unitId, event.target.value)
+                }
+              />
+              <Divider />
+            </FormControl>
+          </Paper>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            color="primary"
+            onClick={() => {
+              hideModal();
+            }}
+          >
+            Done
+          </Button>{" "}
+        </DialogActions>
+      </Dialog>
+    </>
+  );
+};
+
 export const EditUnitCampaign = (props) => {
   const {
     hideModal,
@@ -1125,7 +1177,8 @@ export const EditUnitCampaign = (props) => {
     unitId,
     updateUnit,
   } = props;
-  const [showPerkLevel, setShowPerkLevel] = useState({});
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const unit = getUnit(forceId, unitId);
   const unitPerks = get(unit, "selectedPerks", []);
   const unitSetbacks = get(unit, "selectedSetbacks", []);
@@ -1149,6 +1202,7 @@ export const EditUnitCampaign = (props) => {
   const perkOrder = Object.keys(perksByLevel);
   const unitExperience = unit.experience || 0;
   const levelProgress = unitExperience % 5;
+  const levelProgressPercent = levelProgress / 5;
   const unitLevel = Math.floor((unit.experience || 0) / 5);
   const formattedLevel = formatLevel(unitLevel);
   const perksLeft =
@@ -1156,259 +1210,273 @@ export const EditUnitCampaign = (props) => {
   const canGetPerk = (level) => {
     return perksLeft - level >= 0;
   };
+  const maxLevel = Object.keys(LEVEL_TO_NAME).length - 1;
+  const isMaxLevel = unitLevel === maxLevel;
+  const isMinLevel = unitLevel === 0;
+  const maxExp = maxLevel * 5;
   if (!unit) {
     return <div></div>;
   }
   return (
     <>
-      <Dialog open onClose={hideModal}>
-        <DialogTitle closeButton>
-          <DialogTitle>
-            {`${unit.customName || unit.name}`}{" "}
-            <small>
-              {`(${unit.points} pts)`}
-              {unitLevel > 0 ? ` (${formattedLevel})` : ""}
-            </small>
-          </DialogTitle>
+      <Dialog open onClose={hideModal} fullScreen={fullScreen} maxWidth="lg" fullWidth>
+        <DialogTitle>
+          {`${unit.customName || unit.name}`}{" "}
+          <small>
+            {`(${unit.points} pts)`}
+          </small>
         </DialogTitle>
-        <DialogContent>
-          <div>
-            <h4 className="text-left">
-              <b>{"Level Progress"}</b>
-            </h4>
-            <ProgressBar
-              style={{ height: "2em" }}
-              now={levelProgress}
-              min={0}
-              max={5}
-              label={`${levelProgress} xp`}
-            />
-            <Divider />
+        <DialogContent style={{ padding: 0 }}>
+          <Paper sx={{ px: 3 }} style={{ height: '100%', borderRadius: 0, overflowY: 'auto' }}>
             <div>
-              <Button
-                size="sm"
-                style={{ marginRight: "5px" }}
-                color="primary"
-                onClick={() =>
-                  updateUnit(forceId, unitId, {
-                    experience: Math.max((unit.experience || 0) - 5, 0),
-                  })
-                }
-              >
-                {"-5 xp"}
-              </Button>
-              <Button
-                size="sm"
-                style={{ marginRight: "5px" }}
-                color="primary"
-                onClick={() =>
-                  updateUnit(forceId, unitId, {
-                    experience: Math.max((unit.experience || 0) - 1, 0),
-                  })
-                }
-              >
-                {"-1 xp"}
-              </Button>
-              <Button
-                size="sm"
-                style={{ marginRight: "5px" }}
-                color="primary"
-                onClick={() =>
-                  updateUnit(forceId, unitId, {
-                    experience: Math.max((unit.experience || 0) + 1, 0),
-                  })
-                }
-              >
-                {"+1 xp"}
-              </Button>
-              <Button
-                size="sm"
-                style={{ marginRight: "5px" }}
-                color="primary"
-                onClick={() =>
-                  updateUnit(forceId, unitId, {
-                    experience: Math.max((unit.experience || 0) + 5, 0),
-                  })
-                }
-              >
-                {"+5 xp"}
-              </Button>
-              <hr />
+              <Typography variant="h5" sx={{ pt: 2, pb: 1 }} gutterBottom>
+                Unit Rank
+              </Typography>
+              {formattedLevel}, {unitLevel} Perk{unitLevel !== 1 ? 's' : ''}
+              <Typography variant="h5" sx={{ pt: 2, pb: 1 }} gutterBottom>
+                Next Level
+              </Typography>
+              <Stack sx={{ mb: 2 }} direction="row" alignItems="center" flexWrap={true}>
+                <LinearProgress
+                  disabled={isMaxLevel}
+                  variant="determinate"
+                  style={{ height: "1em", flex: 1 }}
+                  value={levelProgressPercent * 100}
+                />
+                <Typography sx={{ ml: 2 }}>
+                  {levelProgressPercent * 100} %
+                </Typography>
+              </Stack>
+              <Divider />
+              <Stack direction="row" flexWrap="wrap">
+                <Button
+                  disabled={isMinLevel}
+                  variant="contained"
+                  sx={{ mr: 1, py: 1, my: 1 }}
+                  size="small"
+                  color="primary"
+                  onClick={() =>
+                    updateUnit(forceId, unitId, {
+                      experience: Math.max((unit.experience || 0) - 5, 0),
+                    })
+                  }
+                >
+                  {"-5 xp"}
+                </Button>
+                <Button
+                  disabled={isMinLevel}
+                  variant="contained"
+                  sx={{ mr: 1, py: 1, my: 1 }}
+                  size="small"
+                  color="primary"
+                  onClick={() =>
+                    updateUnit(forceId, unitId, {
+                      experience: Math.max((unit.experience || 0) - 1, 0),
+                    })
+                  }
+                >
+                  {"-1 xp"}
+                </Button>
+                <Button
+                  disabled={isMaxLevel}
+                  variant="contained"
+                  sx={{ mr: 1, py: 1, my: 1 }}
+                  size="small"
+                  color="primary"
+                  onClick={() =>
+                    updateUnit(forceId, unitId, {
+                      experience: Math.min(Math.max((unit.experience || 0) + 1, 0), maxExp),
+                    })
+                  }
+                >
+                  {"+1 xp"}
+                </Button>
+                <Button
+                  disabled={isMaxLevel}
+                  variant="contained"
+                  sx={{ mr: 1, py: 1, my: 1 }}
+                  size="small"
+                  color="primary"
+                  onClick={() =>
+                    updateUnit(forceId, unitId, {
+                      experience: Math.min(Math.max((unit.experience || 0) + 5, 0), maxExp),
+                    })
+                  }
+                >
+                  {"+5 xp"}
+                </Button>
+                {!!filteredSetbacks.length && (
+                  <Button
+                    variant="contained"
+                    sx={{ mr: 1, py: 1, my: 1 }}
+                    size="small"
+                    color="primary"
+                    onClick={() => {
+                      selectedSetbacks.add(getRandomSetback());
+                      setUnitSetbacks(
+                        forceId,
+                        unitId,
+                        Array.from(selectedSetbacks)
+                      );
+                    }}
+                  >
+                    Injury
+                  </Button>
+                )}
+                <Divider />
+              </Stack>
             </div>
-          </div>
-          <div>
-            <h4 className="text-left">
-              <b>{"Injuries"}</b>
-            </h4>
-            {unitSetbacksData.map((setback) => {
-              const setbackCost = data.resolvePoints(setback.points, { unit });
-              return (
-                <div>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <span className="text-left">
-                      <b>{`${setback.name} (${setbackCost} pts)`}</b>
-                      <p
-                        style={{ marginBottom: 0, marginRight: "5px" }}
-                        className="text-left"
-                      >{`${setback.description}`}</p>
-                    </span>
-                    <div className="d-flex justify-content-end">
-                      <Button
-                        style={{}}
-                        color="primary"
-                        onClick={() => {
-                          selectedSetbacks.delete(setback.id);
-                          updateUnit(forceId, unitId, {
-                            experience: Math.max((unit.experience || 0) - 5, 0),
-                            selectedSetbacks: Array.from(selectedSetbacks),
-                          });
-                        }}
-                      >
-                        {"-5 xp"}
-                      </Button>
-                    </div>
-                  </div>
-                  <hr />
-                </div>
-              );
-            })}
-            {!!filteredSetbacks.length && (
-              <Button
-                color="primary"
-                onClick={() => {
-                  selectedSetbacks.add(getRandomSetback());
-                  setUnitSetbacks(
-                    forceId,
-                    unitId,
-                    Array.from(selectedSetbacks)
-                  );
-                }}
-              >
-                Generate <FontAwesomeIcon icon={faDice} />
-              </Button>
-            )}
-          </div>
-          <hr />
-          <div>
-            {perkOrder.map((level) => {
-              const thePerks = sortBy(
-                get(perksByLevel, `[${level}]`, []),
-                "name"
-              );
-              const availablePerks = Math.floor(perksLeft / level);
-              return (
-                <>
-                  <div>
-                    <div className="d-flex justify-content-between align-items-center">
-                      <span className="text-left">
-                        <h4 className="text-left" style={{ marginBottom: 0 }}>
-                          <b>{`${formatLevel(level)} Perks`}</b>{" "}
-                          <small className="badge badge-secondary">
-                            {" "}
-                            {`${availablePerks} Available`}
-                          </small>
-                        </h4>
-                      </span>
-                      <div className="d-flex justify-content-end">
-                        {!showPerkLevel[level] && (
-                          <Button
-                            style={{ width: "40px" }}
-                            variant="outline-secondary"
-                            color="primary"
-                            onClick={() => {
-                              setShowPerkLevel({
-                                ...showPerkLevel,
-                                [level]: true,
-                              });
-                            }}
-                          >
-                            <FontAwesomeIcon icon={faChevronDown} />
-                          </Button>
-                        )}
-                        {!!showPerkLevel[level] && (
-                          <Button
-                            style={{ width: "40px" }}
-                            variant="outline-secondary"
-                            color="primary"
-                            onClick={() => {
-                              setShowPerkLevel({
-                                ...showPerkLevel,
-                                [level]: false,
-                              });
-                            }}
-                          >
-                            <FontAwesomeIcon icon={faChevronUp} />
-                          </Button>
-                        )}
-                      </div>
-                    </div>
-                    <hr />
-                  </div>
-                  <Collapse in={showPerkLevel[level]}>
-                    <div>
-                      {thePerks.map((perk) => {
-                        const perkCost = data.resolvePoints(perk.points, {
-                          unit,
-                        });
-                        return (
-                          <div>
-                            <div className="d-flex justify-content-between align-items-center">
-                              <span className="text-left">
-                                <b>{`${perk.name} (${perkCost} pts)`}</b>
-                                <p
-                                  style={{
-                                    marginBottom: 0,
-                                    marginRight: "5px",
+            <Divider />
+            {!!selectedSetbacks.size && <div>
+              <Dropdown>
+                {({ handleClose, open, handleOpen, anchorElement }) => (
+                  <>
+                    <ListItemButton sx={{ px: 0 }} disabled={unitSetbacksData?.length < 1} onClick={() => open ? handleClose() : handleOpen()}>
+                      <ListItemText primary={
+                        <Typography variant="h5">
+                          Injuries
+                          <Chip sx={{ ml: 1 }} size="small" variant="outlined" label={unitSetbacksData?.length} />
+                        </Typography>
+                      } />
+                      {unitSetbacksData?.length > 0 && <span>{open ? <ExpandLess /> : <ExpandMore />}</span>}
+                    </ListItemButton>
+                    <Collapse in={open} timeout="auto" unmountOnExit>
+                      <div>
+                        {unitSetbacksData.map((setback, index) => {
+                          const setbackCost = data.resolvePoints(setback.points, { unit });
+                          return (
+                            <ListItem
+                              key={index}
+                              sx={{ p: 0 }}
+                              secondaryAction={
+                                <IconButton
+                                  sx={{ mr: -3 }}
+                                  onClick={() => {
+                                    selectedSetbacks.delete(setback.id);
+                                    updateUnit(forceId, unitId, {
+                                      // experience: Math.max((unit.experience || 0) - 5, 0),
+                                      selectedSetbacks: Array.from(selectedSetbacks),
+                                    });
                                   }}
-                                  className="text-left"
-                                >{`${perk.description}`}</p>
-                              </span>
-                              <div className="d-flex justify-content-end">
-                                {!selectedPerks.has(perk.id) && (
-                                  <Button
-                                    style={{ width: "40px" }}
-                                    disabled={!canGetPerk(level)}
-                                    color="primary"
-                                    onClick={() => {
-                                      selectedPerks.add(perk.id);
-                                      setUnitPerks(
-                                        forceId,
-                                        unitId,
-                                        Array.from(selectedPerks)
-                                      );
-                                    }}
+                                >
+                                  <Delete />
+                                </IconButton>
+                              }
+                            >
+                              <ListItemButton sx={{ p: 0 }} onClick={() => {
+                                selectedSetbacks.delete(setback.id);
+                                updateUnit(forceId, unitId, {
+                                  // experience: Math.max((unit.experience || 0) - 5, 0),
+                                  selectedSetbacks: Array.from(selectedSetbacks),
+                                });
+                              }}>
+                                <ListItemText
+                                  primary={`${setback.name} (${setbackCost} pts)`}
+                                  secondary={setback.description}
+                                />
+                              </ListItemButton>
+                            </ListItem>
+                          );
+                        })}
+                      </div>
+                    </Collapse>
+                  </>
+                )}
+              </Dropdown>
+            <Divider />
+            </div>}
+            <div>
+              {perkOrder.map((level) => {
+                const thePerks = sortBy(
+                  get(perksByLevel, `[${level}]`, []),
+                  "name"
+                );
+                const availablePerks = Math.floor(perksLeft / level);
+                return (
+                  <>
+                    <Dropdown>
+                      {({ handleClose, open, handleOpen, anchorElement }) => (
+                        <>
+                          <ListItemButton sx={{ px: 0 }} onClick={() => open ? handleClose() : handleOpen()}>
+                            <ListItemText primary={
+                              <Box display="flex">
+                                <Typography variant="h5">{`${formatLevel(level)} Perks`}{" "}
+                                  <Chip sx={{ ml: 1 }} size="small" variant="outlined" label={`${availablePerks}`} />
+                                </Typography>
+                              </Box>
+                            } />
+                            {open ? <ExpandLess /> : <ExpandMore />}
+                          </ListItemButton>
+                          <Collapse in={open} timeout="auto" unmountOnExit>
+                            <div>
+                              {thePerks.map((perk) => {
+                                const perkCost = data.resolvePoints(perk.points, {
+                                  unit,
+                                });
+                                return (
+                                  <ListItem
+                                    sx={{ p: 0 }}
+                                    secondaryAction={
+                                      <Checkbox
+                                        disabled={!canGetPerk(level) && !selectedPerks.has(perk.id)}
+                                        sx={{ mr: -3 }}
+                                        checked={selectedPerks.has(perk.id)}
+                                        onChange={() => {
+                                          if (!selectedPerks.has(perk.id)) {
+                                            selectedPerks.add(perk.id);
+                                            setUnitPerks(
+                                              forceId,
+                                              unitId,
+                                              Array.from(selectedPerks)
+                                            );
+                                          } else {
+                                            selectedPerks.delete(perk.id);
+                                            setUnitPerks(
+                                              forceId,
+                                              unitId,
+                                              Array.from(selectedPerks)
+                                            );
+                                          }
+                                        }}
+                                      />
+                                    }
                                   >
-                                    <FontAwesomeIcon icon={faCheck} />
-                                  </Button>
-                                )}
-                                {!!selectedPerks.has(perk.id) && (
-                                  <Button
-                                    style={{ width: "40px" }}
-                                    color="primary"
-                                    onClick={() => {
-                                      selectedPerks.delete(perk.id);
-                                      setUnitPerks(
-                                        forceId,
-                                        unitId,
-                                        Array.from(selectedPerks)
-                                      );
-                                    }}
-                                  >
-                                    <FontAwesomeIcon icon={faTimes} />
-                                  </Button>
-                                )}
-                              </div>
+                                    <ListItemButton sx={{ p: 0 }} disabled={!canGetPerk(level) && !selectedPerks.has(perk.id)} onClick={() => {
+                                      if (!selectedPerks.has(perk.id)) {
+                                        selectedPerks.add(perk.id);
+                                        setUnitPerks(
+                                          forceId,
+                                          unitId,
+                                          Array.from(selectedPerks)
+                                        );
+                                      } else {
+                                        selectedPerks.delete(perk.id);
+                                        setUnitPerks(
+                                          forceId,
+                                          unitId,
+                                          Array.from(selectedPerks)
+                                        );
+                                      }
+                                    }}>
+                                      <ListItemText
+                                        primary={`${perk.name} (${perkCost} pts)`}
+                                        secondary={`${perk.description}`}
+                                      />
+                                    </ListItemButton>
+                                  </ListItem>
+                                );
+                              })}
                             </div>
-                            <hr />
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </Collapse>
-                </>
-              );
-            })}
-          </div>
+                          </Collapse>
+                        </>
+                      )}
+                    </Dropdown>
+                    <Divider />
+                  </>
+                );
+              })}
+            </div>
+          </Paper>
         </DialogContent>
         <DialogActions>
           <Button

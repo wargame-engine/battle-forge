@@ -1,21 +1,22 @@
-import {
-  faArrowLeft, faArrowRight, faBook, faUser
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Add as AddIcon, MoreVert as MoreVertIcon } from "@mui/icons-material";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import BadgeIcon from '@mui/icons-material/Badge';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DownloadIcon from '@mui/icons-material/Download';
 import EditIcon from '@mui/icons-material/Edit';
 import FlashOnIcon from '@mui/icons-material/FlashOn';
+import GroupIcon from '@mui/icons-material/Group';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
+import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
 import PrintIcon from '@mui/icons-material/Print';
 import SettingsIcon from '@mui/icons-material/Settings';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import {
   Alert, Box, Card,
   CardContent,
-  CardHeader, FormGroup, IconButton, ListItem, ListItemButton, ListItemIcon, ListItemText, ListSubheader, Menu,
+  CardHeader, Chip, FormGroup, IconButton, ListItem, ListItemButton, ListItemIcon, ListItemText, ListSubheader, Menu,
   MenuItem, ScopedCssBaseline, Stack, Typography, useTheme
 } from "@mui/material";
 import Container from "@mui/material/Container";
@@ -48,7 +49,7 @@ import { insert } from "utils/misc";
 import {
   AddForce, AddLegend, AddUnit,
   ChooseSubFaction,
-  EditUnit, EditUnitCampaign, ViewActionReference, ViewLegend, ViewPowers, ViewStrategies, ViewUnit
+  EditUnit, EditUnitCampaign, RenameUnit, ViewActionReference, ViewLegend, ViewPowers, ViewStrategies, ViewUnit
 } from "./modals";
 
 const PrintStyles = styled.div`
@@ -98,7 +99,7 @@ export default React.memo((props) => {
   const LIST_TYPES = [
     { label: "Competitive", value: "competitive" },
     { label: "Narrative", value: "narrative" },
-    { label: "Campaign", value: "campaign" },
+    { label: "Campaign", value: "campaign" }
   ];
   const calculateUnitPoints = React.useCallback((
     unit,
@@ -463,7 +464,7 @@ export default React.memo((props) => {
       "data:text/json",
       `${list.name}.json`
     );
-  }, [ list ]);
+  }, [list]);
   const uploadList = (event) => {
     event.preventDefault();
     const file = get(event, "target.files[0]");
@@ -772,6 +773,22 @@ export default React.memo((props) => {
     ),
     [list, forces]
   );
+  const [showRenameUnit, hideRenameUnit] = useModal(
+    ({ extraProps }) => (
+      <RenameUnit
+        hideModal={hideRenameUnit}
+        data={data}
+        list={list}
+        forces={forces}
+        setUnitName={setUnitName}
+        setUnitPowerSpecialty={setUnitPowerSpecialty}
+        setUnitOptions={setUnitOptions}
+        getUnit={getUnit}
+        {...extraProps}
+      />
+    ),
+    [list, forces]
+  );
   const [showEditUnitCampaign, hideEditUnitCampaign] = useModal(
     ({ extraProps }) => (
       <EditUnitCampaign
@@ -902,7 +919,7 @@ export default React.memo((props) => {
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ editMode, downloadList ]);
+  }, [editMode, downloadList]);
   if (!someData || !allFactionsLoaded) {
     return (
       <Box sx={{ textAlign: "center" }}>
@@ -1026,7 +1043,7 @@ export default React.memo((props) => {
         <Typography align="center" sx={{ mb: 2 }}>
           {`${listTypeName}, ${totalForcePoints} pts`},
           {listType === "campaign"
-            ? ` ${totalForceReservePoints} pts of reserves,`
+            ? ` ${totalForceReservePoints} pts Reserve,`
             : ""}
           {` ${totalSP} SP`},{" "}
           {`${legendLimit} Legend${legendLimit > 1 ? "s" : ""}`}
@@ -1056,7 +1073,7 @@ export default React.memo((props) => {
               </Typography>
             }
           />
-          <CardContent>
+          <CardContent sx={{ px: 1 }}>
             <Stack direction="column" spacing={2}>
               <FormGroup>
                 <InputNumber
@@ -1085,7 +1102,6 @@ export default React.memo((props) => {
             </Stack>
           </CardContent>
         </Card>
-
         {forces.map((force, index) => {
           const forceFactionId = get(force, "faction.id");
           const forceSubFactionId = get(force, "subFactionId");
@@ -1162,7 +1178,7 @@ export default React.memo((props) => {
                   <Dropdown>
                     {({ handleClose, open, handleOpen, anchorElement }) => (
                       <>
-                        <IconButton sx={{ color: 'inherit', mr: 1 }} onClick={handleOpen}>
+                        <IconButton sx={{ color: 'inherit', mr: 0 }} onClick={handleOpen}>
                           <MoreVertIcon />
                         </IconButton>
                         <Menu
@@ -1179,7 +1195,7 @@ export default React.memo((props) => {
                           open={open}
                           onClose={handleClose}
                           MenuListProps={{
-                            dense: true,
+                            dense: false,
                             onClick: handleClose,
                             "aria-labelledby": "basic-button",
                           }}
@@ -1221,7 +1237,7 @@ export default React.memo((props) => {
                                 })
                               }>
                                 <ListItemIcon>
-                                  <FontAwesomeIcon icon={faUser} />
+                                  <GroupIcon />
                                 </ListItemIcon>
                                 <ListItemText>{showingReserves ? "Force" : "Reserves"}</ListItemText>
                               </MenuItem>
@@ -1272,7 +1288,7 @@ export default React.memo((props) => {
                               {!!editMode && (
                                 <IconButton
                                   disabled={filteredLegends?.length === 0}
-                                  sx={{}}
+                                  sx={{ mr: -1 }}
                                   onClick={() =>
                                     showAddLegend({
                                       forceId: index,
@@ -1306,7 +1322,7 @@ export default React.memo((props) => {
                                   <Dropdown>
                                     {({ handleClose, open, handleOpen, anchorElement }) => (
                                       <>
-                                        <IconButton sx={{}} onClick={handleOpen}>
+                                        <IconButton sx={{ mr: -1 }} onClick={handleOpen}>
                                           <MoreVertIcon />
                                         </IconButton>
                                         <Menu
@@ -1323,7 +1339,7 @@ export default React.memo((props) => {
                                           open={open}
                                           onClose={handleClose}
                                           MenuListProps={{
-                                            dense: true,
+                                            dense: false,
                                             onClick: handleClose,
                                             "aria-labelledby": "basic-button",
                                           }}
@@ -1392,7 +1408,7 @@ export default React.memo((props) => {
                             <>
                               {!!editMode && (
                                 <IconButton
-                                  sx={{}}
+                                  sx={{ mr: -1 }}
                                   disabled={unitCatCount === 0}
                                   onClick={() =>
                                     showAddUnit({
@@ -1449,7 +1465,7 @@ export default React.memo((props) => {
                                     <Dropdown>
                                       {({ handleClose, open, handleOpen, anchorElement }) => (
                                         <>
-                                          <IconButton sx={{}} onClick={handleOpen}>
+                                          <IconButton sx={{ mr: -1 }} onClick={handleOpen}>
                                             <MoreVertIcon />
                                           </IconButton>
                                           <Menu
@@ -1466,7 +1482,7 @@ export default React.memo((props) => {
                                             open={open}
                                             onClose={handleClose}
                                             MenuListProps={{
-                                              dense: true,
+                                              dense: false,
                                               onClick: handleClose,
                                               "aria-labelledby": "basic-button",
                                             }}
@@ -1496,7 +1512,7 @@ export default React.memo((props) => {
                                                 <ListItemText>Copy</ListItemText>
                                               </MenuItem>
                                             )}
-                                            {!!editMode && (
+                                            {!!editMode && !!unit.optionList.length && (
                                               <MenuItem onClick={() => {
                                                 showEditUnit({
                                                   faction: forceFaction,
@@ -1510,6 +1526,20 @@ export default React.memo((props) => {
                                                 <ListItemText>Edit</ListItemText>
                                               </MenuItem>
                                             )}
+                                            {!!editMode && new Set(['campaign', 'narrative']).has(listType) && (
+                                              <MenuItem onClick={() => {
+                                                showRenameUnit({
+                                                  faction: forceFaction,
+                                                  unitId: unit.id,
+                                                  forceId: index,
+                                                });
+                                              }}>
+                                                <ListItemIcon>
+                                                  <BadgeIcon />
+                                                </ListItemIcon>
+                                                <ListItemText>Rename</ListItemText>
+                                              </MenuItem>
+                                            )}
                                             {listType === "campaign" && (
                                               <MenuItem onClick={() => {
                                                 showEditUnitCampaign({
@@ -1519,7 +1549,7 @@ export default React.memo((props) => {
                                                 });
                                               }}>
                                                 <ListItemIcon>
-                                                  <FontAwesomeIcon icon={faBook} />
+                                                  <MilitaryTechIcon />
                                                 </ListItemIcon>
                                                 <ListItemText>Campaign</ListItemText>
                                               </MenuItem>
@@ -1531,9 +1561,7 @@ export default React.memo((props) => {
                                                   moveUnitReserves(index, unit.id)
                                                 }>
                                                   <ListItemIcon>
-                                                    <FontAwesomeIcon
-                                                      icon={faArrowRight}
-                                                    />
+                                                    <ArrowForwardIcon />
                                                   </ListItemIcon>
                                                   <ListItemText>To Reserves</ListItemText>
                                                 </MenuItem>
@@ -1545,13 +1573,12 @@ export default React.memo((props) => {
                                                   moveUnitForce(index, unit.id)
                                                 }>
                                                   <ListItemIcon>
-                                                    <FontAwesomeIcon
-                                                      icon={faArrowLeft}
-                                                    />
+                                                    <ArrowBackIcon />
                                                   </ListItemIcon>
                                                   <ListItemText>To Force</ListItemText>
                                                 </MenuItem>
-                                              )}
+                                              )
+                                            }
                                             {!!editMode && (
                                               <MenuItem onClick={() =>
                                                 deleteUnit(index, unit.id)
@@ -1570,7 +1597,7 @@ export default React.memo((props) => {
                                   disablePadding
                                 >
                                   <ListItemButton
-                                    sx={{ py: 1.5 }}
+                                    sx={{ py: 1.5, alignItems: 'center', display: 'flex' }}
                                     onClick={(event) => {
                                       event.preventDefault();
                                       showViewUnit({
@@ -1579,25 +1606,22 @@ export default React.memo((props) => {
                                       });
                                     }}
                                   >
-                                    <>
-                                      <span style={{ marginRight: '5px' }}>{unit.customName || unit.name}
-                                      </span>{`(${unit.points} pts)`}
-                                      <span className="badge badge-success">
-                                        {listType === "campaign" &&
-                                          unitLevel > 0
-                                          ? ` ${formatLevel(unitLevel)}`
-                                          : ""}
-                                      </span>
-                                      <span className="badge badge-danger">
-                                        {listType === "campaign" &&
-                                          unitSetbacksCount > 0
-                                          ? `${unitSetbacksCount} ${unitSetbacksCount > 1
-                                            ? "Injuries"
-                                            : "Injury"
-                                          }`
-                                          : ""}
-                                      </span>
-                                    </>
+                                    <Typography>
+                                      {unit.customName || unit.name}
+                                      {" "}{`(${unit.points} pts)`}
+                                      {unitLevel > 0 && listType === 'campaign' && <Chip sx={{ ml: 1 }} size="small" variant="outlined" color="secondary" label={listType === "campaign" &&
+                                        unitLevel > 0
+                                        ? ` ${formatLevel(unitLevel)}`
+                                        : ""} />}
+                                      {unitSetbacksCount > 0 && listType === 'campaign' && <Chip size="small" sx={{ ml: 1 }} variant="outlined" color="error" label={listType === "campaign" &&
+                                        unitSetbacksCount > 0
+                                        ? `${unitSetbacksCount} ${unitSetbacksCount > 1
+                                          ? "Injuries"
+                                          : "Injury"
+                                        }`
+                                        : ""}
+                                      />}
+                                    </Typography>
                                   </ListItemButton>
                                 </ListItem>
                               </>

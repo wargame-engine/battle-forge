@@ -1,5 +1,5 @@
 import {
-  Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Stack, TextField
+  Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormControlLabel, FormLabel, Paper, Radio, RadioGroup, Stack, TextField
 } from "@mui/material";
 import {
   get
@@ -11,7 +11,7 @@ import React, {
 const LIST_TYPES = [
   { label: "Competitive", value: "competitive" },
   { label: "Narrative", value: "narrative" },
-  // { label: "Campaign", value: "campaign" },
+  { label: "Campaign", value: "campaign" }
 ];
 export const AddList = (props) => {
   const { hideModal, addList } = props;
@@ -86,38 +86,40 @@ export const UpdateList = (props) => {
         <DialogTitle>
           Edit Roster
         </DialogTitle>
-        <DialogContent>
-          <Stack spacing={2} sx={{ mt: 1 }}>
-            <FormControl>
-              <TextField
-                size="small"
-                id="standard-basic"
-                label="Force Name"
-                variant="outlined"
-                onChange={(value) => setListName(value.target.value)}
-                value={listName}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel component="legend">List Type</FormLabel>
-              <RadioGroup
-                row
-                aria-label="gender"
-                name="row-radio-buttons-group"
-                onChange={(event) => setListType(event.target.value)}
-                value={listType}
-              >
-                {LIST_TYPES.map((type, index) => (
-                  <FormControlLabel
-                    key={index}
-                    value={type.value}
-                    control={<Radio />}
-                    label={type.label}
-                  />
-                ))}
-              </RadioGroup>
-            </FormControl>
-          </Stack>
+        <DialogContent sx={{ p: 0 }}>
+          <Paper sx={{ px: 3, py: 2 }} style={{ height: '100%', borderRadius: 0, overflowY: 'auto' }}>
+            <Stack spacing={2} sx={{ mt: 1 }}>
+              <FormControl>
+                <TextField
+                  size="small"
+                  id="standard-basic"
+                  label="Force Name"
+                  variant="outlined"
+                  onChange={(value) => setListName(value.target.value)}
+                  value={listName}
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel component="legend">List Type</FormLabel>
+                <RadioGroup
+                  row
+                  aria-label="gender"
+                  name="row-radio-buttons-group"
+                  onChange={(event) => setListType(event.target.value)}
+                  value={listType}
+                >
+                  {LIST_TYPES.map((type, index) => (
+                    <FormControlLabel
+                      key={index}
+                      value={type.value}
+                      control={<Radio />}
+                      label={type.label}
+                    />
+                  ))}
+                </RadioGroup>
+              </FormControl>
+            </Stack>
+          </Paper>
         </DialogContent>
         <DialogActions>
           <Button color="secondary" onClick={hideModal}>

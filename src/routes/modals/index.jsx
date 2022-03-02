@@ -25,89 +25,91 @@ export const UserPreferences = (props) => {
     <>
       <Dialog open fullWidth maxWidth="sm" onClose={hideModal}>
         <DialogTitle>Settings</DialogTitle>
-        <DialogContent>
-          <FormGroup>
-            <FormControl component="fieldset">
-              <FormLabel component="legend">Theme</FormLabel>
-              <RadioGroup
-                row
-                aria-label="theme-radio"
-                name="theme-radio-group"
-                value={localUserPrefs?.theme}
-                onChange={(event) => {
-                  setLocalUserPrefs({
-                    ...localUserPrefs,
-                    theme: event.target.value,
-                  });
-                }}
-              >
-                {THEMES.map((type) => (
-                  <FormControlLabel
-                    key={type.value}
-                    value={type.value}
-                    control={<Radio />}
-                    label={type.label}
-                  />
-                ))}
-              </RadioGroup>
-            </FormControl>
-          </FormGroup>
-          <FormGroup sx={{ my: 1 }}>
-            <FormControl>
-              <InputLabel id="primary-color-label">Primary Color</InputLabel>
-              <Select
-                size="small"
-                labelId="primary-color-label"
-                id="primary-color"
-                value={primaryColor}
-                label="Primary Color"
-                onChange={(event) => {
-                  setLocalUserPrefs({
-                    ...localUserPrefs,
-                    primaryColor: event.target.value,
-                  })
-                }}
-              >
-                {colorOptions}
-              </Select>
-            </FormControl>
-          </FormGroup>
-          <FormGroup>
-            <FormControl component="fieldset">
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    onChange={() =>
-                      setLocalUserPrefs({
-                        ...localUserPrefs,
-                        showBeta: !localUserPrefs.showBeta,
-                      })
-                    }
-                    checked={localUserPrefs.showBeta}
-                  />
-                }
-                label="Show Beta Content"
-              />
-            </FormControl>
-          </FormGroup>
-          <FormGroup>
-            <FormControl component="fieldset">
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    onChange={() =>
-                      setLocalUserPrefs({
-                        ...localUserPrefs,
-                        developerMode: !localUserPrefs.developerMode,
-                      })
-                    }
-                    checked={localUserPrefs.developerMode}
-                  />
-                }
-                label="Enable Developer Mode"
-              />
-            </FormControl>
-          </FormGroup>
+        <DialogContent sx={{ p: 0 }}>
+          <Paper sx={{ px: 3, py: 2 }} style={{ height: '100%', borderRadius: 0, overflowY: 'auto' }}>
+            <FormGroup>
+              <FormControl component="fieldset">
+                <FormLabel component="legend">Theme</FormLabel>
+                <RadioGroup
+                  row
+                  aria-label="theme-radio"
+                  name="theme-radio-group"
+                  value={localUserPrefs?.theme}
+                  onChange={(event) => {
+                    setLocalUserPrefs({
+                      ...localUserPrefs,
+                      theme: event.target.value,
+                    });
+                  }}
+                >
+                  {THEMES.map((type) => (
+                    <FormControlLabel
+                      key={type.value}
+                      value={type.value}
+                      control={<Radio />}
+                      label={type.label}
+                    />
+                  ))}
+                </RadioGroup>
+              </FormControl>
+            </FormGroup>
+            <FormGroup sx={{ my: 1 }}>
+              <FormControl>
+                <InputLabel id="primary-color-label">Primary Color</InputLabel>
+                <Select
+                  size="small"
+                  labelId="primary-color-label"
+                  id="primary-color"
+                  value={primaryColor}
+                  label="Primary Color"
+                  onChange={(event) => {
+                    setLocalUserPrefs({
+                      ...localUserPrefs,
+                      primaryColor: event.target.value,
+                    })
+                  }}
+                >
+                  {colorOptions}
+                </Select>
+              </FormControl>
+            </FormGroup>
+            <FormGroup>
+              <FormControl component="fieldset">
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      onChange={() =>
+                        setLocalUserPrefs({
+                          ...localUserPrefs,
+                          showBeta: !localUserPrefs.showBeta,
+                        })
+                      }
+                      checked={localUserPrefs.showBeta}
+                    />
+                  }
+                  label="Show Beta Content"
+                />
+              </FormControl>
+            </FormGroup>
+            <FormGroup>
+              <FormControl component="fieldset">
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      onChange={() =>
+                        setLocalUserPrefs({
+                          ...localUserPrefs,
+                          developerMode: !localUserPrefs.developerMode,
+                        })
+                      }
+                      checked={localUserPrefs.developerMode}
+                    />
+                  }
+                  label="Enable Developer Mode"
+                />
+              </FormControl>
+            </FormGroup>
+          </Paper>
         </DialogContent>
         <DialogActions>
           <Button color="secondary" onClick={hideModal}>
