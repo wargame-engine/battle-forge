@@ -451,7 +451,7 @@ export default React.memo((props) => {
     const factionUrl = get(faction, "url");
     return !!factionUnits || !factionUrl;
   });
-  const downloadList = () => {
+  const downloadList = React.useCallback(() => {
     downloadFile(
       JSON.stringify(
         {
@@ -463,7 +463,7 @@ export default React.memo((props) => {
       "data:text/json",
       `${list.name}.json`
     );
-  };
+  }, [ list ]);
   const uploadList = (event) => {
     event.preventDefault();
     const file = get(event, "target.files[0]");
@@ -902,7 +902,7 @@ export default React.memo((props) => {
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ editMode, list ]);
+  }, [ editMode, downloadList ]);
   if (!someData || !allFactionsLoaded) {
     return (
       <Box sx={{ textAlign: "center" }}>

@@ -57,6 +57,14 @@ export const BASE_THEME = {
           width: 25,
         }
       }
+    },
+    MuiDialogTitle: {
+      styleOverrides: {
+        root: {
+          paddingTop: 12,
+          paddingBottom: 12
+        }
+      }
     }
   },
   typography: {
