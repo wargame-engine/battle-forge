@@ -1457,6 +1457,8 @@ export default React.memo((props) => {
                             const unitLevel = Math.floor(
                               get(unit, "experience", 0) / 5
                             );
+                            const hasPowerRule = find(get(unit, 'selectedRules', []), (rule) => rule.id === 'power' || rule === 'power');
+                            const hasOptions = !!unit?.optionList?.length;
                             return (
                               <>
                                 <ListItem
@@ -1512,7 +1514,7 @@ export default React.memo((props) => {
                                                 <ListItemText>Copy</ListItemText>
                                               </MenuItem>
                                             )}
-                                            {!!editMode && !!unit.optionList.length && (
+                                            {!!editMode && (hasOptions || hasPowerRule) && (
                                               <MenuItem onClick={() => {
                                                 showEditUnit({
                                                   faction: forceFaction,

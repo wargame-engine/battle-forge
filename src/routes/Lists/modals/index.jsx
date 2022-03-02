@@ -939,7 +939,6 @@ export const EditUnit = (props) => {
     faction,
     setUnitOptions,
     setUnitPowerSpecialty,
-    setUnitName,
     forceId,
     unitId
   } = props;
@@ -1059,19 +1058,7 @@ export const EditUnit = (props) => {
           </small>
         </DialogTitle>
         <DialogContent sx={{ p: 0 }}>
-          <Paper style={{ height: '100%', borderRadius: 0, overflow: 'auto' }} sx={{ px: 2 }}>
-            <FormControl fullWidth sx={{ mt: 2 }}>
-              <TextField
-                fullWidth
-                size="small"
-                label="Custom Name"
-                value={unit.customName}
-                onChange={(event) =>
-                  setUnitName(forceId, unitId, event.target.value)
-                }
-              />
-              <Divider />
-            </FormControl>
+          <Paper style={{ height: '100%', borderRadius: 0, overflow: 'auto' }} sx={{ p: 2 }}>
             <FormGroup>
               <div>
                 {!!hasPowerRule && <div>
