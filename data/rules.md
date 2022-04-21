@@ -169,7 +169,7 @@ If a unit's target is outside of a weapon's Short range band and in range of its
 
 ### Save Rolls
 For each "hit" suffered, the defender must assign the hit to a model. Only models that were valid targets of that attack may be assigned hits (models out of line of sight or otherwise may not be hit by that attack). This is now when any abilities or special rules which allow a model to prevent hits are worked out. A unit may only use one such ability, so choose the best one.
-For each hit, Roll a D10 and subtract the AP value of the weapon from the target's Save roll. Each result that is equal to or less than the defender's Save value is successfully stopped. Any remaining hits cause the target to lose 1 wound or be killed if the target has only 1 wound. Any models with zero wounds are then removed from the table as casualties.
+For each hit, roll a D10 and subtract the AP value of the weapon from the target's Save characteristic. Each result that is equal to or less than the defender's Save is successfully stopped. Any remaining hits cause the target to lose 1 wound or be killed if the target has only 1 wound. Any models with zero wounds are then removed from the table as casualties.
 
 __Automatic Failures:__ Save rolls of 10 always fail, as do any other skill checks on 10s. For the purposes of any abilities which measure the amount the Save was failed by, subtract the unit's Save value from 10. For example, I fail a Save roll on a 10 and my unit has Save 12. I have failed that Save by -2 and would use -2 for any rules which reference how much a Save was failed by.
 
