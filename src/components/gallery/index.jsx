@@ -33,7 +33,7 @@ const imgs = [
     label: 'Goč, Serbia',
     imgPath:
       'https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=400&h=250&q=60',
-  },
+  }
 ];
 
 function SwipeableTextMobileStepper(props) {
@@ -48,7 +48,8 @@ function SwipeableTextMobileStepper(props) {
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => (prevActiveStep - 1) % maxSteps);
+    const currentStep = (prevActiveStep) => (prevActiveStep) > 0 ? (prevActiveStep - 1) % maxSteps : maxSteps - 1;
+    setActiveStep(currentStep);
   };
 
   const handleStepChange = (step) => {
