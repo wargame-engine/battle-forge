@@ -1,7 +1,6 @@
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import {
-  CardHeader, IconButton, List,
-  ListItem, ListItemButton, ListItemText, Typography
+  CardHeader, ListItem, ListItemButton, ListItemText, Typography
 } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
