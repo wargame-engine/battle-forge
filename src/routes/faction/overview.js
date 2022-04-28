@@ -1,7 +1,7 @@
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import {
   CardHeader, IconButton, List,
-  ListItem, ListItemText, Typography
+  ListItem, ListItemButton, ListItemText, Typography
 } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -79,8 +79,8 @@ export const Overview = (props) => {
       {!!sortedPowers && !!sortedPowers.length && (
         <Card
           sx={{
+            m: 0,
             border: `2px solid ${factionColor}`,
-            mb: 2,
           }}
         >
           <CardHeader
@@ -92,28 +92,21 @@ export const Overview = (props) => {
             }
           />
           <CardContent style={{ padding: 0 }}>
-            <List
-              sx={{
-                width: "100%"
-              }}
-            >
-              {sortedPowers.map((list) => (
-                <ListItem
-                  key={list.name}
-                  secondaryAction={
-                    <IconButton edge="end" aria-label="comments" onClick={() => window.open(list.link, "_blank")}>
-                      <ShoppingCartIcon />
-                    </IconButton>
-                  }
-                >
+            {sortedPowers.map((list) => (
+              <ListItem
+                sx={{ p: 0 }}
+                key={list.name}
+              >
+                <ListItemButton onClick={() => window.open(list.link, "_blank")}>
                   <ListItemText
                     id={list.name}
                     primary={list.name}
                     secondary={list.description}
                   />
-                </ListItem>
-              ))}
-            </List>
+                  <ShoppingCartIcon />
+                </ListItemButton>
+              </ListItem>
+            ))}
           </CardContent>
         </Card>
       )}
