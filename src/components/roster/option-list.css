@@ -37,4 +37,6 @@
 
 .rule-text ul {
     padding-inline-start: 30px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }

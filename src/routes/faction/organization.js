@@ -53,7 +53,7 @@ export const Organization = (props) => {
                   <Typography component="div" align="center" sx={{ p: 2 }}>
                     {org.description}
                   </Typography>
-                  <Table size="small" aria-label="simple table" sx={{ mb: 1 }}>
+                  <Table size="small" aria-label="simple table">
                     <TableBody>
                       {orgSlots.map((category, index) => {
                         const categoryData = data.getCategory(category);
@@ -63,8 +63,8 @@ export const Organization = (props) => {
                         );
                         return (
                           <StyledTableRow key={index}>
-                            <TableCell>{categoryData.name}</TableCell>
-                            <TableCell align="right" style={{ paddingRight: '5px' }}>
+                            <TableCell style={{ paddingLeft: '10px' }}>{categoryData.name}</TableCell>
+                            <TableCell align="right" style={{ paddingRight: '10px' }}>
                               {`${organizationData.min || 0}-${
                                 organizationData.max || 0
                               }`}

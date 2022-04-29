@@ -20,8 +20,8 @@ export const Footer = () => {
                 {" "}
                 {"Discord"}
               </a> */}
-          <Link href="/privacy"> {"Privacy Policy"}</Link>
-          {/* <a href="https://www.patreon.com/bePatron?u=36845786" target="_blank"> {'Patreon'}</a> */}
+          {/* <Link href="/privacy"> {"Privacy Policy"}</Link> */}
+          {/* <Link href="https://www.patreon.com/bePatron?u=36845786" target="_blank"> {'Patreon'}</Link> */}
         </Box>
         <Box className={dimensions.width > 768 ? "text-right" : ""}>
           &#169; <Link href="https://www.indiegamerules.com">Indie Game Rules</Link>{" "}

@@ -197,7 +197,9 @@ export function MissionGenerator(props) {
                     }
                   />
                   <CardContent>
-                    <h4>{randomWeather.name}</h4>
+                    <Typography variant="h5" component="div" gutterBottom>
+                      {randomWeather.name}
+                    </Typography>
                     <div style={{ marginBottom: "0.5em" }}>
                       <ReactMarkdown
                         className="rule-text font-italic"
