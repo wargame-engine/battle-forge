@@ -233,10 +233,10 @@ To make a Reaction, a unit declares which reaction they are attempting to make a
 ## Available Reactions
 Units may make any of the following reactions.
 ### Dodge
-When a unit is targeted by an attack it may attempt a Dodge reaction. With a Dodge reaction, a unit attempts to dodge out of the way of the attack and avoid being hit. If successful, immediately make an Evade action.
+When a unit is targeted by an attack, it may attempt a Dodge reaction. With a Dodge reaction, a unit attempts to dodge out of the way of the attack and avoid being hit. If successful, immediately make an Evade action.
 
 ### Overwatch
-Units may react when a Charge action is declared against them or a Move action is performed in their line of sight by attempting an Overwatch reaction. If successful, the unit may make a full shooting attack against the Charging or Moving unit measured from any point in the unit's Move. A unit that is on Hold may automatically perform an Overwatch reaction. No test is required for this reaction as a Hold action has already been performed.
+When a Charge action is declared against a unit, or a Move action is performed in its line of sight, it may attempt an Overwatch reaction. If successful, the unit may make a full shooting attack against the Charging or Moving unit measured from any point in the unit's Move. A unit that is on Hold may automatically perform an Overwatch reaction. No test is required for this reaction as a Hold action has already been performed.
 
 ### Counter Attack
 When a Fight or Shoot action is declared against a unit, it may attempt a Counter Attack reaction. If successful, the unit may simultaneously make a Fight or Shoot action against the attacking unit. A unit that is on Hold may automatically perform a Counter Attack reaction against an enemy unit that Fights or Shoots it. No test is required for this reaction as a Hold action has already been performed.
