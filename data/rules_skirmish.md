@@ -165,12 +165,12 @@ For each weapon, roll a number of D10 equal to the number of attacks the weapon 
 
 __Extra Hits:__ Abilities which grant extra hits (1 hit counts as 2 for example) do not benefit from other weapon abilities which trigger on the same value. They are simply one extra hit with the weapon's base profile. For example, I have an ability which grants extra hits on 2 or less and one where hit rolls of 2 or less gain +1 AP. The extra hits would not gain +1 AP.
 
-__Splitting Hits:__ If multiple hits are scored on a target, those hits may be split evenly between any number of other available targets within 3". If there are any odd hits, those must be assigned to the original target. Hits may not be assigned to a target which would be hit on a more difficult Accuracy value (Long Range or other Accuracy penalties).
+__Splitting Hits:__ If multiple hits are scored on a target, the attacking player may split those hits evenly between any number of other available targets within 3". If there are any odd hits, those must be assigned to the original target. Hits may not be assigned to a target which would be hit on a more difficult Accuracy value (Long Range or other Accuracy penalties).
 
 #### Long Range
-If a unit's target is outside of a weapon's Short range band and in range of its Long range band it suffers -1 to its Accuracy rolls.
+If a unit's target is outside a weapon's Short range band and in range of its Long range band it suffers -1 to its Accuracy rolls.
 ### Save Rolls
-For each "hit" suffered, the defender must assign the hit to a model. Only models that were valid targets of that attack may be assigned hits (models out of line of sight or otherwise may not be hit by that attack). This is now when any abilities or special rules which allow a model to prevent hits are worked out. A unit may only use one such ability, so choose the best one.
+For each "hit" suffered, the defender must assign the hit to a model. Only models that were valid targets of that attack may be assigned hits (models out of line of sight or otherwise may not be hit by that attack). Abilities or special rules which allow a model to negate hits are applied after the hit is assigned. A unit may only use one such ability, so choose the best one.
 For each hit, roll a D10 and subtract the AP value of the weapon from the target's Save characteristic. Each result that is equal to or less than the defender's Save is successfully stopped. Any remaining hits cause the target to lose 1 wound or be killed if the target has only 1 wound. Any models with zero wounds are then removed from the table as casualties.
 
 __Automatic Failures:__ Save rolls of 10 always fail, as do any other skill checks on 10s. For the purposes of any abilities which measure the amount the Save was failed by, subtract the unit's Save value from 10. For example, I fail a Save roll on a 10 and my unit has Save 12. I have failed that Save by -2 and would use -2 for any rules which reference how much a Save was failed by.
@@ -249,13 +249,13 @@ To make a Reaction, a unit declares which reaction they are attempting to make a
 Units may make any of the following reactions.
 
 ### Dodge
-When a unit is targeted by an attack it may attempt a Dodge reaction. With a Dodge reaction, a unit attempts to dodge out of the way of the attack and avoid being hit. If successful, immediately make an Evade action.
+When a unit is targeted by an attack, it may attempt a Dodge reaction. With a Dodge reaction, a unit attempts to dodge out of the way of the attack and avoid being hit. If successful, immediately make an Evade action.
 
 ### Overwatch
-Units may react when a Charge action is declared against them or a Move action is performed in their line of sight by attempting an Overwatch reaction. If successful, the unit may make a full shooting attack against the Charging or Moving unit measured from any point in the unit's Move. A unit that is on Hold may automatically perform an Overwatch reaction. No test is required for this reaction as a Hold action has already been performed.
+When a Charge action is declared against a unit, or a Move action is performed in its line of sight, it may attempt an Overwatch reaction. If successful, the unit may make a full shooting attack against the Charging or Moving unit measured from any point in the unit's Move. A unit that is on Hold may automatically perform an Overwatch reaction. No test is required for this reaction as a Hold action has already been performed.
 
 ### Counter Attack
-When a Fight or Shoot action is declared against a unit, it may attempt a Counter Attack reaction. If successful, the unit may simultaneously make a Fight or Shoot action against the attacking unit. Units may react when a Charge action is declared against them or a Move action is performed in their line of sight by attempting an Overwatch reaction. If successful, the unit may make a full shooting attack against the Charging or Moving unit measured from any point in the unit's Move. A unit that is on Hold may automatically perform an Overwatch reaction. No test is required for this reaction as a Hold action has already been performed. unit. A unit that is on Hold may automatically perform a Counter Attack reaction against an enemy unit that Fights or Shoots it. No test is required for this reaction as a Hold action has already been performed.
+When a Fight or Shoot action is declared against a unit, it may attempt a Counter Attack reaction. If successful, the unit may simultaneously make a Fight or Shoot action against the attacking unit. A unit that is on Hold may automatically perform a Counter Attack reaction against an enemy unit that Fights or Shoots it. No test is required for this reaction as a Hold action has already been performed.
 
 ### Escape
 When a Fight, Shoot, or Charge action is declared against a unit, it may attempt an Escape reaction. If successful, the target unit may make a full move action before the Shoot, Fight or Charge action is performed.
@@ -264,20 +264,20 @@ When a Fight, Shoot, or Charge action is declared against a unit, it may attempt
 Units in cover are much less susceptible to enemy fire and gain bonuses depending on their level of cover. 
 Players should agree on terrain types and building capacities before the game begins to avoid slowing the game down.
 ## Obstacles
-Any piece of terrain that is linear and may block movement such as a wall or hedge. Units only receive cover from an obstacle if the defending unit is within 2" of the obstacle and the majority of attacks from the attacking unit cross that obstacle.
+An obstacle is any piece of terrain that is linear and may block movement such as a wall or hedge. Units only receive cover from an obstacle if the defending unit is within 2" of the obstacle and the majority of attacks from the attacking unit cross that obstacle.
 
 __Low Obstacles:__ Some rules may reference low obstacles. A low obstacle is one that is 1" or less in height.
 
 ## Cover
 Units in cover gain a bonus to their Save depending on the level of cover.
 ### Soft Cover
-Units in Soft Cover gain +1 to their Save rolls.
+Units in Soft Cover gain +1 to their Save rolls. Ex. vegetation, market stalls
 ### Hard Cover
-Units in Hard Cover gain +2 to their Save rolls.
+Units in Hard Cover gain +2 to their Save rolls. Ex. Jersey barrier, ruined walls
 ### Fortified Cover
-Units in Hard Cover gain +3 to their Save rolls.
+Units in Fortified Cover gain +3 to their Save rolls. Ex. bunker, trenches
 ### Negative Cover
-Units in Negative Cover suffer -1 to their Save rolls.
+Units in Negative Cover suffer -1 to their Save rolls. Ex. in a moat
 
 ## Ground Types
 Certain sections of the table may be designated to have different movement effects such as the ones below.
@@ -295,16 +295,17 @@ Players should decide on the model capacity of buildings before the game, but by
 ## Area Terrain
 To represent terrain that covers an area rather than a specific location such as a forest, field of crops, or a ruined building, players may choose to play the terrain as "area terrain". Models whose bases overlap or are fully inside of area terrain are affected by the terrain instead of just those behind it.
 ### Line of Sight
-Players should agree on whether or not area terrain can be seen through or just into (and out of). Terrain such as dense woods could potentially block line of sight except for units inside. 
-# Powers
-Certain units in the game have access to call upon special powers. Special rules assigned to these units will note how many powers these units can use and how many they may attempt to prevent from being used. Powers that are available to use can be found in a faction's roster.
-## Using Powers
-To cast Powers, a unit must perform a special action called the Power action. Then for each power the unit attemps to use, roll a D10 and add the unit's current Shock count. If the result is equal to or less than the power's cast value it is successful. On a roll of a 10, that unit immediately gains 2 Shock. A unit may only successfully cast each power once per turn. If this model is locked in Melee, it may only target units in the combat. It may not otherwise target enemy units in melee with friendly units.
-## Stopping Powers
-A model may attempt to stop a Power being used within 24\". To do so, roll a D10 and if the value is equal to or lower than the rolled value for the test, the power is stopped.
+Players should agree on whether area terrain can be seen through or just into (and out of). Terrain such as dense woods could potentially block line of sight except for units inside. 
 
+# Powers
+Certain units in the game have access to call upon special powers. Special rules assigned to these units will note how many powers these units may cast and how many it may attempt to stop from being cast. Available powers are listed in each faction's roster.
+## Using Powers
+A unit may cast Powers by performing a special action called the Power action. To use a Power, roll a D10 and add the unit's current Shock count. If the result is equal to or less than the power's cast value it is successful. On a roll of a 10, the casting unit immediately gains 2 Shock. A unit may only successfully cast each power once per turn. If the casting unit is Locked in Melee, it may only target units it is Locked in Melee with. It may not otherwise target enemy units Locked in Melee with friendly units.
+## Stopping Powers
+When an enemy unit casts a Power, the opposing player may select a unit within 24\" to stop the Power. To stop a Power, roll a D10. If the result is equal to or less than the casting result, the power is stopped.
 ## Power Specialties
-Some powers are arranged into specialties. These are groups of powers that fit a certain theme and are learned together. Before the game, a unit with the ability to use Powers may pick one specialty from which they can cast any Powers throughout the game. Units may always cast Powers that are listed as having no specialty as they are available to all casters regardless of the specialty.
+Some powers are arranged into specialties. These are groups of powers that fit a certain theme and are learned together. Before the game, a unit with the ability to use Powers may pick one specialty from which they can cast any Powers throughout the game. Some Powers are listed as having no specialty. These Powers are available to all casters regardless of picked specialty.
+
 # Force Building
 For a full game, the following force building restrictions apply. For casual or beginner games, feel free to simply pay the points for any units you wish to bring and ignore force building restrictions.
 ## Points Limit
