@@ -279,14 +279,14 @@ Players should decide on the model capacity of buildings before the game, but by
 ## Area Terrain
 To represent terrain that covers an area rather than a specific location such as a forest, field of crops, or a ruined building, players may choose to play the terrain as "area terrain". Models whose bases overlap or are fully inside of area terrain are affected by the terrain instead of just those behind it.
 ### Line of Sight
-Players should agree on whether area terrain can be seen through or just into (and out of). Dense woods could potentially block line of sight for all units except the ones waiting in ambush inside. 
+Players should agree on whether area terrain can be seen through or just into (and out of). Terrain such as dense woods could potentially block line of sight except for units inside. 
 
 # Powers
 Certain units in the game have access to call upon special powers. Special rules assigned to these units will note how many powers these units may cast and how many it may attempt to stop from being cast. Available powers are listed in each faction's roster.
 ## Using Powers
-A unit may cast Powers by performing a special action called the Power action. To cast a power, roll a D10 and add the unit's current Shock count. If the result is equal to or less than the power's cast value it is successful. On a roll of a 10, the casting unit immediately gains 2 Shock. A unit may only successfully cast each power once per turn. If the casting unit is Locked in Melee, it may only target units it is Locked in Melee with. It may not otherwise target enemy units Locked in Melee with friendly units.
+A unit may cast Powers by performing a special action called the Power action. To cast a Power, roll a D10 and add the unit's current Shock count. If the result is equal to or less than the power's cast value it is successful. On a roll of a 10, the casting unit immediately gains 2 Shock. A unit may only successfully cast each power once per turn. If the casting unit is Locked in Melee, it may only target units it is Locked in Melee with. It may not otherwise target enemy units Locked in Melee with friendly units.
 ## Stopping Powers
-When an enemy unit casts a Power, the opposing player may select a unit within 24\" to stop the Power. To stop a power, roll a D10. If the result is equal to or less than the casting result, the power is stopped.
+When an enemy unit casts a Power, the opposing player may select a unit within 24\" to stop the Power. To stop a Power, roll a D10. If the result is equal to or less than the casting result, the power is stopped.
 ## Power Specialties
 Some powers are arranged into specialties. These are groups of powers that fit a certain theme and are learned together. Before the game, a unit with the ability to use Powers may pick one specialty from which they can cast any Powers throughout the game. Some Powers are listed as having no specialty. These Powers are available to all casters regardless of picked specialty.
 
