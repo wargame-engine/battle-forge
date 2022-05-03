@@ -248,20 +248,21 @@ When a Fight, Shoot, or Charge action is declared against a unit, it may attempt
 Units in cover are much less susceptible to enemy fire and gain bonuses depending on their level of cover. 
 Players should agree on terrain types and 1 capacities before the game begins to avoid slowing the game down.
 ## Obstacles
-Any piece of terrain that is linear and may block movement such as a wall or hedge. Units only receive cover from an obstacle if the defending unit is within 2" of the obstacle and the majority of attacks from the attacking unit cross that obstacle.
+An obstacle is any piece of terrain that is linear and may block movement such as a wall or hedge. Units only receive cover from an obstacle if the defending unit is within 2" of the obstacle and the majority of attacks from the attacking unit cross that obstacle.
 
 __Low Obstacles:__ Some rules may reference low obstacles. A low obstacle is one that is 1" or less in height.
 
 ## Cover
 Units in cover gain a bonus to their Save depending on the level of cover.
 ### Soft Cover
-Units in Soft Cover gain +1 to their Save rolls.
+Units in Soft Cover gain +1 to their Save rolls. Ex. vegetation, market stalls
 ### Hard Cover
-Units in Hard Cover gain +2 to their Save rolls.
+Units in Hard Cover gain +2 to their Save rolls. Ex. Jersey barrier, ruined walls
 ### Fortified Cover
-Units in Hard Cover gain +3 to their Save rolls.
+Units in Fortified Cover gain +3 to their Save rolls. Ex. bunker, trenches
 ### Negative Cover
-Units in Negative Cover suffer -1 to their Save rolls.
+Units in Negative Cover suffer -1 to their Save rolls. Ex. in a moat
+
 ## Ground Types
 Certain sections of the table may be designated to have different movement effects such as the ones below.
 ### Difficult Ground
@@ -278,7 +279,7 @@ Players should decide on the model capacity of buildings before the game, but by
 ## Area Terrain
 To represent terrain that covers an area rather than a specific location such as a forest, field of crops, or a ruined building, players may choose to play the terrain as "area terrain". Models whose bases overlap or are fully inside of area terrain are affected by the terrain instead of just those behind it.
 ### Line of Sight
-Players should agree on whether or not area terrain can be seen through or just into (and out of). Terrain such as dense woods could potentially block line of sight except for units inside. 
+Players should agree on whether area terrain can be seen through or just into (and out of). Dense woods could potentially block line of sight for all units except the ones waiting in ambush inside. 
 
 # Powers
 Certain units in the game have access to call upon special powers. Special rules assigned to these units will note how many powers these units can use and how many they may attempt to prevent from being used. Powers that are available to use can be found in a faction's roster.
