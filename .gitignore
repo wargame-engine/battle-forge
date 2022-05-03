@@ -108,3 +108,6 @@ build/
 
 # Local Netlify folder
 .netlify
+
+# Local Jetbrains folder
+.idea/

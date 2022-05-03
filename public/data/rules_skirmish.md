@@ -165,12 +165,12 @@ For each weapon, roll a number of D10 equal to the number of attacks the weapon 
 
 __Extra Hits:__ Abilities which grant extra hits (1 hit counts as 2 for example) do not benefit from other weapon abilities which trigger on the same value. They are simply one extra hit with the weapon's base profile. For example, I have an ability which grants extra hits on 2 or less and one where hit rolls of 2 or less gain +1 AP. The extra hits would not gain +1 AP.
 
-__Splitting Hits:__ If multiple hits are scored on a target, those hits may be split evenly between any number of other available targets within 3". If there are any odd hits, those must be assigned to the original target. Hits may not be assigned to a target which would be hit on a more difficult Accuracy value (Long Range or other Accuracy penalties).
+__Splitting Hits:__ If multiple hits are scored on a target, the attacking player may split those hits evenly between any number of other available targets within 3". If there are any odd hits, those must be assigned to the original target. Hits may not be assigned to a target which would be hit on a more difficult Accuracy value (Long Range or other Accuracy penalties).
 
 #### Long Range
-If a unit's target is outside of a weapon's Short range band and in range of its Long range band it suffers -1 to its Accuracy rolls.
+If a unit's target is outside a weapon's Short range band and in range of its Long range band it suffers -1 to its Accuracy rolls.
 ### Save Rolls
-For each "hit" suffered, the defender must assign the hit to a model. Only models that were valid targets of that attack may be assigned hits (models out of line of sight or otherwise may not be hit by that attack). This is now when any abilities or special rules which allow a model to prevent hits are worked out. A unit may only use one such ability, so choose the best one.
+For each "hit" suffered, the defender must assign the hit to a model. Only models that were valid targets of that attack may be assigned hits (models out of line of sight or otherwise may not be hit by that attack). Abilities or special rules which allow a model to negate hits are applied after the hit is assigned. A unit may only use one such ability, so choose the best one.
 For each hit, roll a D10 and subtract the AP value of the weapon from the target's Save characteristic. Each result that is equal to or less than the defender's Save is successfully stopped. Any remaining hits cause the target to lose 1 wound or be killed if the target has only 1 wound. Any models with zero wounds are then removed from the table as casualties.
 
 __Automatic Failures:__ Save rolls of 10 always fail, as do any other skill checks on 10s. For the purposes of any abilities which measure the amount the Save was failed by, subtract the unit's Save value from 10. For example, I fail a Save roll on a 10 and my unit has Save 12. I have failed that Save by -2 and would use -2 for any rules which reference how much a Save was failed by.
