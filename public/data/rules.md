@@ -98,7 +98,7 @@ Players alternate activating one unit and performing two actions with that unit,
 __Unit Activations:__ A unit may only be activated a single time per round, regardless of any abilities which allow for free activations.
 
 ## End Phase
-During this phase, players decide if any of their units will retain standby actions. Additionally, players will score any end-of-round VP for the current scenario and resolve abilities which occur at the end of the round.
+At the beginning of the end phase, both players will remove any leftover action tokens from their units including Focus and Evade tokens. Additionally, players will score any end-of-round VP for the current scenario and resolve abilities which occur at the end of the round.
 
 # Actions
 All units may perform actions. Some actions are specific to the scenario being played and some are available on unit or model abilities.
