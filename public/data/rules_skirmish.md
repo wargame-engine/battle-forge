@@ -107,7 +107,7 @@ All units may perform actions. Some actions are specific to the scenario being p
 The following actions are available to all units.
 
 ### Focus
-The unit focuses and gains +1 Accuracy and Strength with its next attack.
+The unit gains a focus token which can be spent when it attacks for +1 Accuracy or Strength for that attack.
 ### Shoot
 The unit attacks with all equipped Ranged weapons. Units may only shoot once per round.
 ### Fight
@@ -121,7 +121,7 @@ The unit declares a target and makes a move action into base contact with it and
 ### Hold
 The unit prepares itself and may perform a reaction later in the round. It may automatically perform an Overwatch or Counter Attack reaction without having to test. All other reactions will require the unit to test.
 ### Evade
-The unit attemps to evade incoming attacks. Mark that the unit has Evaded with a token. When the unit is targeted by a Shooting or Fighting attack, that unit may spend the token to cause the attacking unit to suffer -1 Accuracy and -1 Strength for that attack.
+The unit gains an Evade token which can be spent when it is targeted by an attack causing the attacker to suffer -1 Accuracy or -1 Strength for that attack.
 ### Rally
 The unit attempts to regroup and prepare to fight on. Roll a Courage check for each Shock on the unit and any successes remove one Shock.
 ## Simultaneous Actions
