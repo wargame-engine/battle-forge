@@ -1,4 +1,5 @@
 import {
+  Box,
   Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormControlLabel, FormLabel, ListItem, ListItemButton, ListItemText, ListSubheader, Paper, Radio, RadioGroup, Stack, TextField, Typography
 } from "@mui/material";
 import useTheme from "@mui/material/styles/useTheme";
@@ -9,12 +10,19 @@ import {
 import React, {
   useState
 } from "react";
+import QRious from "qrious";
 
 const LIST_TYPES = [
   { label: "Competitive", value: "competitive" },
   { label: "Narrative", value: "narrative" },
   { label: "Campaign", value: "campaign" }
 ];
+
+const SHARING_TYPES = [
+  { label: "URL", value: "url" },
+  { label: "QR Code", value: "qr" }
+];
+
 export const AddListOld = (props) => {
   const { hideModal, addList } = props;
   const [listName, setListName] = useState("");
@@ -152,7 +160,13 @@ export const UpdateList = (props) => {
 
 export const ShareList = (props) => {
   const { hideModal, listData, copyToClipboard } = props;
-  const url = `${window?.location?.origin?.toString()}/lists?listShare=${listData}`;
+  const [ shareType, setShareType ] = React.useState('url');
+  const url = `${window?.location?.origin?.toString()}/#/lists?share=${listData}`;
+  const qr = React.useMemo(() => new QRious({
+    size: 500,
+    value: url
+  }), [ url ]);
+  const qrData = qr.toDataURL('image/jpeg');
   return (
     <>
       <Dialog open maxWidth="md" fullWidth onClose={hideModal}>
@@ -160,28 +174,17 @@ export const ShareList = (props) => {
           Share Roster
         </DialogTitle>
         <DialogContent>
-          <Stack direction="row" spacing={2} sx={{ mt: 1 }}>
-            <FormControl style={{ flexGrow: 1 }}>
-              <TextField
-                fullWidth
-                id="standard-basic"
-                label="Share Url"
-                variant="outlined"
-                value={url}
-                
-              />
-            </FormControl>
-            <Button onClick={() => copyToClipboard('Successfully copied url to clipboard.', url)}>Copy</Button>
-            {/* <FormControl>
-              <FormLabel component="legend">List Type</FormLabel>
+          <Stack spacing={2}>
+            <FormControl>
+              <FormLabel component="legend">Sharing Type</FormLabel>
               <RadioGroup
                 row
                 aria-label="gender"
                 name="row-radio-buttons-group"
-                onChange={(event) => setListType(event.target.value)}
-                value={listType}
+                onChange={(event) => setShareType(event.target.value)}
+                value={shareType}
               >
-                {LIST_TYPES.map((type, index) => (
+                {SHARING_TYPES.map((type, index) => (
                   <FormControlLabel
                     key={index}
                     value={type.value}
@@ -190,7 +193,23 @@ export const ShareList = (props) => {
                   />
                 ))}
               </RadioGroup>
-            </FormControl> */}
+            </FormControl>
+            {shareType === 'url' && <Stack direction="row" spacing={2} sx={{ mt: 1 }}>
+              <FormControl style={{ flexGrow: 1 }}>
+                <TextField
+                  fullWidth
+                  id="standard-basic"
+                  label="Share Url"
+                  variant="outlined"
+                  value={url}
+
+                />
+              </FormControl>
+              <Button onClick={() => copyToClipboard('Successfully copied url to clipboard.', url)}>Copy</Button>
+            </Stack>}
+            {shareType === 'qr' &&
+              <Box display="flex" alignItems="center" justifyContent="center"><img style={{ maxWidth: '512px' }} src={qrData} /></Box>
+            }
           </Stack>
         </DialogContent>
         <DialogActions>

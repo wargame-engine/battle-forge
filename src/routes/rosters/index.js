@@ -5,6 +5,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import UploadIcon from '@mui/icons-material/Upload';
+import ShareIcon from '@mui/icons-material/Share';
 import {
   Card,
   CardContent,
@@ -23,7 +24,7 @@ import { useSnackbar } from "notistack";
 import React from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { useLocation } from "react-router";
-import { AddList, UpdateList } from 'routes/rosters/modals';
+import { AddList, UpdateList, ShareList } from 'routes/rosters/modals';
 import { DataAPI, mergeGlobalData } from "utils/data";
 import { downloadFile, readFileContent } from "utils/files";
 import { v4 as uuidv4 } from "uuid";
@@ -49,7 +50,7 @@ export default React.memo((props) => {
   const theme = useTheme();
   const location = useLocation();
   const queryParams = React.useMemo(() => new URLSearchParams(location.search), [location.search]);
-  const shareData = queryParams?.get("listShare");
+  const shareData = queryParams?.get("share");
     const game = get(nope, `gameData.games[${gameName}]`, {});
     const coreGame = get(coreData, `gameData.games[${gameName}]`, {});
     React.useEffect(() => {
@@ -111,7 +112,7 @@ export default React.memo((props) => {
       return Promise.reject(e);
     }
     importList(listObject);
-    queryParams.set('share', '');
+    queryParams.delete('share');
     navigate({
       search: queryParams?.toString(),
     }, { replace: true });
@@ -142,17 +143,17 @@ export default React.memo((props) => {
     fileDialog.current.click();
   };
 
-  // const copyToClipboard = (message, text) => {
-  //   navigator.clipboard.writeText(text).then(function() {
-  //     enqueueSnackbar(message, {
-  //       appearance: "success",
-  //     });
-  //   }, function(err) {
-  //     enqueueSnackbar(`Failed to write to clipboard.`, {
-  //       appearance: "error",
-  //     });
-  //   });
-  // }
+  const copyToClipboard = (message, text) => {
+    navigator.clipboard.writeText(text).then(function() {
+      enqueueSnackbar(message, {
+        appearance: "success",
+      });
+    }, function(err) {
+      enqueueSnackbar(`Failed to write to clipboard.`, {
+        appearance: "error",
+      });
+    });
+  }
   const uploadFile = (event) => {
     uploadList(event);
   };
@@ -206,17 +207,17 @@ export default React.memo((props) => {
     ),
     [lists]
   );
-  // const [showShareList, hideShareList] = useModal(
-  //   ({ extraProps }) => (
-  //     <ShareList
-  //       {...props}
-  //       hideModal={hideShareList}
-  //       copyToClipboard={copyToClipboard}
-  //       {...extraProps}
-  //     />
-  //   ),
-  //   [lists]
-  // );
+  const [showShareList, hideShareList] = useModal(
+    ({ extraProps }) => (
+      <ShareList
+        {...props}
+        hideModal={hideShareList}
+        copyToClipboard={copyToClipboard}
+        {...extraProps}
+      />
+    ),
+    [lists]
+  );
   const [showEditList, hideEditList] = useModal(
     ({ extraProps }) => (
       <UpdateList
@@ -247,11 +248,11 @@ export default React.memo((props) => {
       `${get(lists, `[${id}].name`, id)}.json`
     );
   };
-  // const shareList = (id) => {
-  //   const list = get(lists, `[${id}]`);
-  //   const listData = btoa(JSON.stringify(list));
-  //   showShareList({ listData, listName: list?.name });
-  // };
+  const shareList = (id) => {
+    const list = get(lists, `[${id}]`);
+    const listData = btoa(JSON.stringify(list));
+    showShareList({ listData, listName: list?.name });
+  };
   React.useEffect(() => {
     setAppState({
       enableSearch: true,
@@ -399,12 +400,12 @@ export default React.memo((props) => {
                                           </ListItemIcon>
                                           <ListItemText>Download</ListItemText>
                                         </MenuItem>
-                                        {/* <MenuItem onClick={() => shareList(list.id)}>
+                                        <MenuItem onClick={() => shareList(list.id)}>
                                           <ListItemIcon>
                                             <ShareIcon />
                                           </ListItemIcon>
                                           <ListItemText>Share</ListItemText>
-                                        </MenuItem> */}
+                                        </MenuItem>
                                         <MenuItem onClick={() => deleteList(list.id)}>
                                           <ListItemIcon>
                                             <DeleteIcon />
