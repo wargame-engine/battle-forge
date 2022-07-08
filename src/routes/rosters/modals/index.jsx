@@ -208,7 +208,7 @@ export const ShareList = (props) => {
               <Button onClick={() => copyToClipboard('Successfully copied url to clipboard.', url)}>Copy</Button>
             </Stack>}
             {shareType === 'qr' &&
-              <Box display="flex" alignItems="center" justifyContent="center"><img style={{ maxWidth: '512px' }} src={qrData} /></Box>
+              <Box display="flex" alignItems="center" justifyContent="center"><img alt="qr code" style={{ maxWidth: '512px' }} src={qrData} /></Box>
             }
           </Stack>
         </DialogContent>
