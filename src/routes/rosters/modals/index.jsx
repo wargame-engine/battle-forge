@@ -249,17 +249,20 @@ export const AddList = (props) => {
                                 setGameId(org.id);
                               }}
                             >
-                              <ListItemText
-                                primary={
-                                  <Typography fontWeight="bold">
-                                    {`${org.name}`}
-                                    <small>
-                                      {org.version ? ` (${org.version})` : ""}
-                                    </small>
-                                  </Typography>
-                                }
-                                secondary={<Typography variant="body2">{`${org.description || ""}`}</Typography>}
-                              />
+                              <Stack direction="row" spacing={1}>
+                                <Box style={{ width: '15px', background: org.color, flex: 'none' }} />
+                                <ListItemText
+                                  primary={
+                                    <Typography fontWeight="bold">
+                                      {`${org.name}`}
+                                      <small>
+                                        {org.version ? ` (${org.version})` : ""}
+                                      </small>
+                                    </Typography>
+                                  }
+                                  secondary={<Typography variant="body2">{`${org.description || ""}`}</Typography>}
+                                />
+                              </Stack>
                             </ListItemButton>
                           </ListItem>
                         );
