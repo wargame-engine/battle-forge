@@ -16,6 +16,7 @@ const LIST_TYPES = [
 export const AddList = (props) => {
   const { hideModal, addList } = props;
   const [listName, setListName] = useState("");
+  const [pointLimit, setPointLimit] = useState(0);
   const [listType, setListType] = useState("competitive");
   return (
     <>
@@ -30,6 +31,17 @@ export const AddList = (props) => {
                 variant="outlined"
                 onChange={(value) => setListName(value.target.value)}
                 value={listName}
+              />
+            </FormControl>
+            <FormControl>
+              <TextField
+                type="number"
+                size="small"
+                id="standard-basic"
+                label="Point Limit"
+                variant="outlined"
+                onChange={(value) => setPointLimit(value.target.value)}
+                value={pointLimit}
               />
             </FormControl>
             <FormControl>
@@ -77,8 +89,10 @@ export const AddList = (props) => {
 export const UpdateList = (props) => {
   const { hideModal, updateList, listId, lists } = props;
   const oldListName = get(lists, `[${listId}].name`, "");
+  const oldPointValue = get(lists, `[${listId}].pointLimit`, "");
   const oldListType = get(lists, `[${listId}].type`, "");
   const [listName, setListName] = useState(oldListName);
+  const [pointLimit, setPointLimit] = useState(oldPointValue || 0);
   const [listType, setListType] = useState(oldListType || "competitive");
   return (
     <>
@@ -97,6 +111,17 @@ export const UpdateList = (props) => {
                   variant="outlined"
                   onChange={(value) => setListName(value.target.value)}
                   value={listName}
+                />
+              </FormControl>
+              <FormControl>
+                <TextField
+                  type="number"
+                  size="small"
+                  id="standard-basic"
+                  label="Point Limit"
+                  variant="outlined"
+                  onChange={(value) => setPointLimit(value.target.value)}
+                  value={pointLimit}
                 />
               </FormControl>
               <FormControl>
@@ -132,6 +157,7 @@ export const UpdateList = (props) => {
                 updateList(listId, {
                   name: listName,
                   type: listType,
+                  pointLimit
                 });
                 hideModal();
               }

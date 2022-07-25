@@ -23,75 +23,13 @@ const SHARING_TYPES = [
   { label: "QR Code", value: "qr" }
 ];
 
-export const AddListOld = (props) => {
-  const { hideModal, addList } = props;
-  const [listName, setListName] = useState("");
-  const [listType, setListType] = useState("competitive");
-  return (
-    <>
-      <Dialog open maxWidth="md" fullWidth onClose={hideModal}>
-        <DialogTitle closeButton>Create Roster</DialogTitle>
-        <DialogContent sx={{ p: 0 }}>
-          <Paper sx={{ p: 2}} style={{ height: '100%', borderRadius: 0, overflowY: 'auto' }}>
-            <Stack spacing={2} sx={{ mt: 1 }}>
-              <FormControl>
-                <TextField
-                  size="small"
-                  id="standard-basic"
-                  label="Force Name"
-                  variant="outlined"
-                  onChange={(value) => setListName(value.target.value)}
-                  value={listName}
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel component="legend">List Type</FormLabel>
-                <RadioGroup
-                  row
-                  aria-label="gender"
-                  name="row-radio-buttons-group"
-                  onChange={(event) => setListType(event.target.value)}
-                  value={listType}
-                >
-                  {LIST_TYPES.map((type, index) => (
-                    <FormControlLabel
-                      key={index}
-                      value={type.value}
-                      control={<Radio />}
-                      label={type.label}
-                    />
-                  ))}
-                </RadioGroup>
-              </FormControl>
-            </Stack>
-          </Paper>
-        </DialogContent>
-        <DialogActions>
-          <Button color="secondary" onClick={hideModal}>
-            Cancel
-          </Button>
-          <Button
-            color="primary"
-            onClick={() => {
-              if (listName) {
-                addList(listName, { type: listType });
-                hideModal();
-              }
-            }}
-          >
-            Create
-          </Button>{" "}
-        </DialogActions>
-      </Dialog>
-    </>
-  );
-};
-
 export const UpdateList = (props) => {
   const { hideModal, updateList, listId, lists } = props;
   const oldListName = get(lists, `[${listId}].name`, "");
+  const oldPointValue = get(lists, `[${listId}].pointLimit`, "");
   const oldListType = get(lists, `[${listId}].type`, "");
   const [listName, setListName] = useState(oldListName);
+  const [pointLimit, setPointLimit] = useState(oldPointValue || 0);
   const [listType, setListType] = useState(oldListType || "competitive");
   return (
     <>
@@ -110,6 +48,17 @@ export const UpdateList = (props) => {
                   variant="outlined"
                   onChange={(value) => setListName(value.target.value)}
                   value={listName}
+                />
+              </FormControl>
+              <FormControl>
+                <TextField
+                  type="number"
+                  size="small"
+                  id="standard-basic"
+                  label="Point Limit"
+                  variant="outlined"
+                  onChange={(value) => setPointLimit(value.target.value)}
+                  value={pointLimit}
                 />
               </FormControl>
               <FormControl>
@@ -145,6 +94,7 @@ export const UpdateList = (props) => {
                 updateList(listId, {
                   name: listName,
                   type: listType,
+                  pointLimit
                 });
                 hideModal();
               }
@@ -225,6 +175,7 @@ export const ShareList = (props) => {
 export const AddList = (props) => {
   const { hideModal, userPrefs, addList, rawData } = props;
   const [listName, setListName] = useState("");
+  const [pointLimit, setPointLimit] = useState(0);
   const [listType, setListType] = useState("competitive");
   const [gameId, setGameId] = useState();
   const showBeta = userPrefs.showBeta;
@@ -340,6 +291,17 @@ export const AddList = (props) => {
                   />
                 </FormControl>
                 <FormControl>
+                  <TextField
+                    type="number"
+                    size="small"
+                    id="standard-basic"
+                    label="Point Limit"
+                    variant="outlined"
+                    onChange={(value) => setPointLimit(value.target.value)}
+                    value={pointLimit}
+                  />
+                </FormControl>
+                <FormControl>
                   <FormLabel component="legend">List Type</FormLabel>
                   <RadioGroup
                     row
@@ -369,7 +331,7 @@ export const AddList = (props) => {
               color="primary"
               onClick={() => {
                 if (listName) {
-                  addList(listName, { type: listType, gameId });
+                  addList(listName, { type: listType, gameId, pointLimit });
                   hideModal();
                 }
               }}

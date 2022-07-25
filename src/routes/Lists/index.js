@@ -931,7 +931,7 @@ export default React.memo((props) => {
   const listTypeName =
     (find(LIST_TYPES, (myType) => myType.value === list.type) || {}).label ||
     "Competitive";
-  const totalForcePoints = sum(
+  const totalForcePoints = list.pointLimit || sum(
     forces.map((force) => {
       const unitPoints = sum(
         get(force, "units", []).map((unit) => unit.points)
@@ -950,13 +950,14 @@ export default React.memo((props) => {
       return unitPoints;
     })
   );
-  const SPMult = isSkirmish ? 50 : 500;
-  const LegendMult = isSkirmish ? 150 : 500;
+  const detachmentLimitMult = isSkirmish ? 100 : 500;
+  const SPMult = isSkirmish ? 100 : 500;
+  const LegendMult = isSkirmish ? 100 : 500;
   const totalSP =
     2 +
     Math.round(totalForcePoints / SPMult) -
     sum(forces.map((force) => force.cost));
-  const legendLimit = Math.round(totalForcePoints / LegendMult);
+  const legendLimit = Math.max(Math.floor(totalForcePoints / LegendMult), 1);
   const validationErrors = [];
   if (listType !== "narrative") {
     const totalLegends = sum(
@@ -969,6 +970,15 @@ export default React.memo((props) => {
       validationErrors.push({
         type: "error",
         text: `List has ${exceededLegends} too many legends`,
+      });
+    }
+    const totalForces = forces?.length;
+    const forceLimit = Math.max(Math.floor(totalForcePoints / detachmentLimitMult), 1);
+    if (totalForces > forceLimit) {
+      const exceededLegends = totalForces - forceLimit;
+      validationErrors.push({
+        type: "error",
+        text: `List has ${exceededLegends} too many forces.`,
       });
     }
     forces.forEach((force) => {
