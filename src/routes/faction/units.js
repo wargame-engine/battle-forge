@@ -8,7 +8,7 @@ export const Units = React.memo((props) => {
   const { data, faction, nameFilter, unitFilter, filterByFocus=true, subfactionId="none", userPrefs } = props;
   const [pinnedUnits, setPinnedUnits] = useState({});
   const [currentPage, setCurrentPage] = useState(0);
-  const PAGE_SIZE = 20;
+  const PAGE_SIZE = 15;
   const categories = { pinned_units: {name: "Pinned Units"}, ...data.getRawCategories()};
   const unitsUn = data.getUnits(faction);
   const unitsFiltered = unitsUn.filter(unit => nameFilter ? get(unit, 'name', '').toLowerCase().includes(nameFilter.toLowerCase()) : true)
