@@ -250,7 +250,7 @@ export const AddList = (props) => {
                               }}
                             >
                               <Stack direction="row" spacing={1}>
-                                <Box style={{ width: '10px', background: org.color, flex: 'none' }} />
+                                <Box style={{ width: '8px', background: org.color, flex: 'none' }} />
                                 <ListItemText
                                   primary={
                                     <Typography fontWeight="bold">

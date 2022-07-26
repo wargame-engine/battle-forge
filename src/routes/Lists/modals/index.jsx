@@ -195,13 +195,16 @@ export const AddLegend = (props) => {
                                 hideModal();
                               }}
                             >
-                              <ListItemText
-                                primary={<Typography fontWeight="bold">{`${relic.name} (${relic.points} pts)`}</Typography>}
-                                secondary={<Typography variant="body2"><ReactMarkdown
-                                  children={relic.description}
-                                  className="rule-text"
-                                /></Typography>}
-                              />
+                              <Stack direction="row" spacing={1}>
+                                <Box style={{ width: '8px', background: faction?.color || 'grey', flex: 'none' }} />
+                                <ListItemText
+                                  primary={<Typography fontWeight="bold">{`${relic.name} (${relic.points} pts)`}</Typography>}
+                                  secondary={<Typography variant="body2"><ReactMarkdown
+                                    children={relic.description}
+                                    className="rule-text"
+                                  /></Typography>}
+                                />
+                              </Stack>
                             </ListItemButton>
                           </ListItem>
                         </div>
@@ -267,6 +270,7 @@ export const AddForce = (props) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const factionData = data.getFaction(faction);
+  return (
     <>
       <Dialog
         open
@@ -328,7 +332,7 @@ export const AddForce = (props) => {
                                 }}
                               >
                                 <Stack direction="row" spacing={1}>
-                                  <Box style={{ width: '10px', background: org.color, flex: 'none' }} />
+                                  <Box style={{ width: '8px', background: org.color, flex: 'none' }} />
                                   <ListItemText
                                     primary={
                                       <Typography fontWeight="bold">
@@ -395,7 +399,7 @@ export const AddForce = (props) => {
                         }}
                       >
                         <Stack direction="row" spacing={1}>
-                          <Box style={{ width: '10px', background: factionData?.color || 'grey', flex: 'none' }} />
+                          <Box style={{ width: '8px', background: factionData?.color || 'grey', flex: 'none' }} />
                           <ListItemText
                             primary={<Typography fontWeight="bold">{`${org.name} (Cost ${org.cost})`}</Typography>}
                             secondary={<Typography variant="body2">{org.description}</Typography>}
@@ -448,7 +452,7 @@ export const AddForce = (props) => {
                         }}
                       >
                         <Stack direction="row" spacing={1}>
-                          <Box style={{ width: '10px', background: factionData?.color || 'grey', flex: 'none' }} />
+                          <Box style={{ width: '8px', background: factionData?.color || 'grey', flex: 'none' }} />
                           <ListItemText
                             primary={<Typography fontWeight="bold">{subfaction.name}</Typography>}
                             secondary={<Typography variant="body2">{subfaction.description}</Typography>}
@@ -523,7 +527,7 @@ export const AddUnit = (props) => {
                     }}
                   >
                     <Stack direction="row" spacing={1}>
-                      <Box style={{ width: '10px', background: faction?.color || 'grey', flex: 'none' }} />
+                      <Box style={{ width: '8px', background: faction?.color || 'grey', flex: 'none' }} />
                       <ListItemText
                         primary={<Typography fontWeight="bold">{`${unit.name} (${unit.points} pts)`}</Typography>}
                         secondary={<Typography variant="body2">{unit.description}</Typography>}
