@@ -18,11 +18,28 @@ export const PrintView = (props) => {
   ];
   const listType = list.type || 'competitive';
   const listTypeName = (find(LIST_TYPES, myType => myType.value === list.type) || {}).label || 'Competitive';
-  const totalForcePoints = sum(forces.map((force) => {
-    const unitPoints = sum(get(force, 'units', []).map((unit) => unit.points));
-    const legendPoints = sum(get(force, 'legends', []).map((legend) => legend.points));
-    return unitPoints + legendPoints;
-  }));
+  const currentForcePoints = sum(
+    forces.map((force) => {
+      const unitPoints = sum(
+        get(force, "units", []).map((unit) => unit.points)
+      );
+      const legendPoints = sum(
+        get(force, "legends", []).map((legend) => legend.points)
+      );
+      return unitPoints + legendPoints;
+    })
+  );
+  const totalForcePoints = list.pointLimit || sum(
+    forces.map((force) => {
+      const unitPoints = sum(
+        get(force, "units", []).map((unit) => unit.points)
+      );
+      const legendPoints = sum(
+        get(force, "legends", []).map((legend) => legend.points)
+      );
+      return unitPoints + legendPoints;
+    })
+  );
   const totalSP = (1 + Math.ceil(totalForcePoints / 500)) - sum(forces.map((force) => force.cost));
   const totalForceReservePoints = sum(forces.map((force) => {
     const unitPoints = sum(get(force, 'reserves', []).map((unit) => unit.points));
@@ -39,7 +56,7 @@ export const PrintView = (props) => {
             sx={{ mb: 2 }}
           >{`${list.name}`}</Typography>
           <Typography align="center" sx={{ mb: 4 }}>
-            {`${listTypeName}, ${totalForcePoints} pts`},
+            {`${listTypeName}, ${currentForcePoints}/${totalForcePoints} pts`},
             {listType === "campaign"
               ? ` ${totalForceReservePoints} pts of reserves,`
               : ""}

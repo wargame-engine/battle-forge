@@ -931,6 +931,17 @@ export default React.memo((props) => {
   const listTypeName =
     (find(LIST_TYPES, (myType) => myType.value === list.type) || {}).label ||
     "Competitive";
+  const currentForcePoints = sum(
+    forces.map((force) => {
+      const unitPoints = sum(
+        get(force, "units", []).map((unit) => unit.points)
+      );
+      const legendPoints = sum(
+        get(force, "legends", []).map((legend) => legend.points)
+      );
+      return unitPoints + legendPoints;
+    })
+  );
   const totalForcePoints = list.pointLimit || sum(
     forces.map((force) => {
       const unitPoints = sum(
@@ -965,6 +976,13 @@ export default React.memo((props) => {
         return get(force, "legends", []).length;
       })
     );
+    if (currentForcePoints > totalForcePoints) {
+      const exceedsPoints = currentForcePoints - totalForcePoints;
+      validationErrors.push({
+        type: "error",
+        text: `List is ${exceedsPoints} too many points`,
+      });
+    }
     if (totalLegends > legendLimit) {
       const exceededLegends = totalLegends - legendLimit;
       validationErrors.push({
@@ -1051,7 +1069,7 @@ export default React.memo((props) => {
           sx={{ mb: 1 }}
         >{`${list.name}`}</Typography>
         <Typography align="center" sx={{ mb: 2 }}>
-          {`${listTypeName}, ${totalForcePoints} pts`},
+          {`${listTypeName}, ${currentForcePoints}/${totalForcePoints} pts`},
           {listType === "campaign"
             ? ` ${totalForceReservePoints} pts Reserve,`
             : ""}
