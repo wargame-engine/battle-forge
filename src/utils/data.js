@@ -1173,7 +1173,7 @@ export const DataAPI = (data, root={}) => {
 
   const getUnitPoints = (unit, faction) => {
     let points = 0;
-    castArray(unit?.models || []).forEach((model) => {
+    (unit.models || []).forEach((model) => {
       const min = get(model, 'min', 1);
       const modelWithUnitRules = {
         ...model,
@@ -1281,7 +1281,7 @@ export const DataAPI = (data, root={}) => {
 
   const getModelWeaponPoints = (model, faction) => {
     let points = 0;
-    castArray(model?.weapons || []).forEach((weapon) => {
+    (model.weapons || []).forEach((weapon) => {
       points += getWeaponCostForModel(weapon, model, faction);
     });
     return points;
@@ -1342,7 +1342,7 @@ export const DataAPI = (data, root={}) => {
       let points = 0;
       const weaponModelMult = (weapon.short === "Melee" ? (model.fight - CONSTANTS.baseStats.fight) : (model.shoot - CONSTANTS.baseStats.shoot));
       const weaponAP = weapon.ap || 0;
-      const weaponRules = castArray(weapon?.rules || []);
+      const weaponRules = weapon.rules || [];
       const range = weapon.short;
       const rangeCost = ((range === "Melee") ? (model.movement || 6) / 6 : range / 6);
       // const weaponDamage = weapon.damage || 1;
@@ -1474,7 +1474,7 @@ export const DataAPI = (data, root={}) => {
           });
         });
       }
-      castArray(model?.weapons || []).forEach((weapon) => {
+      (model.weapons || []).forEach((weapon) => {
         const weaponId = weapon.id || weapon;
         if (!weaponsSet.has(weaponId)) {
           weaponsSet.add(weaponId);
@@ -1561,13 +1561,13 @@ export const DataAPI = (data, root={}) => {
     const rulesList = [];
     units.forEach((unit) => {
       getModels(unit, faction).forEach((model) => {
-        castArray(get(model, 'weapons', [])).forEach((weaponName) => {
+        get(model, 'weapons', []).forEach((weaponName) => {
           const weaponId = weaponName.id || weaponName;
           const wep = getWeapon(weaponId, faction);
           const profiles = get(wep, 'profiles', []);
           const weaponAndProfiles = [...profiles, wep];
           weaponAndProfiles.forEach((weapon) => {
-            castArray(get(weapon, 'rules', [])).forEach((rule) => {
+            get(weapon, 'rules', []).forEach((rule) => {
               const ruleId = rule.id || rule;
               if (!rulesSet.has(ruleId)) {
                 rulesSet.add(ruleId);
@@ -1587,7 +1587,7 @@ export const DataAPI = (data, root={}) => {
                 const profiles = get(wepy, 'profiles', []);
                 const weaponAndProfiles = [...profiles, wepy];
                 weaponAndProfiles.forEach((weapon) => {
-                  castArray(get(weapon, 'rules', [])).forEach((rule) => {
+                  get(weapon, 'rules', []).forEach((rule) => {
                     const ruleId = rule.id || rule;
                     if (!rulesSet.has(ruleId)) {
                       rulesSet.add(ruleId);
