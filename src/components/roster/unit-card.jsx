@@ -162,7 +162,7 @@ export const UnitCard = (props) => {
     }
     return (
       <div style={{ marginBottom: "0.5em" }}>
-        <OptionList faction={faction} options={options} />
+        <OptionList faction={faction} options={options} toggler={toggler} />
       </div>
     );
   }

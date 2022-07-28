@@ -1,4 +1,4 @@
-import { Delete, ExpandLess, ExpandMore } from "@mui/icons-material";
+import { Delete, ExpandLess, ExpandMore, Visibility } from "@mui/icons-material";
 import {
   Button, Checkbox, Chip, Dialog,
   DialogActions,
@@ -144,11 +144,19 @@ export const AddLegend = (props) => {
   const groupedRelics = groupBy(filteredLegends, (relic) =>
     relic.type || relic.rule ? "ability" : "equipment"
   );
+  const [ previewLegend, setPreviewLegend ] = React.useState(null);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <>
-      <Dialog open onClose={hideModal} fullScreen={fullScreen} maxWidth="lg" fullWidth>
+      {!!previewLegend &&
+        <ViewLegend
+          hideModal={() => setPreviewLegend(null)}
+          data={data}
+          faction={faction}
+          legend={previewLegend}
+        />}
+      {!previewLegend && <Dialog open onClose={hideModal} fullScreen={fullScreen} maxWidth="lg" fullWidth>
         <DialogTitle>Add Legend</DialogTitle>
         <DialogContent style={{ padding: 0 }} sx={{ backgroundColor: "background.paper" }}>
           <Paper style={{ height: '100%', borderRadius: 0, overflowY: 'auto' }}>
@@ -177,17 +185,16 @@ export const AddLegend = (props) => {
                         <div key={relic.id}>
                           <ListItem
                             disablePadding
-                          // secondaryAction={
-                          //   <IconButton
-                          //     sx={{}}
-                          //     onClick={() => {
-                          //       addLegend(forceId, { id: relic.id });
-                          //       hideModal();
-                          //     }}
-                          //   >
-                          //     <AddIcon />
-                          //   </IconButton>
-                          // }
+                          secondaryAction={
+                            <IconButton
+                              sx={{}}
+                              onClick={() => {
+                                setPreviewLegend(relic)
+                              }}
+                            >
+                              <Visibility />
+                            </IconButton>
+                          }
                           >
                             <ListItemButton
                               onClick={() => {
@@ -220,7 +227,7 @@ export const AddLegend = (props) => {
             Cancel
           </Button>
         </DialogActions>
-      </Dialog>
+      </Dialog>}
     </>
   );
 };
@@ -488,6 +495,7 @@ export const AddUnit = (props) => {
   const { hideModal, data, units, faction, addUnit, forceId } = props;
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const [ previewUnit, setPreviewUnit ] = React.useState(null);
   const sortedUnits = sortBy(
     units.map((unit) => ({
       ...unit,
@@ -497,7 +505,14 @@ export const AddUnit = (props) => {
   );
   return (
     <>
-      <Dialog open onClose={hideModal} fullScreen={fullScreen} maxWidth="lg" fullWidth>
+      {!!previewUnit && <ViewUnit
+        unit={units[0]}
+        faction={faction}
+        data={data}
+        showOptions={true}
+        hideModal={() => setPreviewUnit(null)}
+      />}
+      {!previewUnit && <Dialog open onClose={hideModal} fullScreen={fullScreen} maxWidth="lg" fullWidth>
         <DialogTitle closeButton>
           Add Unit
         </DialogTitle>
@@ -508,17 +523,15 @@ export const AddUnit = (props) => {
                 <ListItem
                   key={index}
                   disablePadding
-                // secondaryAction={
-                //   <IconButton
-                //     sx={{}}
-                //     onClick={() => {
-                //       addUnit(forceId, { id: unit.id });
-                //       hideModal();
-                //     }}
-                //   >
-                //     <AddIcon />
-                //   </IconButton>
-                // }
+                secondaryAction={
+                  <IconButton
+                    onClick={() => {
+                      setPreviewUnit(unit);
+                    }}
+                  >
+                    <Visibility />
+                  </IconButton>
+                }
                 >
                   <ListItemButton
                     onClick={() => {
@@ -544,7 +557,7 @@ export const AddUnit = (props) => {
             Cancel
           </Button>
         </DialogActions>
-      </Dialog>
+      </Dialog>}
     </>
   );
 };
@@ -601,7 +614,7 @@ export const ViewStrategies = (props) => {
         </DialogContent>
         <DialogActions>
           <Button color="primary" onClick={hideModal}>
-            Done
+            Close
           </Button>
         </DialogActions>
       </Dialog>
@@ -666,7 +679,7 @@ export const ViewPowers = (props) => {
       </DialogContent>
       <DialogActions>
         <Button color="primary" onClick={hideModal}>
-          Done
+          Close
         </Button>
       </DialogActions>
     </Dialog>
@@ -674,13 +687,13 @@ export const ViewPowers = (props) => {
 };
 
 export const ViewUnit = (props) => {
-  const { hideModal, data, unit, faction } = props;
+  const { hideModal, data, unit, faction, showOptions } = props;
   const models = [
     ...get(unit, "models", []),
-    ...data.getModelList(unit.selectedModels, faction),
+    ...(unit.selectedModels ? data.getModelList(unit.selectedModels, faction) : []),
   ];
-  const weapons = data.getWeaponList(unit.selectedWeapons, faction);
-  const rules = data.getRulesList(unit.selectedRules, faction);
+  const weapons = unit.selectedWeapons ? data.getWeaponList(unit.selectedWeapons, faction) : undefined;
+  const rules = unit.selectedRules ? data.getRulesList(unit.selectedRules, faction) : undefined;
   const allWeaponRules = data.getAllWeaponRules(weapons, faction);
   const weaponsRules = uniqBy(allWeaponRules, (rule) => rule.id || rule);
   const unitSetbacks = get(unit, "selectedSetbacks", []).map((setback) =>
@@ -695,7 +708,7 @@ export const ViewUnit = (props) => {
   const unitPowerSpecialty = unit?.powerSpecialty ? data.getPowerCategory(unit?.powerSpecialty, faction)?.name : undefined;
   return (
     <>
-      <Dialog open maxWidth="lg" fullScreen={fullScreen} onClose={hideModal}>
+      <Dialog open maxWidth="lg" fullScreen={fullScreen} onClose={hideModal} fullWidth>
         <DialogTitle>
           View Unit
         </DialogTitle>
@@ -715,7 +728,7 @@ export const ViewUnit = (props) => {
               perks={unitPerks}
               level={unitLevel}
               weaponRules={weaponsRules}
-              showOptions={false}
+              showOptions={showOptions}
               embeddedOptions={true}
               unitOptions={unit.selectedOptionsList}
             />
@@ -757,7 +770,7 @@ export const ViewInjuryTable = (props) => {
         </DialogContent>
         <DialogActions>
           <Button color="primary" onClick={hideModal}>
-            Done
+            Close
           </Button>
         </DialogActions>
       </Dialog>
@@ -856,7 +869,7 @@ export const ViewActionReference = (props) => {
         </DialogContent>
         <DialogActions>
           <Button color="primary" onClick={hideModal}>
-            Done
+            Close
           </Button>
         </DialogActions>
       </Dialog>
@@ -916,7 +929,7 @@ export const ViewFullRules = (props) => {
         </DialogContent>
         <DialogActions>
           <Button color="primary" onClick={hideModal}>
-            Done
+            Close
           </Button>
         </DialogActions>
       </Dialog>
@@ -940,7 +953,7 @@ export const ViewLegend = (props) => {
       </DialogContent>
       <DialogActions>
         <Button color="primary" onClick={hideModal}>
-          Done
+          Close
         </Button>
       </DialogActions>
     </Dialog>
