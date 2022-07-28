@@ -506,7 +506,7 @@ export const AddUnit = (props) => {
   return (
     <>
       {!!previewUnit && <ViewUnit
-        unit={units[0]}
+        unit={previewUnit}
         faction={faction}
         data={data}
         showOptions={true}
